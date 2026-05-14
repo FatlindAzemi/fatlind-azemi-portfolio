@@ -23,7 +23,7 @@ interface MagneticOptions {
  * ```
  */
 export function useMagnetic(
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement | null>,
   options: MagneticOptions = {},
 ): { x: MotionValue<number> | number; y: MotionValue<number> | number } {
   const { strength = 0.15, radius = 150 } = options;

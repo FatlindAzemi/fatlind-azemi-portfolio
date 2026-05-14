@@ -62,7 +62,7 @@ export default function Footer() {
         <MagneticWrapper>
           <button
             onClick={(e) => trigger(e)}
-            className="px-8 py-4 font-mono text-[var(--text-primary)] bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-colors duration-300 cursor-pointer"
+            className="px-8 py-4 font-mono text-[var(--text-primary)] bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-colors duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
           >
             Open Channel
           </button>

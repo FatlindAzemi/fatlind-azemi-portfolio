@@ -10,22 +10,28 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
   const inView = useInView(ref, { once: true, margin: '-50px' })
   const magneticStyle = useMagnetic(ref)
   const [isHovered, setIsHovered] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const showDetail = isHovered || isFocused
 
   return (
     <motion.div
       ref={ref}
       style={magneticStyle}
-      className="relative bento-card p-4"
+      role="listitem"
+      tabIndex={0}
+      className="relative bento-card p-4 focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.05, duration: 0.4 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
     >
       <SvgBorder trigger={inView} />
       <h3 className="font-mono text-sm text-[var(--text-primary)]">{skill.name}</h3>
       <AnimatePresence>
-        {isHovered && skill.terminalOutput && (
+        {showDetail && skill.terminalOutput && (
           <motion.div
             initial={{ opacity: 0, y: 10, height: 0 }}
             animate={{ opacity: 1, y: 0, height: 'auto' }}
@@ -77,13 +83,13 @@ export default function Expertise() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
-            <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
+            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
               {expertise1.title}
-            </h2>
+            </h3>
             <p className="text-[var(--text-secondary)] text-sm mb-6">
               {expertise1.subtitle}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
               {expertise1.skills.map((skill, i) => (
                 <SkillCard key={skill.name} skill={skill} index={i} />
               ))}
@@ -91,13 +97,13 @@ export default function Expertise() {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
+            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
               {expertise2.title}
-            </h2>
+            </h3>
             <p className="text-[var(--text-secondary)] text-sm mb-6">
               {expertise2.subtitle}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
               {expertise2.skills.map((skill, i) => (
                 <SkillCard key={skill.name} skill={skill} index={i} />
               ))}

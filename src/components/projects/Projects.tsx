@@ -22,9 +22,11 @@ function LineChartViz({ trigger }: { trigger: boolean }) {
       height="110"
       viewBox="0 0 280 110"
       fill="none"
-      aria-hidden="true"
+      role="img"
+      aria-label="Line chart visualization showing upward trend"
       className="w-full max-w-[280px]"
     >
+      <title>Upward trending line chart</title>
       {[25, 50, 75].map((y) => (
         <line
           key={y}
@@ -102,9 +104,11 @@ function NodeGraphViz({ trigger }: { trigger: boolean }) {
       height="110"
       viewBox="0 0 280 110"
       fill="none"
-      aria-hidden="true"
+      role="img"
+      aria-label="Node graph visualization showing connected data points"
       className="w-full max-w-[280px]"
     >
+      <title>Connected node graph</title>
       {edges.map(([a, b], i) => (
         <motion.line
           key={i}
@@ -168,9 +172,11 @@ function BarChartViz({ trigger }: { trigger: boolean }) {
       height="110"
       viewBox="0 0 280 110"
       fill="none"
-      aria-hidden="true"
+      role="img"
+      aria-label="Bar chart visualization showing comparative data"
       className="w-full max-w-[280px]"
     >
+      <title>Comparative bar chart</title>
       <line
         x1="12"
         y1={baseY}
@@ -242,6 +248,9 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <motion.div
       ref={cardRef}
+      tabIndex={0}
+      role="region"
+      aria-label={`Project: ${project.title}`}
       style={{
         ...magneticStyle,
         minWidth: '80vw',
@@ -250,6 +259,7 @@ function ProjectCard({ project }: { project: Project }) {
         display: 'flex',
         alignItems: 'center',
       }}
+      className="focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
     >
       <motion.div
         className="bento-card p-6 md:p-10 w-full h-full flex flex-col justify-between overflow-hidden"
@@ -337,7 +347,11 @@ export default function Projects() {
       id="projects"
       ref={containerRef}
       style={{ height: '300vh', position: 'relative' }}
+      aria-labelledby="projects-heading"
     >
+      <h2 id="projects-heading" className="sr-only">
+        Projects
+      </h2>
       <div
         style={{
           position: 'sticky',

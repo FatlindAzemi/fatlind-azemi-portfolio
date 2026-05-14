@@ -1,9 +1,11 @@
+import { lazy, Suspense } from 'react'
 import Hero from './components/hero/Hero'
-import Expertise from './components/expertise/Expertise'
-import Projects from './components/projects/Projects'
-import Footer from './components/footer/Footer'
 import Navigation from './components/Navigation'
 import ParallaxBackground from './components/ParallaxBackground'
+
+const Expertise = lazy(() => import('./components/expertise/Expertise'))
+const Projects = lazy(() => import('./components/projects/Projects'))
+const Footer = lazy(() => import('./components/footer/Footer'))
 
 export default function App() {
   return (
@@ -12,9 +14,15 @@ export default function App() {
       <Navigation />
       <main>
         <Hero />
-        <Expertise />
-        <Projects />
-        <Footer />
+        <Suspense fallback={null}>
+          <Expertise />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </main>
     </>
   )

@@ -43,20 +43,22 @@ export default function Navigation() {
 
   return (
     <nav
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4"
       role="navigation"
       aria-label="Section navigation"
+      className="fixed z-50 flex gap-4
+        bottom-6 left-1/2 -translate-x-1/2 flex-row
+        sm:right-6 sm:top-1/2 sm:-translate-y-1/2 sm:left-auto sm:bottom-auto sm:translate-x-0 sm:flex-col"
     >
       {sections.map(({ id, label }) => (
         <button
           key={id}
           onClick={() => handleClick(id)}
-          className="group flex items-center gap-3 cursor-pointer"
+          className="group flex items-center gap-3 cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 rounded-[var(--radius-sm)]"
           aria-label={`Scroll to ${label}`}
           aria-current={activeSection === id ? 'true' : undefined}
         >
           <span
-            className={`text-xs font-mono transition-colors duration-300 ${
+            className={`text-xs font-mono transition-colors duration-300 hidden sm:inline ${
               activeSection === id
                 ? 'text-[var(--accent)]'
                 : 'text-[var(--text-muted)] group-hover:text-[var(--text-primary)]'
@@ -65,7 +67,7 @@ export default function Navigation() {
             {label}
           </span>
           <span
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               activeSection === id
                 ? 'bg-[var(--accent)] scale-125'
                 : 'bg-[var(--border)] group-hover:bg-[var(--text-muted)]'

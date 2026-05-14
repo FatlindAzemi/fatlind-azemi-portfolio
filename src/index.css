@@ -46,3 +46,39 @@ body {
     background-color: var(--surface-hover);
   }
 }
+
+/* ─── Focus Indicators ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Print Stylesheet ─── */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+  }
+  canvas,
+  [aria-hidden='true'],
+  .fixed,
+  nav {
+    display: none !important;
+  }
+  section {
+    break-inside: avoid;
+    padding: 1rem !important;
+  }
+}

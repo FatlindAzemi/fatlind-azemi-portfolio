@@ -1,7 +1,12 @@
 import { useRef, useEffect, useCallback } from 'react'
 import type { NeuralNode, MousePosition } from '../types'
 
-const NODE_COUNT = 65
+const getNodeCount = (): number => {
+  if (typeof window === 'undefined') return 65
+  return window.innerWidth < 768 ? 35 : 65
+}
+
+let NODE_COUNT = 65
 const CONNECTION_DISTANCE = 150
 const MOUSE_INFLUENCE = 200
 const NODE_BASE_RADIUS = 2
@@ -92,6 +97,8 @@ export default function NeuralMesh() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+
+    NODE_COUNT = getNodeCount()
 
     isReducedMotion.current = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -205,6 +212,7 @@ export default function NeuralMesh() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
+      style={{ willChange: 'transform' }}
       aria-hidden="true"
     />
   )
