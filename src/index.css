@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+}
+
 /* ─── Design Tokens ─── */
 :root {
   --bg: #111111;
