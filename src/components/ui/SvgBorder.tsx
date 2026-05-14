@@ -10,8 +10,8 @@ interface SvgBorderProps {
 
 export default function SvgBorder({
   trigger,
-  color = 'var(--border)',
-  duration = 800,
+          color = 'var(--border)',
+          duration = 1200,
   className = '',
 }: SvgBorderProps) {
   const svgRef = useRef<SVGSVGElement>(null)
@@ -55,7 +55,7 @@ export default function SvgBorder({
           height="100%"
           fill="none"
           stroke={color}
-          strokeWidth="1"
+          strokeWidth="1.5"
           vectorEffect="non-scaling-stroke"
           style={{
             strokeDasharray: perimeter,

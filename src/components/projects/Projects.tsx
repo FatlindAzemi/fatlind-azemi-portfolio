@@ -57,7 +57,7 @@ function LineChartViz({ trigger }: { trigger: boolean }) {
         fill="none"
         initial={{ pathLength: 0 }}
         animate={trigger ? { pathLength: 1 } : {}}
-        transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 2.5, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
       {points.map((p, i) => (
@@ -243,7 +243,7 @@ function DataViz({
 function ProjectCard({ project }: { project: Project }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const magneticStyle = useMagnetic(cardRef, { strength: 0.08, radius: 200 })
-  const inView = useInView(cardRef, { once: true, margin: '-50px' })
+  const inView = useInView(cardRef, { once: true, margin: '0px 0px -80px 0px' })
 
   return (
     <motion.div
@@ -265,7 +265,7 @@ function ProjectCard({ project }: { project: Project }) {
         className="bento-card p-6 md:p-10 w-full h-full flex flex-col justify-between overflow-hidden"
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
       >
         <div className="flex-1 flex flex-col justify-center">
           <span className="text-xs font-mono text-[var(--accent)] tracking-wider uppercase mb-3">

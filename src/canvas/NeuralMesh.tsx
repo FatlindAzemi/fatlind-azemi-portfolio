@@ -2,13 +2,13 @@ import { useRef, useEffect, useCallback } from 'react'
 import type { NeuralNode, MousePosition } from '../types'
 
 const getNodeCount = (): number => {
-  if (typeof window === 'undefined') return 80
-  return window.innerWidth < 768 ? 45 : 80
+  if (typeof window === 'undefined') return 100
+  return window.innerWidth < 768 ? 50 : 100
 }
 
-let NODE_COUNT = 80
-const CONNECTION_DISTANCE = 180
-const MOUSE_INFLUENCE = 250
+let NODE_COUNT = 100
+const CONNECTION_DISTANCE = 220
+const MOUSE_INFLUENCE = 300
 const NODE_BASE_RADIUS = 2
 const NODE_RADIUS_VARIANCE = 1.5
 
@@ -159,13 +159,13 @@ export default function NeuralMesh() {
         const dy = mouse.y - node.y
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < MOUSE_INFLUENCE && dist > 0) {
-          const force = ((MOUSE_INFLUENCE - dist) / MOUSE_INFLUENCE) * 0.06
+          const force = ((MOUSE_INFLUENCE - dist) / MOUSE_INFLUENCE) * 0.12
           node.vx += (dx / dist) * force
           node.vy += (dy / dist) * force
         }
 
-        node.vx *= 0.95
-        node.vy *= 0.95
+        node.vx *= 0.937
+        node.vy *= 0.937
 
         node.x += node.vx
         node.y += node.vy
