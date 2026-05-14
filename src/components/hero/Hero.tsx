@@ -6,15 +6,15 @@ import { useLenis } from '../LenisProvider'
 import { portfolioData } from '../../data/portfolio'
 
 export default function Hero() {
-  const name = useCipherText(portfolioData.name, { duration: 3000 })
+  const name = useCipherText(portfolioData.name, { duration: 1500 })
   const [showSubtitle, setShowSubtitle] = useState(false)
   const [showBio, setShowBio] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
   const lenis = useLenis()
 
   useEffect(() => {
-    const t1 = setTimeout(() => setShowSubtitle(true), 3500)
-    const t2 = setTimeout(() => setShowBio(true), 7000)
+    const t1 = setTimeout(() => setShowSubtitle(true), 2000)
+    const t2 = setTimeout(() => setShowBio(true), 4000)
     return () => {
       clearTimeout(t1)
       clearTimeout(t2)
@@ -34,7 +34,7 @@ export default function Hero() {
 
   const subtitle = useCipherText(
     showSubtitle ? portfolioData.title : '',
-    { duration: 3000 },
+    { duration: 1500 },
   )
 
   return (
@@ -104,7 +104,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ delay: 8, duration: 0.6 }}
+            transition={{ delay: 5, duration: 0.6 }}
           >
             <motion.div
               animate={{ y: [0, 8, 0] }}
