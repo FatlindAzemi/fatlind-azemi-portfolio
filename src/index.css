@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+/* ─── Design Tokens ─── */
+:root {
+  --bg: #111111;
+  --surface: #1a1a1a;
+  --surface-hover: #222222;
+  --text-primary: #ededed;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  --accent: #0070f3;
+  --accent-hover: #0051cc;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --max-width: 1200px;
+}
+
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Body ─── */
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Utilities ─── */
+@layer utilities {
+  .bento-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .bento-card-hover:hover {
+    background-color: var(--surface-hover);
+  }
+}
