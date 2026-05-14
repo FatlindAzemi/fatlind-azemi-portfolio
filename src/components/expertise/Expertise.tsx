@@ -28,7 +28,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
     >
-      <SvgBorder trigger={inView} />
+      <SvgBorder trigger={inView} color="rgba(0, 112, 243, 0.35)" />
       <h3 className="font-mono text-sm text-[var(--text-primary)]">{skill.name}</h3>
       <AnimatePresence>
         {showDetail && skill.terminalOutput && (
