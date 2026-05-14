@@ -61,11 +61,11 @@ export default function Expertise() {
     <section
       id="expertise"
       ref={sectionRef}
-      className="px-6 py-24 md:py-32 bg-[var(--bg)]"
+      className="px-8 md:px-16 py-32 md:py-40 bg-[var(--bg)]"
     >
-      <div className="max-w-[var(--max-width)] mx-auto">
+      <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4"
+          className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4 tracking-tight"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
@@ -81,7 +81,7 @@ export default function Expertise() {
           A versatile skill set spanning data engineering, cloud architecture, and modern application development.
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
           <div>
             <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">
               {expertise1.title}
