@@ -48,8 +48,8 @@ export default function ParallaxBackground() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+              linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
             `,
             backgroundSize: '80px 80px',
           }}
@@ -69,13 +69,21 @@ export default function ParallaxBackground() {
               top: snippet.top,
               left: snippet.left,
               color: 'var(--text-muted)',
-              opacity: 0.12,
+              opacity: 0.15,
             }}
           >
             {snippet.text}
           </span>
         ))}
       </motion.div>
+
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, transparent 60%, var(--bg) 100%)',
+        }}
+      />
     </div>
   )
 }

@@ -53,9 +53,9 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-8 md:px-16">
         <h1
-          className="font-mono font-bold text-center leading-none select-none"
+          className="font-mono font-bold text-center leading-none select-none tracking-tight"
           style={{
             fontSize: 'clamp(3rem, 8vw, 7rem)',
             color: 'var(--text-primary)',

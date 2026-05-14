@@ -29,7 +29,7 @@ export default function Footer() {
     <section
       id="contact"
       ref={sectionRef}
-      className="h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      className="h-screen flex flex-col items-center justify-center relative overflow-hidden px-8"
       style={{
         background: 'linear-gradient(to bottom, var(--bg) 0%, #000000 100%)',
       }}

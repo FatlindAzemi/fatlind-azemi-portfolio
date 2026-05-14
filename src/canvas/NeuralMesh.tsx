@@ -2,13 +2,13 @@ import { useRef, useEffect, useCallback } from 'react'
 import type { NeuralNode, MousePosition } from '../types'
 
 const getNodeCount = (): number => {
-  if (typeof window === 'undefined') return 65
-  return window.innerWidth < 768 ? 35 : 65
+  if (typeof window === 'undefined') return 80
+  return window.innerWidth < 768 ? 45 : 80
 }
 
-let NODE_COUNT = 65
-const CONNECTION_DISTANCE = 150
-const MOUSE_INFLUENCE = 200
+let NODE_COUNT = 80
+const CONNECTION_DISTANCE = 180
+const MOUSE_INFLUENCE = 250
 const NODE_BASE_RADIUS = 2
 const NODE_RADIUS_VARIANCE = 1.5
 
@@ -37,7 +37,7 @@ function drawFrame(
       const dy = nodes[i].y - nodes[j].y
       const dist = Math.sqrt(dx * dx + dy * dy)
       if (dist < CONNECTION_DISTANCE) {
-        const opacity = (1 - dist / CONNECTION_DISTANCE) * 0.15
+        const opacity = (1 - dist / CONNECTION_DISTANCE) * 0.35
         ctx.strokeStyle = `rgba(0, 112, 243, ${opacity})`
         ctx.lineWidth = 0.5
         ctx.beginPath()
@@ -49,7 +49,12 @@ function drawFrame(
   }
 
   for (const node of nodes) {
-    ctx.fillStyle = 'rgba(0, 112, 243, 0.4)'
+    ctx.fillStyle = 'rgba(0, 112, 243, 0.12)'
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = 'rgba(0, 112, 243, 0.65)'
     ctx.beginPath()
     ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2)
     ctx.fill()
@@ -154,7 +159,7 @@ export default function NeuralMesh() {
         const dy = mouse.y - node.y
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < MOUSE_INFLUENCE && dist > 0) {
-          const force = ((MOUSE_INFLUENCE - dist) / MOUSE_INFLUENCE) * 0.03
+          const force = ((MOUSE_INFLUENCE - dist) / MOUSE_INFLUENCE) * 0.06
           node.vx += (dx / dist) * force
           node.vy += (dy / dist) * force
         }
@@ -177,7 +182,7 @@ export default function NeuralMesh() {
           const dy = nodes[i].y - nodes[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < CONNECTION_DISTANCE) {
-            const opacity = (1 - dist / CONNECTION_DISTANCE) * 0.15
+            const opacity = (1 - dist / CONNECTION_DISTANCE) * 0.35
             ctx.strokeStyle = `rgba(0, 112, 243, ${opacity})`
             ctx.lineWidth = 0.5
             ctx.beginPath()
@@ -189,7 +194,12 @@ export default function NeuralMesh() {
       }
 
       for (const node of nodes) {
-        ctx.fillStyle = 'rgba(0, 112, 243, 0.4)'
+        ctx.fillStyle = 'rgba(0, 112, 243, 0.12)'
+        ctx.beginPath()
+        ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2)
+        ctx.fill()
+
+        ctx.fillStyle = 'rgba(0, 112, 243, 0.65)'
         ctx.beginPath()
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2)
         ctx.fill()
