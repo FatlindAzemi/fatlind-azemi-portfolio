@@ -1,0 +1,13 @@
+{
+  "taskId": "bash-0x5w9y3i",
+  "description": "Next.js dev server for verification",
+  "status": "killed",
+  "startedAt": 1781451900719,
+  "endedAt": 1781451947784,
+  "stopReason": "Stop head-piped dev server",
+  "terminalNotificationSuppressed": true,
+  "kind": "process",
+  "command": "npm run dev -- --port 3000 2>&1 | head -80",
+  "pid": 47241,
+  "exitCode": -1
+}

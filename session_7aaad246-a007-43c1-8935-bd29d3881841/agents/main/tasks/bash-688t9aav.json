@@ -1,0 +1,13 @@
+{
+  "taskId": "bash-688t9aav",
+  "description": "Next.js dev server log to file",
+  "status": "killed",
+  "startedAt": 1781451952669,
+  "endedAt": 1781451970281,
+  "stopReason": "Verification complete",
+  "terminalNotificationSuppressed": true,
+  "kind": "process",
+  "command": "npm run dev -- --port 3000 > /tmp/dev.log 2>&1",
+  "pid": 47451,
+  "exitCode": -1
+}

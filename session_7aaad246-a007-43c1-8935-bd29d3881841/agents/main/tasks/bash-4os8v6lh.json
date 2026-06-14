@@ -1,0 +1,11 @@
+{
+  "taskId": "bash-4os8v6lh",
+  "description": "Dev server after image fix",
+  "status": "completed",
+  "startedAt": 1781455941456,
+  "endedAt": 1781456147956,
+  "kind": "process",
+  "command": "npm run dev -- --port 3001 > /tmp/dev.log 2>&1",
+  "pid": 58876,
+  "exitCode": 0
+}

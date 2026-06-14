@@ -1,0 +1,11 @@
+{
+  "taskId": "bash-cgisvqki",
+  "description": "Next.js dev server after fixes",
+  "status": "failed",
+  "startedAt": 1781454051576,
+  "endedAt": 1781454052184,
+  "kind": "process",
+  "command": "rm -rf .next && npm run dev -- --port 3000 > /tmp/dev.log 2>&1",
+  "pid": 51644,
+  "exitCode": 1
+}

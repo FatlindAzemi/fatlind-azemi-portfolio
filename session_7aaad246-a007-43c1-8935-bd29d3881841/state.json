@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-06-14T21:40:06.580Z",
+  "updatedAt": "2026-06-14T21:40:06.580Z",
+  "title": "Fork: Fork: ROLE & OBJECTIVE: Act as an Elite Creative Director & Master Frontend Developer specializing in ultra-premium portfolio sites ($20k+ agency tier). Refactor the portfolio for \"Fatlind Azemi\" (Senior Cl",
+  "isCustomTitle": true,
+  "agents": {
+    "main": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/main",
+      "type": "main",
+      "parentAgentId": null
+    },
+    "agent-0": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/agent-0",
+      "type": "sub",
+      "parentAgentId": "main",
+      "swarmItem": "i18n: Implementiere vollständige Internationalisierung (DE/EN) in /Users/fatlind/Projekte/data-engineer-portfolio. Browserspracherkennung via navigator.language (DE wenn Deutsch, sonst EN). Sofortiger Sprachwechsel ohne Reload. Kein Layout-Shift beim Wechseln (animierte Container, Text-Fade/Slide). URL-Pfad-Reflektion z.B. /de/portfolio oder /en/portfolio, korrekte hreflang-Tags. Erstelle lib/i18n.ts, components/LanguageProvider.tsx, components/LanguageSwitcher.tsx, middleware.ts und passe app/layout.tsx an. Du darfst app/layout.tsx verändern."
+    },
+    "agent-1": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/agent-1",
+      "type": "sub",
+      "parentAgentId": "main",
+      "swarmItem": "cursor: Implementiere Custom Cursor und Magnetic Buttons. Erstelle components/CustomCursor.tsx (magnetisch, morpht bei Hover, skaliert, kann Text anzeigen), components/MagneticButton.tsx, hooks/useMousePosition.ts. Verändere app/layout.tsx NICHT direkt, sondern beschreibe in deinem Report exakt, wie der Cursor global eingebunden werden muss."
+    },
+    "agent-2": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/agent-2",
+      "type": "sub",
+      "parentAgentId": "main",
+      "swarmItem": "scroll: Implementiere komplexe Scroll-Driven Animations und Multi-Layered Parallax mit Framer Motion und GSAP/ScrollTrigger. Erstelle components/ScrollOrchestrator.tsx, components/ParallaxLayer.tsx, components/ScrollReveal.tsx, hooks/useScrollProgress.ts. Aktualisiere components/sections/* mit orchestralen Eintritts- und Scroll-Animationen. Verändere app/layout.tsx und app/globals.css NICHT direkt."
+    },
+    "agent-3": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/agent-3",
+      "type": "sub",
+      "parentAgentId": "main",
+      "swarmItem": "aesthetics: Implementiere visuelle High-End-Ästhetik: Glassmorphism (subtile backdrop-filter), Mesh-Gradients, Noise-Overlays. Aktualisiere app/globals.css mit Utility-Klassen. Erstelle components/MeshGradient.tsx und components/NoiseOverlay.tsx. Achte auf Performance (transform, opacity, will-change gezielt)."
+    },
+    "agent-4": {
+      "homedir": "/Users/fatlind/.kimi-code/sessions/wd_data-engineer-portfolio_766ffce73178/session_7aaad246-a007-43c1-8935-bd29d3881841/agents/agent-4",
+      "type": "sub",
+      "parentAgentId": "main",
+      "swarmItem": "transitions: Implementiere Page Transitions / Shared Layout Animations mit Framer Motion AnimatePresence/layoutId. Erstelle components/PageTransition.tsx. Verändere app/layout.tsx NICHT direkt, sondern beschreibe in deinem Report, wie die Transition den Seiteninhalt wrappen muss."
+    }
+  },
+  "custom": {},
+  "lastPrompt": "führe fort",
+  "forkedFrom": "session_45a3c5d4-aec7-4dbc-85e5-811a4142b28f"
+}

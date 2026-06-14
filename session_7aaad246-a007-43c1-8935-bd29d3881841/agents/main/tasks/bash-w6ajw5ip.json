@@ -1,0 +1,13 @@
+{
+  "taskId": "bash-w6ajw5ip",
+  "description": "Dev server for final screenshots",
+  "status": "killed",
+  "startedAt": 1781455690716,
+  "endedAt": 1781455912457,
+  "stopReason": "Restart for image fix",
+  "terminalNotificationSuppressed": true,
+  "kind": "process",
+  "command": "lsof -ti:3001 | xargs -r kill -9 2>/dev/null; sleep 1; npm run dev -- --port 3001 > /tmp/dev.log 2>&1",
+  "pid": 57912,
+  "exitCode": -1
+}

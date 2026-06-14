@@ -1,0 +1,13 @@
+{
+  "taskId": "bash-otr8kir6",
+  "description": "Static server for out folder on port 3002",
+  "status": "killed",
+  "startedAt": 1781456421480,
+  "endedAt": 1781456528799,
+  "stopReason": "Screenshot verification complete",
+  "terminalNotificationSuppressed": true,
+  "kind": "process",
+  "command": "python3 -m http.server 3002 --directory /Users/fatlind/Projekte/data-engineer-portfolio/out",
+  "pid": 60996,
+  "exitCode": -1
+}

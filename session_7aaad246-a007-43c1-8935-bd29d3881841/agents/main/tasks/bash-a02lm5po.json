@@ -1,0 +1,12 @@
+{
+  "taskId": "bash-a02lm5po",
+  "description": "Next.js dev server after spacing tweaks",
+  "status": "killed",
+  "startedAt": 1781454599021,
+  "endedAt": 1781454747676,
+  "stopReason": "Session closed",
+  "kind": "process",
+  "command": "npm run dev -- --port 3001 > /tmp/dev.log 2>&1",
+  "pid": 53835,
+  "exitCode": -1
+}

@@ -1,0 +1,13 @@
+{
+  "taskId": "bash-fu2bxt8a",
+  "description": "Next.js dev server on 3001",
+  "status": "killed",
+  "startedAt": 1781454141083,
+  "endedAt": 1781454574732,
+  "stopReason": "Restart with updated code",
+  "terminalNotificationSuppressed": true,
+  "kind": "process",
+  "command": "rm -rf .next && npm run dev -- --port 3001 > /tmp/dev.log 2>&1",
+  "pid": 52039,
+  "exitCode": -1
+}
