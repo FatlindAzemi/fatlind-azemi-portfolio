@@ -2,10 +2,8 @@
 
 import AnimatedText from "../AnimatedText";
 import MagneticButton from "../MagneticButton";
-import GlassCard from "../GlassCard";
 import ZReveal, { ZRevealItem } from "../ZReveal";
 import ScrollReveal from "../ScrollReveal";
-import ParallaxLayer from "../ParallaxLayer";
 import { useLanguage } from "../LanguageProvider";
 import { t, getContactLinks } from "@/lib/i18n";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -37,84 +35,83 @@ export default function ContactSection() {
   const linkedinHref = contactLinks.find((l) => l.iconKey === "Linkedin")?.href ?? "#";
 
   return (
-    <section id="contact" className="section py-28 md:py-36">
+    <section id="contact" className="section py-24 md:py-32">
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        
+        {/* Header */}
         <ScrollReveal variant="slide-up" delay={0.1}>
-          <span className="eyebrow mb-4 block">{t(locale, "contact.eyebrow")}</span>
+          <span className="eyebrow mb-4 block tracking-[0.2em]">{t(locale, "contact.eyebrow")}</span>
         </ScrollReveal>
-
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter text-white mb-4 md:mb-6">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tighter text-white mb-6">
           <AnimatedText text={t(locale, "contact.heading")} stagger={0.03} />
         </h2>
-
         <ScrollReveal variant="slide-up" delay={0.2}>
-          <p className="text-white/55 text-base md:text-xl max-w-2xl mx-auto mb-12 md:mb-16">
+          <p className="text-white/40 text-base md:text-xl max-w-2xl mx-auto mb-16 font-light">
             {t(locale, "contact.subtitle")}
           </p>
         </ScrollReveal>
 
-        <ScrollReveal variant="slide-up" delay={0.3} className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 mb-14 md:mb-20">
-          <MagneticButton href="mailto:fatlindazemi@gmail.com" variant="primary" className="!px-10 !py-4 text-base min-w-[180px]">
+        {/* CTAs */}
+        <ScrollReveal variant="slide-up" delay={0.3} className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 mb-20">
+          <MagneticButton href="mailto:fatlindazemi@gmail.com" variant="primary" className="!px-10 !py-4 text-base min-w-[200px]">
             <Mail className="w-5 h-5" /> {t(locale, "contact.btnEmail")}
           </MagneticButton>
-          <MagneticButton href={linkedinHref} variant="outline" className="!px-10 !py-4 text-base min-w-[180px]">
+          <MagneticButton href={linkedinHref} variant="outline" className="!px-10 !py-4 text-base min-w-[200px]">
             <LinkedinIcon className="w-5 h-5" /> {t(locale, "contact.btnLinkedin")}
           </MagneticButton>
         </ScrollReveal>
 
-        {/* Definition List inside a GlassCard for readability and perfect centering */}
-        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
-          <ZReveal
-            staggerChildren
-            stagger={0.15}
-            delay={0.4}
-            className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center"
-          >
+        {/* Info Blocks */}
+        <div className="relative z-10 w-full max-w-5xl mx-auto flex justify-center">
+          <ZReveal staggerChildren stagger={0.12} delay={0.4} className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             {contactLinks.map((link, i) => {
               const Icon = ICONS[link.iconKey];
               const isExternal = link.href.startsWith("http");
               const isLink = link.href !== "#";
               return (
                 <ZRevealItem key={i} className="w-full flex">
-                  <GlassCard accentColor="rgba(0, 210, 255, 0.15)" className="group w-full flex flex-col items-center justify-center p-8 md:p-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/5 border border-white/10 group-hover:bg-white/10 group-hover:border-azure/40 transition-all duration-300 mb-6 flex-shrink-0">
-                      <Icon className="w-8 h-8 text-white/60 group-hover:text-azure transition-colors duration-300" />
+                  <div className="group w-full flex flex-col items-center justify-center p-8 rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.01] to-transparent backdrop-blur-xl transition-all duration-300 hover:border-white/10 hover:-translate-y-1">
+                    
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-white/[0.02] border border-white/5 group-hover:bg-azure/5 group-hover:border-azure/30 transition-all duration-500 mb-5">
+                      <Icon className="w-6 h-6 text-white/40 group-hover:text-azure transition-colors duration-500" />
                     </div>
-                    <div className="min-w-0 text-center">
-                      <dt className="text-xs font-mono uppercase tracking-widest text-white/50 mb-3">
-                        {link.label}
-                      </dt>
-                      <dd className="text-base sm:text-lg font-semibold text-white/90 group-hover:text-white transition-colors truncate max-w-[220px] mx-auto">
-                        {isLink ? (
-                          <a
-                            href={link.href}
-                            {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                            className="hover:text-azure transition-all duration-300 pointer-events-auto"
-                            data-cursor="link"
-                          >
-                            {link.value}
-                          </a>
-                        ) : (
-                          <span>{link.value}</span>
-                        )}
-                      </dd>
-                    </div>
-                  </GlassCard>
+
+                    <dt className="text-[10px] font-mono uppercase tracking-widest text-white/30 mb-2">
+                      {link.label}
+                    </dt>
+                    <dd className="text-base font-medium text-white/80 group-hover:text-white transition-colors truncate max-w-[220px] w-full">
+                      {isLink ? (
+                        <a
+                          href={link.href}
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          className="hover:text-azure transition-all duration-300 pointer-events-auto block"
+                          data-cursor="link"
+                        >
+                          {link.value}
+                        </a>
+                      ) : (
+                        <span className="block">{link.value}</span>
+                      )}
+                    </dd>
+
+                  </div>
                 </ZRevealItem>
               );
             })}
           </ZReveal>
         </div>
 
-        <div className="mt-16 md:mt-24">
-          <ScrollReveal variant="fade" delay={0.6}>
+        {/* Footer */}
+        <div className="mt-24 md:mt-32">
+          <ScrollReveal variant="fade" delay={0.5}>
             <div className="pt-8 border-t border-white/5">
-              <p className="text-white/35 text-xs md:text-sm">
+              <p className="text-white/20 text-xs font-mono tracking-wider">
                 {t(locale, "contact.footer", { year: new Date().getFullYear() })}
               </p>
             </div>
           </ScrollReveal>
         </div>
+
       </div>
     </section>
   );
