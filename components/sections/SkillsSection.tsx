@@ -84,7 +84,7 @@ export default function SkillsSection() {
                         <span className={`text-xs font-mono font-bold tracking-widest uppercase ${gradients[i]}`}>
                           // {skill.title}
                         </span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-current transition-colors" className={gradients[i]} />
+                        <div className={`w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-current transition-colors ${gradients[i]}`} />
                       </div>
                       <div className="flex flex-wrap gap-2 mt-auto">
                         {skill.tags.map((tag, j) => (
@@ -99,7 +99,7 @@ export default function SkillsSection() {
               );
             })}
 
-            {/* Secondary Skills Block (Col-Span 2 each für perfektes Asymmetrie-Verhältnis) */}
+            {/* Secondary Skills Block (Col-Span 2 each) */}
             {secondarySkills.map((skill, i) => (
               <ZRevealItem key={`sec-${i}`} className="md:col-span-2 flex">
                 <SkillSpotlightCard accentColor="rgba(255, 255, 255, 0.03)">
