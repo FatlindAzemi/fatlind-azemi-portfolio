@@ -82,23 +82,32 @@ export default function ParallaxLayer({
   const springY = useSpring(rawY, springConfig);
   const y: MotionValue<number> = spring ? springY : rawY;
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.75, 1],
-    opacityRange ?? identityOpacity
-  );
+  // Only create opacity transform if a custom range is provided.
+  // Avoid useTransform with identical values (identity animation) as it causes
+  // Framer Motion to generate invalid keyframe offsets.
+  const opacity = opacityRange
+    ? useTransform(
+        scrollYProgress,
+        [0, 0.25, 0.75, 1],
+        opacityRange
+      )
+    : undefined;
 
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    scaleRange ?? identityScale
-  );
+  const scale = scaleRange
+    ? useTransform(
+        scrollYProgress,
+        [0, 0.5, 1],
+        scaleRange
+      )
+    : undefined;
 
-  const rotate = useTransform(
-    scrollYProgress,
-    [0, 1],
-    rotateRange ?? identityRotate
-  );
+  const rotate = rotateRange
+    ? useTransform(
+        scrollYProgress,
+        [0, 1],
+        rotateRange
+      )
+    : undefined;
 
   const MotionTag = motion[Tag] as typeof motion.div;
 
@@ -108,9 +117,9 @@ export default function ParallaxLayer({
       className={`will-change-transform transform-gpu ${className}`}
       style={{
         y,
-        opacity,
-        scale,
-        rotate,
+        opacity: opacity ?? 1,
+        scale: scale ?? 1,
+        rotate: rotate ?? 0,
         ...style,
       }}
     >
