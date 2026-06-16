@@ -117,17 +117,35 @@ function ZSection({ index, children }: { index: number; children: React.ReactNod
   const center = index * step;
   const ref = useRef<HTMLDivElement>(null);
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [center - 0.15, center - 0.05, center + 0.05, center + 0.15],
-    [0, 1, 1, 0]
-  );
+  // Umgehung des WAAPI-Bugs durch funktionale Interpolation
+  const opacity = useTransform(scrollYProgress, (value) => {
+    if (value <= center - 0.15) return 0;
+    if (value <= center - 0.05) {
+      // Linearer Übergang von 0 zu 1 im Bereich [center - 0.15, center - 0.05]
+      return (value - (center - 0.15)) / 0.10;
+    }
+    if (value <= center + 0.05) return 1;
+    if (value <= center + 0.15) {
+      // Linearer Übergang von 1 zu 0 im Bereich [center + 0.05, center + 0.15]
+      return 1 - (value - (center + 0.05)) / 0.10;
+    }
+    return 0;
+  });
 
-  const scale = useTransform(
-    scrollYProgress,
-    [center - 0.2, center, center + 0.2],
-    [0.5, 1, 2.5]
-  );
+  const scale = useTransform(scrollYProgress, (value) => {
+    if (value <= center - 0.2) return 0.5;
+    if (value <= center) {
+      // Linearer Übergang von 0.5 zu 1
+      const t = (value - (center - 0.2)) / 0.2;
+      return 0.5 + t * 0.5;
+    }
+    if (value <= center + 0.2) {
+      // Linearer Übergang von 1 zu 2.5
+      const t = (value - center) / 0.2;
+      return 1 + t * 1.5;
+    }
+    return 2.5;
+  });
 
   // Client-side detection to trigger hydration re-render and break pointer-events deadlock
   const [isMobile, setIsMobile] = useState(false);
