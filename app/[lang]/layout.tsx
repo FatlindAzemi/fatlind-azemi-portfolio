@@ -1,7 +1,27 @@
 import type { Metadata } from "next";
+import { Outfit, Geist_Mono } from "next/font/google";
+import "../globals.css";
+import NoiseOverlay from "@/components/NoiseOverlay";
+import CustomCursor from "@/components/CustomCursor";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { type Locale, locales, isLocale, getMeta, defaultLocale } from "@/lib/i18n";
+import { type Locale, isLocale, getMeta, defaultLocale } from "@/lib/i18n";
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
+  fallback: ["system-ui", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
 
 export async function generateMetadata({
   params,
@@ -44,7 +64,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function LangLayout({
+import ClientLogger from "@/components/ClientLogger";
+
+export default async function RootLayout({
   children,
   params,
 }: {
@@ -55,9 +77,18 @@ export default async function LangLayout({
   const locale: Locale = isLocale(lang) ? lang : defaultLocale;
 
   return (
-    <LanguageProvider initialLocale={locale}>
-      <LanguageSwitcher />
-      {children}
-    </LanguageProvider>
+    <html lang={locale} className="scroll-smooth">
+      <body
+        className={`${outfit.variable} ${geistMono.variable} font-sans bg-background text-gray-100 antialiased w-full min-h-screen overflow-x-hidden overflow-y-auto`}
+      >
+        <ClientLogger />
+        <NoiseOverlay opacity={0.035} />
+        <CustomCursor />
+        <LanguageProvider initialLocale={locale}>
+          <LanguageSwitcher />
+          {children}
+        </LanguageProvider>
+      </body>
+    </html>
   );
 }

@@ -68,11 +68,7 @@ function getVariants(variant: RevealVariant, blur: boolean): Variants {
       break;
     case "z-reveal":
       hidden.scale = 0.92;
-      hidden.z = -60;
-      if (blur) hidden.filter = "blur(8px)";
       visible.scale = 1;
-      visible.z = 0;
-      visible.filter = "blur(0px)";
       break;
     default:
       break;

@@ -5,7 +5,6 @@ import {
   useRef,
   useState,
   useCallback,
-  type RefObject,
 } from "react";
 import {
   useScroll,
@@ -92,46 +91,6 @@ export function useScrollProgress(
   };
 }
 
-export interface UseSectionProgressOptions {
-  /** ScrollTrigger-style offsets, default ["start end", "end start"]. */
-  offset?: [string, string];
-  spring?: boolean;
-  stiffness?: number;
-  damping?: number;
-  restDelta?: number;
-}
-
-/**
- * Per-section scroll progress (0 when section enters viewport, 1 when it leaves).
- * Returns a MotionValue for direct binding to transforms.
- */
-export function useSectionProgress(
-  ref: RefObject<HTMLElement | null>,
-  options: UseSectionProgressOptions = {}
-): MotionValue<number> {
-  const {
-    offset = ["start end", "end start"],
-    spring = true,
-    stiffness = 100,
-    damping = 30,
-    restDelta = 0.001,
-  } = options;
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    // Framer Motion's offset type is a strict union of literal tuples;
-    // widen through unknown to accept arbitrary ScrollTrigger-style offsets.
-    offset: offset as unknown as ["start end", "end start"],
-  });
-
-  const sectionSpring = useSpring(scrollYProgress, {
-    stiffness,
-    damping,
-    restDelta,
-  });
-
-  return spring ? sectionSpring : scrollYProgress;
-}
 
 export interface UseActiveSectionOptions {
   /** Viewport fraction used to determine the active section. */

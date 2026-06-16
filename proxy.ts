@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { locales, type Locale, defaultLocale, detectLocale } from "./lib/i18n";
+import { locales, type Locale, detectLocale } from "./lib/i18n";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -7,7 +7,7 @@ function isLocalePath(pathname: string): boolean {
   return locales.some((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip static files, api routes, and Next.js internals

@@ -28,20 +28,21 @@ export interface AboutStat {
   value: string;
 }
 
-export interface ExperienceItem {
+export interface EducationItem {
   period: string;
-  role: string;
-  context: string;
-  focus: string;
-  description: string;
-  tags: string[];
-  accent: string;
-  current?: boolean;
+  institution: string;
+  title: string;
 }
 
-export interface HighlightItem {
-  value: string;
-  label: string;
+// A thematic field of work (what I do), decoupled from job history,
+// employers, and time stamps. The first field is rendered as the featured
+// accent card; the rest follow as hairline-separated editorial entries.
+export interface WorkField {
+  title: string;
+  subtitle: string;
+  description: string;
+  accent: string;
+  featured?: boolean;
 }
 
 export interface MainSkill {
@@ -66,6 +67,7 @@ export interface CertItem {
   description: string;
   color: string;
   accent: string;
+  imageSrc: string;
 }
 
 export interface ContactLink {
@@ -103,6 +105,19 @@ const translations = {
       heading: "Mensch hinter den Daten",
       p1: "Als Senior Cloud Data Engineer verbinde ich technische Tiefe mit Business-Verständnis. Ich baue skalierbare Daten-Ökosysteme in Azure und Google Cloud.",
       p2: "Von Data Warehouses über Databricks-Pipelines bis hin zu KI-Governance – ich entwickle Lösungen, die Unternehmen befähigen, Daten als Wettbewerbsvorteil zu nutzen.",
+      educationLabel: "Ausbildung",
+      education: [
+        {
+          period: "10/2019 – 09/2021",
+          institution: "FHDW, Paderborn",
+          title: "Angewandte Informatik (Bachelor of Science)",
+        },
+        {
+          period: "10/2016 – 07/2019",
+          institution: "bib International College, Bielefeld",
+          title: "Anwendungsentwickler in Web & Mobile (Staatlich geprüfter Informatiker in Multimedia)",
+        },
+      ],
       stats: {
         experience: "Jahre Erfahrung",
         platforms: "Cloud-Plattformen",
@@ -110,49 +125,32 @@ const translations = {
       },
     },
     experience: {
-      eyebrow: "Berufserfahrung",
-      heading: "Track Record",
+      eyebrow: "Expertise",
+      heading: "Was ich baue",
       subtitle:
-        "Fokus auf das Wesentliche: Enterprise-Data-Plattformen, Cloud-Architektur und KI-gestützte Datenprodukte.",
-      current: "Aktuell",
-      stackLabel: "Stack",
-      highlights: [
-        { value: "4+", label: "Jahre Erfahrung" },
-        { value: "Azure", label: "Cloud" },
-        { value: "GCP", label: "Cloud" },
-        { value: "2x", label: "Zertifiziert" },
-      ],
-      items: [
+        "Drei Arbeitsfelder, in denen ich Enterprise-Datenlandschaften entwerfe, umsetze und absichere.",
+      fields: [
         {
-          period: "seit 2021",
-          role: "Senior Cloud Data Engineer",
-          context: "Enterprise Data & AI",
-          focus: "Data Warehousing · Databricks · AI Governance",
+          title: "Skalierbare Datenplattformen",
+          subtitle: "Architektur · Data Lakes & Warehouses · Medallion",
           description:
-            "Aufbau skalierbarer Datenplattformen in Azure und Google Cloud. Entwicklung von ETL-Pipelines, Enrichment-Workflows und Governance-Frameworks für Enterprise-Kunden.",
-          tags: ["Azure Data Factory", "Databricks", "Azure SQL", "Power BI"],
+            "Aufbau robuster Daten-Ökosysteme in Azure und Google Cloud: Data Lakes, Warehouses und Medallion-Architekturen mit belastbaren ETL/ELT-Pipelines, die zuverlässig vom Rohdatum zum analysereifen Datenprodukt führen.",
           accent: "rgba(0, 210, 255, 0.35)",
-          current: true,
+          featured: true,
         },
         {
-          period: "2020 – 2021",
-          role: "Data Engineering & Analytics",
-          context: "Enterprise Analytics",
-          focus: "Analytics & AI · Enterprise Data Management",
+          title: "ML/AI-Pipelines",
+          subtitle: "Enrichment · AutoML · Produktive Übergabe",
           description:
-            "Einstieg in Enterprise-Analytics, BI-Reporting und erste Cloud-Data-Projekte im dualen Studium.",
-          tags: ["BI", "SQL", "Analytics"],
-          accent: "rgba(167, 139, 250, 0.3)",
+            "Feature-Generierung, MLflow-Tracking und produktiver Handover in Databricks Jobs – von Enrichment-Workflows über AutoML bis zu NLP-Trendanalysen.",
+          accent: "rgba(255, 54, 0, 0.35)",
         },
         {
-          period: "2017 – 2019",
-          role: "Technische Projekte & Infrastruktur",
-          context: "Bildungseinrichtungen & Startups",
-          focus: "Rechenzentren · AR/VR-Projekte",
+          title: "AI Governance",
+          subtitle: "Guardrails · Review-Gates · Prompt-Kataloge",
           description:
-            "Technische Betreuung, Medieninfrastruktur und Entwicklung von AR/VR-Anwendungen in agilen Teams.",
-          tags: ["AR/VR", "Scrum", "Infrastruktur"],
-          accent: "rgba(16, 185, 129, 0.3)",
+            "Governance-Frameworks für KI-Projekte: Guardrails, Prompt-Linting und CI/CD-Review-Gates sowie Prompting-Kataloge und Copilot-Templates für nachvollziehbare, sichere KI-Lösungen.",
+          accent: "rgba(167, 139, 250, 0.35)",
         },
       ],
     },
@@ -228,6 +226,7 @@ const translations = {
           description: "Design und Bau skalierbarer Data-Engineering-Systeme auf GCP.",
           color: "#4285f4",
           accent: "rgba(66, 133, 244, 0.45)",
+          imageSrc: "/google-badge.jpg",
         },
         {
           letter: "D",
@@ -236,6 +235,7 @@ const translations = {
           description: "Delta Lake, Spark, Pipelines und Production-Deployments.",
           color: "#ff3600",
           accent: "rgba(255, 54, 0, 0.45)",
+          imageSrc: "/databricks-badge.jpg",
         },
       ],
     },
@@ -250,10 +250,13 @@ const translations = {
         email: { label: "E-Mail", value: "fatlindazemi@gmail.com", href: "mailto:fatlindazemi@gmail.com" },
         phone: { label: "Telefon", value: "+49 160 92225626", href: "tel:+4916092225626" },
         location: { label: "Standort", value: "Bielefeld, Deutschland", href: "#" },
-        linkedin: { label: "LinkedIn", value: "linkedin.com/in/fatlindazemi", href: "#" },
-        github: { label: "GitHub", value: "github.com/fatlindazemi", href: "#" },
+        linkedin: { label: "LinkedIn", value: "linkedin.com/in/fatlindazemi", href: "https://www.linkedin.com/in/fatlindazemi" },
+        github: { label: "GitHub", value: "github.com/fatlindazemi", href: "https://github.com/fatlindazemi" },
       },
       footer: "© {{year}} Fatlind Azemi. Senior Cloud Data Engineer & AI Expert.",
+    },
+    loading: {
+      scene: "Lade 3D Welt...",
     },
   },
   en: {
@@ -283,6 +286,19 @@ const translations = {
       heading: "The human behind the data",
       p1: "As a Senior Cloud Data Engineer, I combine technical depth with business understanding. I build scalable data ecosystems in Azure and Google Cloud.",
       p2: "From data warehouses to Databricks pipelines to AI governance – I develop solutions that empower companies to use data as a competitive advantage.",
+      educationLabel: "Education",
+      education: [
+        {
+          period: "10/2019 – 09/2021",
+          institution: "FHDW, Paderborn",
+          title: "Applied Computer Science (Bachelor of Science)",
+        },
+        {
+          period: "10/2016 – 07/2019",
+          institution: "bib International College, Bielefeld",
+          title: "Application Developer, Web & Mobile (State-certified IT Specialist, Multimedia)",
+        },
+      ],
       stats: {
         experience: "Years of experience",
         platforms: "Cloud platforms",
@@ -290,49 +306,32 @@ const translations = {
       },
     },
     experience: {
-      eyebrow: "Experience",
-      heading: "Track Record",
+      eyebrow: "Expertise",
+      heading: "What I build",
       subtitle:
-        "Focus on the essentials: enterprise data platforms, cloud architecture, and AI-powered data products.",
-      current: "Current",
-      stackLabel: "Stack",
-      highlights: [
-        { value: "4+", label: "Years of experience" },
-        { value: "Azure", label: "Cloud" },
-        { value: "GCP", label: "Cloud" },
-        { value: "2x", label: "Certified" },
-      ],
-      items: [
+        "Three fields of work where I design, ship, and secure enterprise data landscapes.",
+      fields: [
         {
-          period: "since 2021",
-          role: "Senior Cloud Data Engineer",
-          context: "Enterprise Data & AI",
-          focus: "Data Warehousing · Databricks · AI Governance",
+          title: "Scalable data platforms",
+          subtitle: "Architecture · Data Lakes & Warehouses · Medallion",
           description:
-            "Building scalable data platforms in Azure and Google Cloud. Development of ETL pipelines, enrichment workflows, and governance frameworks for enterprise clients.",
-          tags: ["Azure Data Factory", "Databricks", "Azure SQL", "Power BI"],
+            "Building robust data ecosystems in Azure and Google Cloud: data lakes, warehouses, and medallion architectures with reliable ETL/ELT pipelines that move raw data reliably into analysis-ready products.",
           accent: "rgba(0, 210, 255, 0.35)",
-          current: true,
+          featured: true,
         },
         {
-          period: "2020 – 2021",
-          role: "Data Engineering & Analytics",
-          context: "Enterprise Analytics",
-          focus: "Analytics & AI · Enterprise Data Management",
+          title: "ML/AI pipelines",
+          subtitle: "Enrichment · AutoML · Production handover",
           description:
-            "Entry into enterprise analytics, BI reporting, and first cloud data projects during a dual study program.",
-          tags: ["BI", "SQL", "Analytics"],
-          accent: "rgba(167, 139, 250, 0.3)",
+            "Feature generation, MLflow tracking, and production handover in Databricks Jobs – from enrichment workflows and AutoML to NLP trend analysis.",
+          accent: "rgba(255, 54, 0, 0.35)",
         },
         {
-          period: "2017 – 2019",
-          role: "Technical Projects & Infrastructure",
-          context: "Educational Institutions & Startups",
-          focus: "Data Centers · AR/VR Projects",
+          title: "AI Governance",
+          subtitle: "Guardrails · Review gates · Prompt catalogs",
           description:
-            "Technical support, media infrastructure, and development of AR/VR applications in agile teams.",
-          tags: ["AR/VR", "Scrum", "Infrastructure"],
-          accent: "rgba(16, 185, 129, 0.3)",
+            "Governance frameworks for AI projects: guardrails, prompt linting, and CI/CD review gates plus prompt catalogs and Copilot templates for traceable, secure AI solutions.",
+          accent: "rgba(167, 139, 250, 0.35)",
         },
       ],
     },
@@ -408,6 +407,7 @@ const translations = {
           description: "Design and build scalable data engineering systems on GCP.",
           color: "#4285f4",
           accent: "rgba(66, 133, 244, 0.45)",
+          imageSrc: "/google-badge.jpg",
         },
         {
           letter: "D",
@@ -416,6 +416,7 @@ const translations = {
           description: "Delta Lake, Spark, pipelines, and production deployments.",
           color: "#ff3600",
           accent: "rgba(255, 54, 0, 0.45)",
+          imageSrc: "/databricks-badge.jpg",
         },
       ],
     },
@@ -430,10 +431,13 @@ const translations = {
         email: { label: "E-Mail", value: "fatlindazemi@gmail.com", href: "mailto:fatlindazemi@gmail.com" },
         phone: { label: "Phone", value: "+49 160 92225626", href: "tel:+4916092225626" },
         location: { label: "Location", value: "Bielefeld, Germany", href: "#" },
-        linkedin: { label: "LinkedIn", value: "linkedin.com/in/fatlindazemi", href: "#" },
-        github: { label: "GitHub", value: "github.com/fatlindazemi", href: "#" },
+        linkedin: { label: "LinkedIn", value: "linkedin.com/in/fatlindazemi", href: "https://www.linkedin.com/in/fatlindazemi" },
+        github: { label: "GitHub", value: "github.com/fatlindazemi", href: "https://github.com/fatlindazemi" },
       },
       footer: "© {{year}} Fatlind Azemi. Senior Cloud Data Engineer & AI Expert.",
+    },
+    loading: {
+      scene: "Loading 3D world...",
     },
   },
 } as const;
@@ -473,17 +477,17 @@ export function getNavItems(locale: Locale): NavItem[] {
 export function getAboutStats(locale: Locale): AboutStat[] {
   return [
     { iconKey: "Briefcase", label: t(locale, "about.stats.experience"), value: "4+" },
-    { iconKey: "Cloud", label: t(locale, "about.stats.platforms"), value: "Azure / GCP" },
+    { iconKey: "Cloud", label: t(locale, "about.stats.platforms"), value: "Azure · GCP" },
     { iconKey: "Award", label: t(locale, "about.stats.certs"), value: "2" },
   ];
 }
 
-export function getExperience(locale: Locale): ExperienceItem[] {
-  return (getValue(translations[locale], "experience.items") as ExperienceItem[]) ?? [];
+export function getEducation(locale: Locale): EducationItem[] {
+  return (getValue(translations[locale], "about.education") as EducationItem[]) ?? [];
 }
 
-export function getHighlights(locale: Locale): HighlightItem[] {
-  return (getValue(translations[locale], "experience.highlights") as HighlightItem[]) ?? [];
+export function getWorkFields(locale: Locale): WorkField[] {
+  return (getValue(translations[locale], "experience.fields") as WorkField[]) ?? [];
 }
 
 export function getMainSkills(locale: Locale): MainSkill[] {
@@ -494,15 +498,25 @@ export function getSecondarySkills(locale: Locale): SecondarySkill[] {
   return (getValue(translations[locale], "skills.secondary") as SecondarySkill[]) ?? [];
 }
 
+export function getSkillsCerts(locale: Locale): string[] {
+  return (getValue(translations[locale], "skills.certs") as string[]) ?? [];
+}
+
 export function getCerts(locale: Locale): CertItem[] {
   return (getValue(translations[locale], "certs.items") as CertItem[]) ?? [];
 }
 
 export function getContactLinks(locale: Locale): ContactLink[] {
   const links = getValue(translations[locale], "contact.links") as Record<string, Omit<ContactLink, "iconKey">>;
-  const order: ContactLink["iconKey"][] = ["Mail", "Phone", "MapPin", "Linkedin", "Github"];
-  return order.map((iconKey) => ({
+  const order: { iconKey: ContactLink["iconKey"]; key: string }[] = [
+    { iconKey: "Mail", key: "email" },
+    { iconKey: "Phone", key: "phone" },
+    { iconKey: "MapPin", key: "location" },
+    { iconKey: "Linkedin", key: "linkedin" },
+    { iconKey: "Github", key: "github" },
+  ];
+  return order.map(({ iconKey, key }) => ({
     iconKey,
-    ...links[iconKey.toLowerCase()],
+    ...links[key],
   }));
 }

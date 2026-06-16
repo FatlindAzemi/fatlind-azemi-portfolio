@@ -49,23 +49,27 @@ export default function DataLine({
 
       {/* Traveling data packets */}
       {[0, 1, 2].map((i) => (
-        <motion.circle
+        <circle
           key={i}
           r="3"
           fill="#00d2ff"
           filter="url(#data-line-glow)"
-          initial={{ offsetDistance: "0%", opacity: 0 }}
-          animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
-          transition={{
-            duration: 4,
-            delay: i * 1.3,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{
-            offsetPath: "path('M -20 100 C 120 40, 280 160, 400 100 S 680 40, 820 100')",
-          }}
-        />
+        >
+          <animateMotion
+            path="M -20 100 C 120 40, 280 160, 400 100 S 680 40, 820 100"
+            dur="4s"
+            repeatCount="indefinite"
+            begin={`${i * 1.3}s`}
+          />
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0"
+            keyTimes="0;0.2;0.8;1"
+            dur="4s"
+            repeatCount="indefinite"
+            begin={`${i * 1.3}s`}
+          />
+        </circle>
       ))}
     </svg>
   );
