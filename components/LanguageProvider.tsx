@@ -36,12 +36,19 @@ export function LanguageProvider({
     document.documentElement.lang = locale;
   }, [locale]);
 
+  // Keep provider state in sync with browser back/forward. The initial locale
+  // arrives from the server via `initialLocale`, so we only need to react to
+  // popstate (pushState is handled inside `setLocale` below).
   useEffect(() => {
-    const detected = resolveLocaleFromPath(window.location.pathname);
-    if (detected && detected !== locale) {
-      setLocaleState(detected);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const handlePopState = () => {
+      const detected = resolveLocaleFromPath(window.location.pathname);
+      if (detected && detected !== locale) {
+        setLocaleState(detected);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [locale]);
 
   const setLocale = useCallback(
     (newLocale: Locale) => {
@@ -59,17 +66,6 @@ export function LanguageProvider({
     },
     [locale]
   );
-
-  useEffect(() => {
-    const handlePopState = () => {
-      const detected = resolveLocaleFromPath(window.location.pathname);
-      if (detected && detected !== locale) {
-        setLocaleState(detected);
-      }
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [locale]);
 
   const translate = useCallback(
     (key: string, vars?: Record<string, string | number>) => t(locale, key, vars),

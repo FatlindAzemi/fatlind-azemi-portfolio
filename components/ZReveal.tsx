@@ -24,14 +24,10 @@ const itemVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.92,
-    z: -60,
-    filter: "blur(8px)",
   },
   visible: {
     opacity: 1,
     scale: 1,
-    z: 0,
-    filter: "blur(0px)",
   },
 };
 
@@ -73,8 +69,8 @@ export default function ZReveal({
   return (
     <MotionTag
       className={className}
-      initial={{ opacity: 0, scale: 0.92, z: -60, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, scale: 1, z: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, scale: 0.92 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once, amount }}
       transition={{
         ...transitionDefaults,

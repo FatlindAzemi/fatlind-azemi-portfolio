@@ -39,12 +39,10 @@ export default function AnimatedText({
     hidden: {
       opacity: 0,
       scale: 0.85,
-      filter: "blur(10px)",
     },
     visible: {
       opacity: 1,
       scale: 1,
-      filter: "blur(0px)",
       transition: {
         duration,
         ease: [0.16, 1, 0.3, 1] as const,

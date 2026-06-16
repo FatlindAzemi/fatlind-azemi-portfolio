@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 interface NoiseOverlayProps {
   className?: string;
   opacity?: number;
@@ -11,21 +9,14 @@ interface NoiseOverlayProps {
  * Subtle fixed film-grain noise overlay.
  *
  * Rendered as an inline SVG turbulence filter so no external asset is needed.
- * Pointer-events disabled and hidden from assistive tech.
+ * feTurbulence is deterministic, so the SVG is safe to server-render and needs
+ * no mounted-guard (no hydration mismatch). Pointer-events disabled and hidden
+ * from assistive tech.
  */
 export default function NoiseOverlay({
   className = "",
   opacity = 0.035,
 }: NoiseOverlayProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Avoid SSR/hydration mismatch for the random-looking noise texture.
-  if (!mounted) return null;
-
   return (
     <div
       aria-hidden="true"

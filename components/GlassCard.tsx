@@ -18,8 +18,11 @@ export default function GlassCard({
   hover3d = true,
 }: GlassCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState("perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)");
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Refs back the transform + spotlight so mousemove mutates the DOM directly
+  // instead of triggering a React state update (and re-rendering the card's
+  // entire subtree) on every frame the cursor is over the card.
+  const transformRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,26 +34,35 @@ export default function GlassCard({
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -6;
     const rotateY = ((x - centerX) / centerX) * 6;
-    setTransform(
-      `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`
-    );
-    setMousePos({ x, y });
+    if (transformRef.current) {
+      transformRef.current.style.transform =
+        `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
+    }
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background =
+        `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.05), transparent 40%)`;
+    }
   };
 
   const handleMouseLeave = () => {
-    setTransform("perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)");
+    if (transformRef.current) {
+      transformRef.current.style.transform =
+        "perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+    }
     setIsHovered(false);
   };
 
   return (
     <div
-      ref={cardRef}
+      ref={(node) => {
+        cardRef.current = node;
+        transformRef.current = node;
+      }}
       className={`glass-card ${className}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ["--accent" as any]: accentColor,
       }}
@@ -61,10 +73,8 @@ export default function GlassCard({
       {/* Inner spotlight on hover */}
       {isHovered && (
         <div
+          ref={spotlightRef}
           className="pointer-events-none absolute -inset-px z-0 transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.06), transparent 40%)`,
-          }}
         />
       )}
 

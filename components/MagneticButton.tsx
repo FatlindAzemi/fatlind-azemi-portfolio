@@ -25,7 +25,7 @@ export default function MagneticButton({
   onClick,
   href,
   variant = "outline",
-  strength = 0.3,
+  strength = 0.4,
   cursorLabel,
   cursorVariant = "button",
 }: MagneticButtonProps) {
@@ -63,16 +63,19 @@ export default function MagneticButton({
   const style = { x: springX, y: springY };
   const dataCursor = cursorVariant;
   const dataCursorMagnetic = "true";
+  // Subtle press feedback on tap; respects reduced motion via Framer.
+  const tap = { scale: 0.96 };
 
   if (href) {
     return (
       <motion.a
         ref={ref as React.RefObject<HTMLAnchorElement>}
         href={href}
-        className={`${variantClass} magnetic-btn ${className}`}
+        className={`${variantClass} magnetic-btn pointer-events-auto ${className}`}
         style={style}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        whileTap={tap}
         data-cursor={dataCursor}
         data-cursor-magnetic={dataCursorMagnetic}
         data-cursor-label={cursorLabel}
@@ -86,10 +89,11 @@ export default function MagneticButton({
     <motion.button
       ref={ref as React.RefObject<HTMLButtonElement>}
       onClick={onClick}
-      className={`${variantClass} magnetic-btn ${className}`}
+      className={`${variantClass} magnetic-btn pointer-events-auto ${className}`}
       style={style}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      whileTap={tap}
       data-cursor={dataCursor}
       data-cursor-magnetic={dataCursorMagnetic}
       data-cursor-label={cursorLabel}
