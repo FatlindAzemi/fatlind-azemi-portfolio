@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { useCipherText } from '../../hooks/useCipherText'
 import { useLenis } from '../LenisProvider'
 import { useI18n } from '../../i18n/LanguageProvider'
@@ -22,16 +22,14 @@ const portraitHorizontalFade =
 
 export default function Hero() {
   const { t, data } = useI18n()
-  const name = useCipherText(data.name, { duration: 1100 })
+  const nameRef = useRef<HTMLHeadingElement>(null)
+  // On mobile the name sits low in the hero, so the scramble would already be
+  // over by the time it scrolls into view. Start it when it is actually seen.
+  const nameInView = useInView(nameRef, { once: true })
+  const name = useCipherText(data.name, { duration: 1100, active: nameInView })
   const lenis = useLenis()
-  const [mounted, setMounted] = useState(false)
 
   const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
-
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 80)
-    return () => clearTimeout(timer)
-  }, [])
 
   const goTo = (id: string) => {
     const target = `#${id}`
@@ -48,7 +46,7 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute right-0 top-1/2 hidden w-[50%] -translate-y-1/2 lg:block"
         initial={{ opacity: 0 }}
-        animate={mounted ? { opacity: 1 } : {}}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.4, ease }}
         style={{
           maskImage: panelVerticalFade,
@@ -71,7 +69,7 @@ export default function Hero() {
           <motion.p
             className="eyebrow"
             initial={{ opacity: 0, y: 16 }}
-            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease }}
           >
             {data.title}
@@ -80,7 +78,7 @@ export default function Hero() {
           <motion.div
             className="mx-[calc(var(--gutter)*-1)] mt-7 lg:hidden"
             initial={{ opacity: 0, y: 20 }}
-            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.12, ease }}
             style={{
               maskImage: portraitVerticalFade,
@@ -102,6 +100,7 @@ export default function Hero() {
           </motion.div>
 
           <h1
+            ref={nameRef}
             className="display mt-7 overflow-hidden font-semibold whitespace-nowrap lg:mt-6"
             style={{ minHeight: '1.05em' }}
           >
@@ -111,7 +110,7 @@ export default function Hero() {
           <motion.p
             className="lead mt-6 lg:mt-7"
             initial={{ opacity: 0, y: 18 }}
-            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
           >
             {data.subtitle}
@@ -120,7 +119,7 @@ export default function Hero() {
           <motion.p
             className="mt-3.5 max-w-xl text-[0.82rem] leading-[1.65] text-[var(--text-3)] lg:mt-4 lg:text-[0.95rem] lg:leading-relaxed"
             initial={{ opacity: 0, y: 18 }}
-            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.28, ease }}
           >
             {data.bio[0]}
@@ -129,7 +128,7 @@ export default function Hero() {
           <motion.div
             className="mt-8 flex flex-wrap items-center gap-1.5 sm:gap-3 lg:mt-10"
             initial={{ opacity: 0, y: 18 }}
-            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.36, ease }}
           >
             <a
@@ -177,7 +176,7 @@ export default function Hero() {
             aria-label={t.hero.scrollToExpertise}
             className="pointer-events-auto flex cursor-pointer items-center gap-3 text-[var(--text-3)] transition-colors hover:text-[var(--text-2)]"
             initial={{ opacity: 0 }}
-            animate={mounted ? { opacity: 1 } : {}}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
             <motion.span

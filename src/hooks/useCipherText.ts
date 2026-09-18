@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 interface CipherOptions {
   duration?: number
   charset?: string
+  /** Holds the scramble until this flips true — e.g. once the text scrolls into view. */
+  active?: boolean
 }
 
 const DEFAULT_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*'
@@ -16,17 +18,22 @@ function buildScrambledText(length: number, charset: string): string {
 }
 
 export function useCipherText(targetText: string, options?: CipherOptions): string {
-  const { duration = 3000, charset = DEFAULT_CHARSET } = options ?? {}
+  const {
+    duration = 3000,
+    charset = DEFAULT_CHARSET,
+    active = true,
+  } = options ?? {}
 
-  const [displayText, setDisplayText] = useState<string>(targetText)
+  // Start scrambled so the resolved text never flashes for a frame before the
+  // effect takes over.
+  const [displayText, setDisplayText] = useState<string>(() =>
+    buildScrambledText(targetText.length, charset),
+  )
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const startTimeRef = useRef<number>(0)
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplayText(targetText)
-      return
-    }
+    if (!active) return
 
     const len = targetText.length
 
@@ -74,7 +81,7 @@ export function useCipherText(targetText: string, options?: CipherOptions): stri
         intervalRef.current = null
       }
     }
-  }, [targetText, duration, charset])
+  }, [targetText, duration, charset, active])
 
   return displayText
 }

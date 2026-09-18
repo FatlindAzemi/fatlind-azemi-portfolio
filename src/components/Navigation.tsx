@@ -33,7 +33,10 @@ export default function Navigation() {
   )
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0
+
+    const measure = () => {
+      frame = 0
       setCondensed(window.scrollY > 24)
 
       const line = window.innerHeight * 0.38
@@ -47,9 +50,16 @@ export default function Navigation() {
       setActive(current)
     }
 
-    onScroll()
+    const onScroll = () => {
+      if (frame === 0) frame = requestAnimationFrame(measure)
+    }
+
+    measure()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame !== 0) cancelAnimationFrame(frame)
+    }
   }, [])
 
   return (

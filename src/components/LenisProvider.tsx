@@ -25,10 +25,9 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
     if (prefersReduced) return
 
     const instance = new Lenis({
-      duration: 2.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
+      lerp: 0.1,
       smoothWheel: true,
-      wheelMultiplier: 0.8,
+      wheelMultiplier: 1,
       touchMultiplier: 1.8,
       syncTouch: false,
     })
