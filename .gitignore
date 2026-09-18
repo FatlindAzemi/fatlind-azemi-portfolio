@@ -1,7 +1,7 @@
 node_modules
 dist
 .commandcode
-.sisyphus/evidence
+.sisyphus
 .playwright-mcp
 *.log
 .DS_Store
