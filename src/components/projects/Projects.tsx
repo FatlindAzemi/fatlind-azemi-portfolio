@@ -249,7 +249,7 @@ export default function Projects() {
           <div className="edge-fade flex min-h-0 flex-1 items-center pt-20">
             <motion.div
               ref={trackRef}
-              style={{ x, willChange: 'transform' }}
+              style={{ x }}
               className="flex h-[min(620px,calc(100vh-8rem))] w-max items-stretch"
             >
               <div

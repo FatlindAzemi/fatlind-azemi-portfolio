@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useI18n } from '../../i18n/LanguageProvider'
 import SectionHeader from '../ui/SectionHeader'
@@ -51,16 +51,22 @@ function SkillButton({
   index,
   isActive,
   onActivate,
+  onHover,
 }: {
   skill: Skill
   index: number
   isActive: boolean
   onActivate: () => void
+  onHover: () => void
 }) {
   return (
     <button
       type="button"
-      onMouseEnter={onActivate}
+      onPointerMove={(event) => {
+        // Only real mouse movement previews a skill — mouseenter would also
+        // fire on a scroll, and touch drags emit pointermove too.
+        if (event.pointerType === 'mouse') onHover()
+      }}
       onFocus={onActivate}
       onClick={onActivate}
       aria-pressed={isActive}
@@ -133,7 +139,24 @@ function CategoryCard({
   delay: number
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const lastScrollAt = useRef(0)
   const active = category.skills[activeIndex]
+
+  useEffect(() => {
+    const onScroll = () => {
+      lastScrollAt.current = performance.now()
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const handleHover = (index: number) => {
+    // Hover events also fire when the page scrolls an element under a
+    // stationary cursor. Swapping the console then reads as a blink while
+    // scrolling, so ignore any hover that lands during a scroll.
+    if (performance.now() - lastScrollAt.current < 150) return
+    setActiveIndex(index)
+  }
 
   return (
     <motion.div
@@ -167,6 +190,7 @@ function CategoryCard({
             index={i}
             isActive={i === activeIndex}
             onActivate={() => setActiveIndex(i)}
+            onHover={() => handleHover(i)}
           />
         ))}
       </div>
