@@ -45,14 +45,14 @@ const categoryText: Record<string, CategoryText> = {
 // language-independent and stay sourced from the English base data.
 const projectText: Record<string, ProjectText> = {
   'ai-driven-migration': {
-    title: 'KI-gestützte Migration in die Cloud',
+    title: 'KI-gestützte Cloud-Migration',
     subtitle:
-      'Ein hauseigener KI-Agent, der ein Legacy-Data-Warehouse in eine Cloud-Umgebung überführt',
+      'Ein hauseigener KI-Agent, der ein Legacy-Data-Warehouse in die Cloud migriert',
     description:
-      'Migration eines Legacy-Data-Warehouse in eine Cloud-Lakehouse-Plattform — vollständig durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Die Umgebung ist groß: tausende Objekte müssen neu aufgebaut werden, weshalb der Hebel den Ausschlag gibt — dieselbe Migration von Hand hätte ein Team den Großteil eines Jahres gekostet. Der Agent liest die Modelle und Transformationen des Quellsystems, leitet cloud-native Äquivalente ab und validiert jedes Ergebnis gegen das Original. Der Agent ist selbst das Ergebnis: sein Verhalten und seine Werkzeuge wurden hausintern auf OpenCode entwickelt, und die Quellbasis wurde gezielt aufgebaut, um ihm eine präzise, gut beschriebene Oberfläche zu geben.',
+      'Migration eines großen Legacy-Data-Warehouse in ein Cloud-Lakehouse — durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Manuell würde der Umfang ein Team den Großteil eines Jahres kosten. Jedes Ergebnis wird gegen das Original validiert.',
     metrics: [
-      'TODO: Anzahl migrierter Objekte (große Landschaft)',
-      'TODO: manueller Aufwand reduziert um … (vs. manuelle Migration)',
+      'TODO: Anzahl migrierter Objekte',
+      'TODO: manueller Aufwand reduziert um …',
       'TODO: Validierungs-Erfolgsquote',
     ],
     vizCaption: 'Status der Objektmigration',
