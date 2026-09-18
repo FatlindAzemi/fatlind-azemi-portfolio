@@ -1,140 +1,202 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import NeuralMesh from '../../canvas/NeuralMesh'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useCipherText } from '../../hooks/useCipherText'
 import { useLenis } from '../LenisProvider'
-import { portfolioData } from '../../data/portfolio'
+import { useI18n } from '../../i18n/LanguageProvider'
+import { ArrowDown, socialIconMap } from '../ui/Icons'
+import { buildMailto } from '../../utils/contact'
+
+const ease = [0.22, 1, 0.36, 1] as const
+
+const panelVerticalFade =
+  'linear-gradient(to bottom, transparent 0%, #000 9%, #000 80%, transparent 100%)'
+
+const panelHorizontalFade =
+  'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 7%, rgba(0, 0, 0, 0.92) 16%, #000 32%)'
+
+const portraitVerticalFade =
+  'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 4%, #000 17%, #000 70%, rgba(0, 0, 0, 0.5) 87%, transparent 100%)'
+
+const portraitHorizontalFade =
+  'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.6) 6%, #000 15%, #000 85%, rgba(0, 0, 0, 0.6) 94%, transparent 100%)'
 
 export default function Hero() {
-  const name = useCipherText(portfolioData.name, { duration: 1500 })
-  const [showSubtitle, setShowSubtitle] = useState(false)
-  const [showBio, setShowBio] = useState(false)
-  const [hasScrolled, setHasScrolled] = useState(false)
+  const { t, data } = useI18n()
+  const name = useCipherText(data.name, { duration: 1100 })
   const lenis = useLenis()
+  const [mounted, setMounted] = useState(false)
+
+  const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
 
   useEffect(() => {
-    const t1 = setTimeout(() => setShowSubtitle(true), 2000)
-    const t2 = setTimeout(() => setShowBio(true), 4000)
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-    }
+    const timer = setTimeout(() => setMounted(true), 80)
+    return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    if (!lenis) return
-    const onScroll = ({ scroll }: { scroll: number }) => {
-      setHasScrolled(scroll > 60)
-    }
-    lenis.on('scroll', onScroll)
-    return () => {
-      lenis.off('scroll', onScroll)
-    }
-  }, [lenis])
-
-  const subtitle = useCipherText(
-    showSubtitle ? portfolioData.title : '',
-    { duration: 1500 },
-  )
+  const goTo = (id: string) => {
+    const target = `#${id}`
+    if (lenis) lenis.scrollTo(target, { offset: -72, duration: 1.4 })
+    else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <section
       id="hero"
-      className="relative h-screen w-full overflow-hidden"
-      style={{ background: 'var(--bg)' }}
+      className="relative flex min-h-[100svh] items-center overflow-hidden"
     >
-      <NeuralMesh />
-
-      <div
-        className="absolute inset-0 pointer-events-none"
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-1/2 hidden w-[50%] -translate-y-1/2 lg:block"
+        initial={{ opacity: 0 }}
+        animate={mounted ? { opacity: 1 } : {}}
+        transition={{ duration: 1.4, ease }}
         style={{
-          background:
-            'radial-gradient(ellipse at center, transparent 40%, var(--bg) 80%)',
+          maskImage: panelVerticalFade,
+          WebkitMaskImage: panelVerticalFade,
         }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-8 md:px-16">
-        <h1
-          className="font-mono font-bold text-center leading-none select-none tracking-tight"
+      >
+        <img
+          src={data.portrait}
+          alt=""
+          className="h-[80vh] max-h-[46rem] min-h-[26rem] w-full object-cover object-top"
           style={{
-            fontSize: 'clamp(3rem, 8vw, 7rem)',
-            color: 'var(--text-primary)',
-            letterSpacing: '-0.03em',
-            textShadow: '0 0 80px rgba(0, 112, 243, 0.15)',
+            maskImage: panelHorizontalFade,
+            WebkitMaskImage: panelHorizontalFade,
           }}
-        >
-          {name}
-        </h1>
+        />
+      </motion.div>
 
-        <p
-          className="font-mono text-center mt-5 select-none"
-          style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
-            color: 'var(--text-secondary)',
-            minHeight: '2rem',
-          }}
-        >
-          {subtitle}
-        </p>
+      <div className="shell relative z-10 w-full py-16 sm:py-24">
+        <div className="lg:max-w-[44%]">
+          <motion.p
+            className="eyebrow"
+            initial={{ opacity: 0, y: 16 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease }}
+          >
+            {data.title}
+          </motion.p>
 
-        <AnimatePresence>
-          {showBio && (
-            <motion.p
-              key="hero-bio"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="mt-8 max-w-xl text-center leading-relaxed"
+          <motion.div
+            className="mx-[calc(var(--gutter)*-1)] mt-7 lg:hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.12, ease }}
+            style={{
+              maskImage: portraitVerticalFade,
+              WebkitMaskImage: portraitVerticalFade,
+            }}
+          >
+            <img
+              src={data.portrait}
+              alt={data.name}
+              width={1024}
+              height={1024}
+              decoding="async"
+              className="mx-auto aspect-square w-full max-w-[26rem] object-cover object-top"
               style={{
-                fontSize: 'clamp(0.875rem, 1.5vw, 1.05rem)',
-                color: 'var(--text-muted)',
+                maskImage: portraitHorizontalFade,
+                WebkitMaskImage: portraitHorizontalFade,
               }}
+            />
+          </motion.div>
+
+          <h1
+            className="display mt-7 overflow-hidden font-semibold whitespace-nowrap lg:mt-6"
+            style={{ minHeight: '1.05em' }}
+          >
+            {name}
+          </h1>
+
+          <motion.p
+            className="lead mt-6 lg:mt-7"
+            initial={{ opacity: 0, y: 18 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease }}
+          >
+            {data.subtitle}
+          </motion.p>
+
+          <motion.p
+            className="mt-3.5 max-w-xl text-[0.82rem] leading-[1.65] text-[var(--text-3)] lg:mt-4 lg:text-[0.95rem] lg:leading-relaxed"
+            initial={{ opacity: 0, y: 18 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.28, ease }}
+          >
+            {data.bio[0]}
+          </motion.p>
+
+          <motion.div
+            className="mt-8 flex flex-wrap items-center gap-1.5 sm:gap-3 lg:mt-10"
+            initial={{ opacity: 0, y: 18 }}
+            animate={mounted ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.36, ease }}
+          >
+            <a
+              href={buildMailto(data.email, t.mail)}
+              className="btn btn-primary h-10 min-h-0 px-3 text-[0.875rem] sm:h-[2.9rem] sm:min-h-[2.9rem] sm:px-[1.35rem] sm:text-[0.9rem]"
             >
-              {portfolioData.bio[0]}
-            </motion.p>
-          )}
-        </AnimatePresence>
+              {t.hero.getInTouch}
+            </a>
+            <button
+              type="button"
+              onClick={() => goTo('projects')}
+              className="btn btn-ghost h-10 min-h-0 cursor-pointer px-3 text-[0.875rem] sm:h-[2.9rem] sm:min-h-[2.9rem] sm:px-[1.35rem] sm:text-[0.9rem]"
+            >
+              {t.hero.viewProjects}
+            </button>
+
+            {profileLinks.length > 0 && (
+              <div className="flex items-center gap-1.5 sm:ml-1 sm:gap-2">
+                {profileLinks.map((link) => {
+                  const Icon = socialIconMap[link.icon]
+                  return (
+                    <a
+                      key={link.platform}
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={link.platform}
+                      className="icon-btn h-10 w-10 sm:h-[2.9rem] sm:w-[2.9rem]"
+                    >
+                      <Icon />
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+          </motion.div>
+        </div>
       </div>
 
-      <AnimatePresence>
-        {!hasScrolled && (
-          <motion.div
-            key="scroll-chevron"
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none"
+      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden lg:block">
+        <div className="shell flex justify-center">
+          <motion.button
+            type="button"
+            onClick={() => goTo('expertise')}
+            aria-label={t.hero.scrollToExpertise}
+            className="pointer-events-auto flex cursor-pointer items-center gap-3 text-[var(--text-3)] transition-colors hover:text-[var(--text-2)]"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 5, duration: 0.6 }}
+            animate={mounted ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 1 }}
           >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
+            <motion.span
+              animate={{ y: [0, 5, 0] }}
               transition={{
-                y: {
-                  repeat: Infinity,
-                  duration: 1.6,
-                  ease: 'easeInOut',
-                },
+                repeat: Infinity,
+                duration: 1.8,
+                ease: 'easeInOut',
               }}
+              className="flex"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 9l6 6 6-6"
-                  stroke="var(--text-muted)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <ArrowDown width={16} height={16} />
+            </motion.span>
+            <span className="font-mono text-[0.68rem] uppercase tracking-[0.16em]">
+              {t.hero.scroll}
+            </span>
+          </motion.button>
+        </div>
+      </div>
     </section>
   )
 }

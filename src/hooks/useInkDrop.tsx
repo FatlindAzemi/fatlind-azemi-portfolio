@@ -7,7 +7,7 @@ interface InkDropState {
   isActive: boolean;
 }
 
-export function useInkDrop(onComplete: () => void) {
+export function useInkDrop() {
   // Lazy initializer — runs once, survives re-renders, safe for SSR
   const [reducedMotion] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -22,10 +22,7 @@ export function useInkDrop(onComplete: () => void) {
 
   const trigger = useCallback(
     (e: React.MouseEvent | { clientX: number; clientY: number }) => {
-      if (reducedMotion) {
-        onComplete();
-        return;
-      }
+      if (reducedMotion) return;
 
       setInkState({
         x: e.clientX,
@@ -33,7 +30,7 @@ export function useInkDrop(onComplete: () => void) {
         isActive: true,
       });
     },
-    [onComplete, reducedMotion],
+    [reducedMotion],
   );
 
   const InkDropOverlay = (
@@ -49,7 +46,9 @@ export function useInkDrop(onComplete: () => void) {
             ease: [0.4, 0, 0.2, 1],
           }}
           onAnimationComplete={() => {
-            onComplete();
+            // Dismiss the overlay so the full-screen bubble fades out — mailto
+            // never unloads the page, so otherwise it would stay stuck.
+            setInkState((state) => ({ ...state, isActive: false }));
           }}
           style={{
             position: "fixed",
