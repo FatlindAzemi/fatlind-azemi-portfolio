@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import MagneticWrapper from '../ui/MagneticWrapper'
 import { useInkDrop } from '../../hooks/useInkDrop'
+import { useReveal } from '../../hooks/useReveal'
 import { useI18n } from '../../i18n/LanguageProvider'
 import { socialIconMap, ArrowUpRight } from '../ui/Icons'
 import { buildMailto } from '../../utils/contact'
@@ -8,6 +9,7 @@ import { buildMailto } from '../../utils/contact'
 export default function Footer() {
   const { t, data } = useI18n()
   const { trigger, InkDropOverlay } = useInkDrop()
+  const { initial, transition } = useReveal()
 
   return (
     <footer
@@ -26,10 +28,10 @@ export default function Footer() {
 
       <div className="shell relative">
         <motion.div
-          initial={{ opacity: 0, y: 26 }}
+          initial={initial}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-15%' }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={transition}
         >
           <p className="eyebrow mb-6">{t.footer.eyebrow}</p>
 

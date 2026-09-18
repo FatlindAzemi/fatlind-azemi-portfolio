@@ -58,6 +58,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- The hero portrait is referenced from JS, so the browser only discovers
+         it once the bundle has run. Preload it to keep it out of the LCP path. -->
+    <link rel="preload" href="/portrait.jpg" as="image" fetchpriority="high" />
+
     <!-- Fonts are self-hosted: no request to Google, no third-party data transfer -->
     <link
       rel="preload"

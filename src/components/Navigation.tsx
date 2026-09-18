@@ -3,12 +3,14 @@ import { motion } from 'framer-motion'
 import LanguageSwitch from './ui/LanguageSwitch'
 import { MailIcon } from './ui/Icons'
 import { useI18n } from '../i18n/LanguageProvider'
+import { useReveal } from '../hooks/useReveal'
 import { buildMailto } from '../utils/contact'
 
 const spyIds = ['hero', 'expertise', 'projects', 'contact'] as const
 
 export default function Navigation() {
   const { t, data } = useI18n()
+  const headerReveal = useReveal(-24)
   const [active, setActive] = useState<string>('hero')
   const [condensed, setCondensed] = useState(false)
 
@@ -54,9 +56,9 @@ export default function Navigation() {
 
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
+      initial={headerReveal.initial}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={headerReveal.transition}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         condensed
           ? 'border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_82%,transparent)] backdrop-blur-xl'

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useI18n } from '../../i18n/LanguageProvider'
+import { useReveal } from '../../hooks/useReveal'
 import SectionHeader from '../ui/SectionHeader'
 import type { Certification, ExpertiseCategory, Skill } from '../../types'
 
@@ -95,6 +96,8 @@ function SkillButton({
 }
 
 function Console({ skill }: { skill: Skill }) {
+  const { reducedMotion } = useReveal()
+
   return (
     <div className="mt-6 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[#0a0a0c]">
       <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-2.5">
@@ -109,10 +112,10 @@ function Console({ skill }: { skill: Skill }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={skill.name}
-            initial={{ opacity: 0, y: 6 }}
+            initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
+            exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
+            transition={{ duration: reducedMotion ? 0 : 0.22, ease: 'easeOut' }}
             className="flex flex-col gap-1"
           >
             <p className="break-words text-[var(--text-3)]">
@@ -140,6 +143,7 @@ function CategoryCard({
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const lastScrollAt = useRef(0)
+  const { initial, transition } = useReveal()
   const active = category.skills[activeIndex]
 
   useEffect(() => {
@@ -161,10 +165,10 @@ function CategoryCard({
   return (
     <motion.div
       className="card flex flex-col p-6 md:p-8"
-      initial={{ opacity: 0, y: 28 }}
+      initial={initial}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-12%' }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ ...transition, delay }}
     >
       <div className="flex items-start justify-between gap-6">
         <div>
