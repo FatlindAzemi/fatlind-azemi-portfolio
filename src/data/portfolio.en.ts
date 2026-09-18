@@ -160,11 +160,11 @@ export const portfolioDataEn: PortfolioData = {
   projects: [
     {
       id: 'ai-driven-migration',
-      title: 'AI-Driven Migration to a Cloud Lakehouse',
+      title: 'AI-Driven Cloud Migration',
       subtitle:
-        'An in-house AI agent that moves a legacy on-premise data warehouse into a cloud environment',
+        'An in-house AI agent that migrates a legacy data warehouse to the cloud',
       description:
-        'Migration of a legacy on-premise data warehouse onto a cloud lakehouse platform, run end to end by a purpose-built AI agent instead of by hand. The environment is large — thousands of objects to rewrite — so the leverage is what makes it viable: the same migration done manually would have taken a team the better part of a year. The agent reads the source system’s models and transformations, derives cloud-native equivalents, and validates every result against the original. The agent itself is the deliverable: its behaviour and tooling were engineered in-house on OpenCode, and the source foundation was re-modelled specifically to give it a precise, well-described surface to work against.',
+        'Migration of a large legacy data warehouse into a cloud lakehouse, run end to end by a purpose-built AI agent rather than by hand — a scope that would otherwise have taken a team the better part of a year. Every result is validated against the original.',
       // TODO: Replace with your real numbers and wording
       techStack: [
         'Legacy Data Warehouse',
@@ -175,8 +175,8 @@ export const portfolioDataEn: PortfolioData = {
         'ETL & Orchestration',
       ],
       metrics: [
-        'TODO: migrated object count (large landscape)',
-        'TODO: manual effort reduced by … (vs. manual migration)',
+        'TODO: migrated object count',
+        'TODO: manual effort reduced by …',
         'TODO: validation pass rate',
       ],
       category: 'data',
