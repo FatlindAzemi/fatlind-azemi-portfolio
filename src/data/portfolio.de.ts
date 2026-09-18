@@ -44,15 +44,15 @@ const categoryText: Record<string, CategoryText> = {
 // Keyed by project id — terminal commands, tech stack and visualisations are
 // language-independent and stay sourced from the English base data.
 const projectText: Record<string, ProjectText> = {
-  'bw-to-fabric-migration': {
-    title: 'SAP-BW-zu-Fabric-Migration',
+  'ai-driven-migration': {
+    title: 'KI-gestützte Migration in die Cloud',
     subtitle:
-      'Ein hauseigener KI-Agent, der eine SAP-BW-Landschaft auf Microsoft Fabric migriert',
+      'Ein hauseigener KI-Agent, der ein Legacy-Data-Warehouse in eine Cloud-Umgebung überführt',
     description:
-      'Migration einer SAP-BW-Landschaft auf Microsoft Fabric — vollständig durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Der Agent liest die Quellmodelle aus BW und HANA, leitet Fabric-native Transformationen ab und validiert jedes Ergebnis gegen das Original. Der Agent ist selbst das Ergebnis: sein Verhalten und seine Werkzeuge wurden hausintern auf OpenCode entwickelt, und das HANA-Fundament wurde gezielt gebaut, um ihm eine präzise, gut beschriebene Oberfläche zu geben.',
+      'Migration eines Legacy-Data-Warehouse in eine Cloud-Lakehouse-Plattform — vollständig durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Die Umgebung ist groß: tausende Objekte müssen neu aufgebaut werden, weshalb der Hebel den Ausschlag gibt — dieselbe Migration von Hand hätte ein Team den Großteil eines Jahres gekostet. Der Agent liest die Modelle und Transformationen des Quellsystems, leitet cloud-native Äquivalente ab und validiert jedes Ergebnis gegen das Original. Der Agent ist selbst das Ergebnis: sein Verhalten und seine Werkzeuge wurden hausintern auf OpenCode entwickelt, und die Quellbasis wurde gezielt aufgebaut, um ihm eine präzise, gut beschriebene Oberfläche zu geben.',
     metrics: [
-      'TODO: Anzahl migrierter Objekte',
-      'TODO: manueller Aufwand reduziert um …',
+      'TODO: Anzahl migrierter Objekte (große Landschaft)',
+      'TODO: manueller Aufwand reduziert um … (vs. manuelle Migration)',
       'TODO: Validierungs-Erfolgsquote',
     ],
     vizCaption: 'Status der Objektmigration',
