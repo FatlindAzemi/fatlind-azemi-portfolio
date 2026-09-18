@@ -1,6 +1,8 @@
 node_modules
 dist
+.commandcode
 .sisyphus/evidence
+.playwright-mcp
 *.log
 .DS_Store
 *.tsbuildinfo

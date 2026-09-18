@@ -1,73 +1,110 @@
-import { useRef, useMemo } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import MagneticWrapper from '../ui/MagneticWrapper'
 import { useInkDrop } from '../../hooks/useInkDrop'
-import { portfolioData } from '../../data/portfolio'
+import { useLenis } from '../LenisProvider'
+import { useI18n } from '../../i18n/LanguageProvider'
+import { socialIconMap, ArrowUpRight } from '../ui/Icons'
+import { buildMailto } from '../../utils/contact'
 
 export default function Footer() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  const reducedMotion = useMemo(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  }, [])
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  })
-
-  const scale = useTransform(scrollYProgress, [0, 1], [0.98, 1.05])
-
-  const handleMailto = () => {
-    window.location.href = `mailto:${portfolioData.email}`
-  }
-
-  const { trigger, InkDropOverlay } = useInkDrop(handleMailto)
+  const lenis = useLenis()
+  const { t, data } = useI18n()
+  const { trigger, InkDropOverlay } = useInkDrop()
 
   return (
-    <section
+    <footer
       id="contact"
-      ref={sectionRef}
-      className="h-screen flex flex-col items-center justify-center relative overflow-hidden px-8"
-      style={{
-        background: 'linear-gradient(to bottom, var(--bg) 0%, #000000 100%)',
-      }}
+      className="relative overflow-hidden border-t border-[var(--border)]"
+      style={{ paddingBlock: 'var(--section-y)' }}
     >
-      {InkDropOverlay}
-
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
-          opacity: 0.03,
-          backgroundImage:
-            'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
+          background:
+            'radial-gradient(80% 60% at 50% 100%, rgba(79,134,255,0.12), transparent 70%)',
         }}
       />
+      {InkDropOverlay}
 
-      <motion.div
-        style={{ scale: reducedMotion ? 1 : scale }}
-        className="text-center relative z-10"
-      >
-        <h2
-          className="font-mono font-bold text-[var(--text-primary)] select-none"
-          style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+      <div className="shell relative">
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-15%' }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          Initiate Connection
-        </h2>
-      </motion.div>
+          <p className="eyebrow mb-6">{t.footer.eyebrow}</p>
 
-      <div className="relative z-10 mt-10">
-        <MagneticWrapper>
-          <button
-            onClick={(e) => trigger(e)}
-            className="px-8 py-4 font-mono text-[var(--text-primary)] bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-colors duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
-          >
-            Open Channel
-          </button>
-        </MagneticWrapper>
+          <h2 className="display max-w-4xl">{t.footer.heading}</h2>
+
+          <p className="lead mt-7">{t.footer.lead}</p>
+
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <MagneticWrapper>
+              <a
+                href={buildMailto(data.email, t.mail)}
+                onClick={(event) => trigger(event)}
+                className="btn btn-primary h-12 cursor-pointer px-6 text-[0.95rem]"
+              >
+                <span className="font-mono text-[0.82rem]">
+                  {data.email}
+                </span>
+                <ArrowUpRight width={16} height={16} />
+              </a>
+            </MagneticWrapper>
+
+            {data.socialLinks
+              .filter((link) => link.icon !== 'mail')
+              .map((link) => {
+                const Icon = socialIconMap[link.icon]
+                return (
+                  <a
+                    key={link.platform}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={link.platform}
+                    className="icon-btn h-12 w-12"
+                  >
+                    <Icon />
+                  </a>
+                )
+              })}
+          </div>
+        </motion.div>
+
+        <div className="mt-20 flex flex-col justify-between gap-4 border-t border-[var(--border)] pt-8 text-xs text-[var(--text-3)] sm:flex-row sm:items-center">
+          <p className="font-mono">
+            © {new Date().getFullYear()} {data.name} · {t.footer.builtWith}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono">
+            <a
+              href="/impressum.html"
+              className="transition-colors hover:text-[var(--text)]"
+            >
+              {t.footer.imprint}
+            </a>
+            <a
+              href="/datenschutz.html"
+              className="transition-colors hover:text-[var(--text)]"
+            >
+              {t.footer.privacy}
+            </a>
+            <button
+              type="button"
+              onClick={() =>
+                lenis
+                  ? lenis.scrollTo('#hero', { duration: 1.6 })
+                  : window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+              className="cursor-pointer font-mono transition-colors hover:text-[var(--text)]"
+            >
+              {t.footer.backToTop}
+            </button>
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   )
 }

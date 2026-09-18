@@ -1,3 +1,12 @@
+export type Locale = 'en' | 'de'
+
+export type DataVizKind =
+  | 'forecast'
+  | 'trends'
+  | 'billing'
+  | 'migration'
+  | 'platform'
+
 export interface Project {
   id: string
   title: string
@@ -6,7 +15,8 @@ export interface Project {
   techStack: string[]
   metrics: string[]
   category: 'data' | 'product'
-  dataVizType: 'line-chart' | 'node-graph' | 'bar-chart'
+  vizKind: DataVizKind
+  vizCaption: string
 }
 
 export interface Skill {
@@ -25,31 +35,24 @@ export interface ExpertiseCategory {
 export interface SocialLink {
   platform: string
   url: string
-  label: string
-  icon: string
+  icon: 'linkedin' | 'mail' | 'github'
+}
+
+export interface Certification {
+  issuer: string
+  name: string
+  image: string
 }
 
 export interface PortfolioData {
   name: string
   title: string
+  portrait: string
   subtitle: string
   bio: string[]
   email: string
   expertise: [ExpertiseCategory, ExpertiseCategory]
+  certifications: Certification[]
   projects: Project[]
   socialLinks: SocialLink[]
-}
-
-export interface NeuralNode {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  radius: number
-  connections: number[]
-}
-
-export interface MousePosition {
-  x: number
-  y: number
 }

@@ -1,408 +1,292 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion'
-import { portfolioData } from '../../data/portfolio'
-import { useMagnetic } from '../../hooks/useMagnetic'
+import { useEffect, useRef, useState } from 'react'
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+} from 'framer-motion'
+import { useI18n } from '../../i18n/LanguageProvider'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
+import DataViz from './DataViz'
+import SectionHeader from '../ui/SectionHeader'
 import type { Project } from '../../types'
 
-function LineChartViz({ trigger }: { trigger: boolean }) {
-  const points = [
-    { x: 28, y: 82 },
-    { x: 72, y: 62 },
-    { x: 116, y: 68 },
-    { x: 160, y: 46 },
-    { x: 204, y: 26 },
-    { x: 248, y: 14 },
-  ]
-  const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
-  const areaD = `${d} L ${points[points.length - 1].x} 100 L ${points[0].x} 100 Z`
+const CARD_LAYOUT =
+  'card flex flex-col overflow-hidden lg:grid lg:grid-cols-[1.05fr_0.95fr]'
+
+function ProjectMeta({ project }: { project: Project }) {
+  const { t } = useI18n()
+  const label =
+    project.category === 'data'
+      ? t.projects.dataEngineering
+      : t.projects.productDevelopment
 
   return (
-    <svg
-      width="280"
-      height="110"
-      viewBox="0 0 280 110"
-      fill="none"
-      role="img"
-      aria-label="Line chart visualization showing upward trend"
-      className="w-full max-w-[280px]"
-    >
-      <title>Upward trending line chart</title>
-      {[25, 50, 75].map((y) => (
-        <line
-          key={y}
-          x1="16"
-          y1={y}
-          x2="272"
-          y2={y}
-          stroke="var(--border)"
-          strokeWidth="0.5"
-          strokeDasharray="4 4"
-        />
-      ))}
+    <>
+      <span
+        className={`font-mono text-[0.68rem] uppercase tracking-[0.16em] ${
+          project.category === 'data'
+            ? 'text-[var(--accent)]'
+            : 'text-[var(--text-3)]'
+        }`}
+      >
+        {label}
+      </span>
+      <h3 className="mt-3.5 text-2xl text-[var(--text)] md:text-[1.75rem]">
+        {project.title}
+      </h3>
+      <p className="mt-2.5 text-base text-[var(--text-2)]">{project.subtitle}</p>
+      <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-[var(--text-3)]">
+        {project.description}
+      </p>
 
-      <motion.path
-        d={areaD}
-        fill="var(--accent)"
-        initial={{ opacity: 0 }}
-        animate={trigger ? { opacity: 0.06 } : {}}
-        transition={{ duration: 1.5, delay: 0.6 }}
-      />
-
-      <motion.path
-        d={d}
-        stroke="var(--accent)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={trigger ? { pathLength: 1 } : {}}
-        transition={{ duration: 2.5, ease: [0.25, 0.1, 0.25, 1] }}
-      />
-
-      {points.map((p, i) => (
-        <motion.circle
-          key={i}
-          cx={p.x}
-          cy={p.y}
-          r="3.5"
-          fill="var(--bg)"
-          stroke="var(--accent)"
-          strokeWidth="1.5"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={trigger ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.35, delay: 1.6 + i * 0.12 }}
-        />
-      ))}
-    </svg>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {project.techStack.map((tech) => (
+          <span key={tech} className="tag">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </>
   )
 }
 
-function NodeGraphViz({ trigger }: { trigger: boolean }) {
-  const nodes = [
-    { x: 40, y: 55, r: 8 },
-    { x: 110, y: 25, r: 6 },
-    { x: 180, y: 60, r: 9 },
-    { x: 130, y: 80, r: 5 },
-    { x: 220, y: 35, r: 7 },
-    { x: 250, y: 75, r: 6 },
-  ]
-  const edges = [
-    [0, 1],
-    [0, 3],
-    [1, 2],
-    [1, 4],
-    [2, 3],
-    [2, 5],
-    [3, 5],
-    [4, 5],
-  ]
-
+function Metrics({ items }: { items: string[] }) {
   return (
-    <svg
-      width="280"
-      height="110"
-      viewBox="0 0 280 110"
-      fill="none"
-      role="img"
-      aria-label="Node graph visualization showing connected data points"
-      className="w-full max-w-[280px]"
-    >
-      <title>Connected node graph</title>
-      {edges.map(([a, b], i) => (
-        <motion.line
-          key={i}
-          x1={nodes[a].x}
-          y1={nodes[a].y}
-          x2={nodes[b].x}
-          y2={nodes[b].y}
-          stroke="var(--accent)"
-          strokeWidth="1"
-          strokeOpacity={0.35}
-          initial={{ pathLength: 0 }}
-          animate={trigger ? { pathLength: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 + i * 0.1, ease: 'easeOut' }}
-        />
+    <ul className="mt-8 grid gap-2 border-t border-[var(--border)] pt-6">
+      {items.map((metric) => (
+        <li key={metric} className="flex items-start gap-2.5">
+          <span className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]" />
+          <span className="font-mono text-[0.72rem] leading-relaxed text-[var(--text-2)]">
+            {metric}
+          </span>
+        </li>
       ))}
-
-      {nodes.map((n, i) => (
-        <motion.circle
-          key={i}
-          cx={n.x}
-          cy={n.y}
-          r={n.r}
-          fill="var(--surface)"
-          stroke="var(--accent)"
-          strokeWidth="1.5"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={trigger ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: i * 0.15, ease: 'easeOut' }}
-        />
-      ))}
-
-      {nodes.map((n, i) => (
-        <motion.circle
-          key={`inner-${i}`}
-          cx={n.x}
-          cy={n.y}
-          r={n.r * 0.28}
-          fill="var(--accent)"
-          initial={{ opacity: 0 }}
-          animate={trigger ? { opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.9 + i * 0.15 }}
-        />
-      ))}
-    </svg>
+    </ul>
   )
 }
 
-function BarChartViz({ trigger }: { trigger: boolean }) {
-  const bars = [
-    { x: 24, w: 34, h: 55 },
-    { x: 72, w: 34, h: 82 },
-    { x: 120, w: 34, h: 48 },
-    { x: 168, w: 34, h: 92 },
-    { x: 216, w: 34, h: 66 },
-  ]
-  const baseY = 98
-
-  return (
-    <svg
-      width="280"
-      height="110"
-      viewBox="0 0 280 110"
-      fill="none"
-      role="img"
-      aria-label="Bar chart visualization showing comparative data"
-      className="w-full max-w-[280px]"
-    >
-      <title>Comparative bar chart</title>
-      <line
-        x1="12"
-        y1={baseY}
-        x2="272"
-        y2={baseY}
-        stroke="var(--border)"
-        strokeWidth="0.5"
-      />
-
-      {bars.map((bar, i) => (
-        <motion.rect
-          key={i}
-          x={bar.x}
-          width={bar.w}
-          rx="3"
-          fill="var(--accent)"
-          fillOpacity={0.75 + i * 0.05}
-          initial={{ height: 0, y: baseY }}
-          animate={trigger ? { height: bar.h, y: baseY - bar.h } : {}}
-          transition={{
-            duration: 0.7,
-            delay: 0.15 + i * 0.1,
-            ease: [0.34, 1.56, 0.64, 1],
-          }}
-        />
-      ))}
-
-      {[25, 50, 75].map((y, i) => (
-        <motion.line
-          key={y}
-          x1="12"
-          y1={baseY - y}
-          x2="272"
-          y2={baseY - y}
-          stroke="var(--border)"
-          strokeWidth="0.5"
-          strokeDasharray="3 3"
-          initial={{ opacity: 0 }}
-          animate={trigger ? { opacity: 0.4 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-        />
-      ))}
-    </svg>
-  )
-}
-
-function DataViz({
-  type,
+function VizPanel({
+  project,
   trigger,
 }: {
-  type: Project['dataVizType']
+  project: Project
   trigger: boolean
 }) {
-  switch (type) {
-    case 'line-chart':
-      return <LineChartViz trigger={trigger} />
-    case 'node-graph':
-      return <NodeGraphViz trigger={trigger} />
-    case 'bar-chart':
-      return <BarChartViz trigger={trigger} />
-  }
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const magneticStyle = useMagnetic(cardRef, { strength: 0.08, radius: 200 })
-  const inView = useInView(cardRef, { once: true, margin: '0px 0px -80px 0px' })
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-12%' })
 
   return (
-    <motion.div
-      ref={cardRef}
-      tabIndex={0}
-      role="region"
-      aria-label={`Project: ${project.title}`}
+    <div
+      ref={ref}
+      className="relative flex min-h-[13rem] flex-col items-center justify-center gap-5 overflow-hidden border-t border-[var(--border)] p-7 md:p-8 lg:border-t-0 lg:border-l"
       style={{
-        ...magneticStyle,
-        minWidth: '80vw',
-        height: '80vh',
-        padding: '0 5vw',
-        display: 'flex',
-        alignItems: 'center',
+        background:
+          'radial-gradient(120% 100% at 70% 0%, rgba(79,134,255,0.09), transparent 60%), var(--bg-soft)',
       }}
-      className="focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
     >
-      <motion.div
-        className="bento-card p-6 md:p-10 w-full h-full flex flex-col justify-between overflow-hidden"
-        initial={{ opacity: 0, y: 40 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-      >
-        <div className="flex-1 flex flex-col justify-center">
-          <span className="text-xs font-mono text-[var(--accent)] tracking-wider uppercase mb-3">
-            {project.category === 'data' ? 'Data Engineering' : 'Product Development'}
-          </span>
+      <span className="w-full max-w-[27rem] font-mono text-[0.6rem] uppercase tracking-[0.14em] text-[var(--text-3)] lg:max-w-[30rem]">
+        {project.vizCaption}
+      </span>
+      <div className="w-full max-w-[27rem] lg:max-w-[30rem]">
+        <DataViz kind={project.vizKind} trigger={inView && trigger} />
+      </div>
+    </div>
+  )
+}
 
-          <h3 className="text-2xl md:text-3xl font-bold font-mono text-[var(--text-primary)] mb-3 leading-tight">
-            {project.title}
-          </h3>
+function CardBody({
+  project,
+  trigger,
+}: {
+  project: Project
+  trigger: boolean
+}) {
+  return (
+    <>
+      <div className="no-scrollbar flex flex-col justify-center overflow-y-auto p-7 md:p-9">
+        <ProjectMeta project={project} />
+        <Metrics items={project.metrics} />
+      </div>
+      <VizPanel project={project} trigger={trigger} />
+    </>
+  )
+}
 
-          <p className="text-[var(--text-secondary)] text-base md:text-lg mb-5 max-w-xl">
-            {project.subtitle}
-          </p>
+function PinnedCard({
+  project,
+  trigger,
+}: {
+  project: Project
+  trigger: boolean
+}) {
+  return (
+    <article
+      className={`${CARD_LAYOUT} mr-6 h-full w-[var(--card-w)] shrink-0`}
+    >
+      <CardBody project={project} trigger={trigger} />
+    </article>
+  )
+}
 
-          <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6 max-w-2xl">
-            {project.description}
-          </p>
+function StackedCard({
+  project,
+  index,
+}: {
+  project: Project
+  index: number
+}) {
+  const ref = useRef<HTMLElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-10%' })
 
-          <div className="flex flex-wrap gap-2 mb-5">
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 text-xs font-mono rounded-[var(--radius-sm)] bg-[var(--surface-hover)] text-[var(--text-secondary)] border border-[var(--border)]"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {project.metrics.map((metric, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <span
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: 'var(--accent)' }}
-                />
-                <span className="text-xs text-[var(--text-secondary)] font-mono">
-                  {metric}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6 self-end">
-          <DataViz type={project.dataVizType} trigger={inView} />
-        </div>
-      </motion.div>
-    </motion.div>
+  return (
+    <motion.article
+      ref={ref}
+      className={CARD_LAYOUT}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <CardBody project={project} trigger={inView} />
+    </motion.article>
   )
 }
 
 export default function Projects() {
-  const containerRef = useRef<HTMLElement>(null)
+  const { t, data } = useI18n()
+  const projects = data.projects
+  const canPin = useMediaQuery('(min-width: 1024px) and (min-height: 700px)')
+  const reduceMotion = useReducedMotion()
+  const pinned = canPin && !reduceMotion
+
+  const pinRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [travel, setTravel] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(0)
+
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: pinRef,
     offset: ['start start', 'end end'],
   })
 
-  const projectCount = portfolioData.projects.length
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ['0%', `-${((projectCount - 1) / projectCount) * 100}%`],
-  )
+  const x = useMotionValue(0)
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 20,
+  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    if (pinned) x.set(-progress * travel)
+    const index = Math.round(progress * (projects.length - 1))
+    setActiveIndex(Math.min(projects.length - 1, Math.max(0, index)))
   })
 
-  const dot0 = useTransform(smoothProgress, [0, 0.25, 0.5], [1, 1, 0.25])
-  const dot1 = useTransform(smoothProgress, [0.25, 0.5, 0.75], [0.25, 1, 0.25])
-  const dot2 = useTransform(smoothProgress, [0.5, 0.75, 1], [0.25, 1, 1])
-  const dotOpacities = [dot0, dot1, dot2]
+  useEffect(() => {
+    x.set(-scrollYProgress.get() * travel)
+  }, [travel, x, scrollYProgress])
+
+  useEffect(() => {
+    if (!pinned) {
+      setTravel(0)
+      return
+    }
+
+    const measure = () => {
+      const track = trackRef.current
+      if (!track) return
+      setTravel(
+        Math.max(0, track.scrollWidth - document.documentElement.clientWidth),
+      )
+    }
+
+    measure()
+    const observer = new ResizeObserver(measure)
+    if (trackRef.current) observer.observe(trackRef.current)
+    window.addEventListener('resize', measure)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', measure)
+    }
+  }, [pinned])
+
+  const header = (
+    <SectionHeader
+      eyebrow={t.projects.eyebrow}
+      title={t.projects.title}
+      description={t.projects.description}
+    />
+  )
+
+  if (!pinned) {
+    return (
+      <section id="projects" style={{ paddingBlock: 'var(--section-y)' }}>
+        <div className="shell">
+          {header}
+          <div className="grid gap-6">
+            {projects.map((project, i) => (
+              <StackedCard key={project.id} project={project} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
-    <section
-      id="projects"
-      ref={containerRef}
-      style={{ height: '300vh', position: 'relative' }}
-      aria-labelledby="projects-heading"
-    >
-      <h2 id="projects-heading" className="sr-only">
-        Projects
-      </h2>
+    <section id="projects">
       <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          overflow: 'hidden',
-        }}
+        className="shell"
+        style={{ paddingTop: 'var(--section-y)', paddingBottom: '1rem' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          <motion.div
-            style={{
-              x,
-              display: 'flex',
-              width: 'max-content',
-              willChange: 'transform',
-            }}
-          >
-            {portfolioData.projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </motion.div>
-        </div>
+        {header}
+      </div>
 
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '2.5rem',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            gap: '0.75rem',
-          }}
-        >
-          {dotOpacities.map((opacity, i) => (
+      <div ref={pinRef} style={{ height: `calc(100vh + ${travel}px)` }}>
+        <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+          <div className="edge-fade flex min-h-0 flex-1 items-center pt-20">
             <motion.div
-              key={i}
-              style={{
-                width: '0.625rem',
-                height: '0.625rem',
-                borderRadius: '50%',
-                backgroundColor: 'var(--accent)',
-                opacity,
-              }}
-            />
-          ))}
+              ref={trackRef}
+              style={{ x, willChange: 'transform' }}
+              className="flex h-[min(620px,calc(100vh-8rem))] w-max items-stretch"
+            >
+              <div
+                className="w-[var(--shell-inset)] shrink-0"
+                aria-hidden="true"
+              />
+              {projects.map((project, i) => (
+                <PinnedCard
+                  key={project.id}
+                  project={project}
+                  trigger={i <= activeIndex}
+                />
+              ))}
+              <div
+                className="w-[calc(var(--shell-inset)-1.5rem)] shrink-0"
+                aria-hidden="true"
+              />
+            </motion.div>
+          </div>
+
+          <div className="shell flex items-center gap-5 pb-9">
+            <div className="flex flex-1 gap-2" aria-hidden="true">
+              {projects.map((project, i) => (
+                <motion.span
+                  key={project.id}
+                  className="h-[3px] flex-1 rounded-full bg-[var(--accent)]"
+                  animate={{ opacity: i === activeIndex ? 1 : 0.16 }}
+                  transition={{ duration: 0.3 }}
+                />
+              ))}
+            </div>
+            <p className="font-mono text-[0.72rem] text-[var(--text-3)]">
+              {String(activeIndex + 1).padStart(2, '0')}
+              <span className="mx-1 opacity-50">/</span>
+              {String(projects.length).padStart(2, '0')}
+            </p>
+          </div>
         </div>
       </div>
     </section>

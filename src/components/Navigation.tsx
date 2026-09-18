@@ -1,80 +1,125 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useLenis } from '../components/LenisProvider'
+import { useCallback, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import LanguageSwitch from './ui/LanguageSwitch'
+import { MailIcon } from './ui/Icons'
+import { useLenis } from './LenisProvider'
+import { useI18n } from '../i18n/LanguageProvider'
+import { buildMailto } from '../utils/contact'
 
-const sections = [
-  { id: 'hero', label: 'Hero' },
-  { id: 'expertise', label: 'Expertise' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
-] as const
+const spyIds = ['hero', 'expertise', 'projects', 'contact'] as const
 
 export default function Navigation() {
   const lenis = useLenis()
-  const [activeSection, setActiveSection] = useState<string>('hero')
+  const { t, data } = useI18n()
+  const [active, setActive] = useState<string>('hero')
+  const [condensed, setCondensed] = useState(false)
 
-  const handleClick = useCallback(
-    (sectionId: string) => {
-      lenis?.scrollTo(`#${sectionId}`)
+  const links = [
+    { id: 'expertise', label: t.nav.expertise },
+    { id: 'projects', label: t.nav.projects },
+    { id: 'contact', label: t.nav.contact },
+  ]
+
+  const goTo = useCallback(
+    (id: string) => {
+      const target = `#${id}`
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -72, duration: 1.4 })
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+      }
     },
     [lenis],
   )
 
   useEffect(() => {
-    const handleScroll = () => {
-      for (const { id } of sections) {
+    const onScroll = () => {
+      setCondensed(window.scrollY > 24)
+
+      const line = window.innerHeight * 0.38
+      let current: string = spyIds[0]
+      for (const id of spyIds) {
         const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (
-            rect.top <= window.innerHeight / 2 &&
-            rect.bottom >= window.innerHeight / 2
-          ) {
-            setActiveSection(id)
-            break
-          }
-        }
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= line) current = id
       }
+      setActive(current)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
-    <nav
-      role="navigation"
-      aria-label="Section navigation"
-      className="fixed z-50 flex gap-4
-        bottom-6 left-1/2 -translate-x-1/2 flex-row
-        sm:right-6 sm:top-1/2 sm:-translate-y-1/2 sm:left-auto sm:bottom-auto sm:translate-x-0 sm:flex-col"
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        condensed
+          ? 'border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_82%,transparent)] backdrop-blur-xl'
+          : 'border-b border-transparent'
+      }`}
     >
-      {sections.map(({ id, label }) => (
+      <div className="shell flex h-16 items-center justify-between gap-2 md:h-[4.5rem] md:gap-4">
         <button
-          key={id}
-          onClick={() => handleClick(id)}
-          className="group flex items-center gap-3 cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 rounded-[var(--radius-sm)]"
-          aria-label={`Scroll to ${label}`}
-          aria-current={activeSection === id ? 'true' : undefined}
+          type="button"
+          onClick={() => goTo('hero')}
+          className="group flex shrink-0 cursor-pointer items-center"
+          aria-label={t.nav.backToTop}
         >
-          <span
-            className={`text-xs font-mono transition-colors duration-300 hidden sm:inline ${
-              activeSection === id
-                ? 'text-[var(--accent)]'
-                : 'text-[var(--text-muted)] group-hover:text-[var(--text-primary)]'
-            }`}
-          >
-            {label}
-          </span>
-          <span
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              activeSection === id
-                ? 'bg-[var(--accent)] scale-125'
-                : 'bg-[var(--border)] group-hover:bg-[var(--text-muted)]'
-            }`}
+          <img
+            src="/logo.svg"
+            alt=""
+            width={899}
+            height={131}
+            className="h-5 w-auto opacity-90 transition-opacity group-hover:opacity-100 sm:h-[1.55rem] lg:h-[1.75rem]"
           />
         </button>
-      ))}
-    </nav>
+
+        <nav
+          aria-label={t.nav.sections}
+          className="hidden items-center gap-1 md:flex"
+        >
+          {links.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => goTo(id)}
+              aria-current={active === id ? 'true' : undefined}
+              className={`relative cursor-pointer rounded-full px-3.5 py-2 text-sm transition-colors ${
+                active === id
+                  ? 'text-[var(--text)]'
+                  : 'text-[var(--text-2)] hover:text-[var(--text)]'
+              }`}
+            >
+              {label}
+              {active === id && (
+                <motion.span
+                  layoutId="nav-active"
+                  className="absolute inset-x-3 -bottom-0.5 h-px bg-[var(--accent)]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
+              )}
+            </button>
+          ))}
+        </nav>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <LanguageSwitch />
+
+          <a
+            href={buildMailto(data.email, t.mail)}
+            aria-label={t.nav.getInTouch}
+            className="btn btn-ghost h-10 min-h-0 w-10 shrink-0 px-0 sm:w-auto sm:px-4 sm:text-sm"
+          >
+            <span className="hidden sm:inline">{t.nav.getInTouch}</span>
+            <MailIcon className="sm:hidden" width={17} height={17} />
+          </a>
+        </div>
+      </div>
+    </motion.header>
   )
 }

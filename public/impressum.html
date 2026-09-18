@@ -1,0 +1,262 @@
+<!doctype html>
+<html
+  lang="de"
+  data-title-de="Impressum — Fatlind Azemi"
+  data-title-en="Imprint — Fatlind Azemi"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Impressum — Fatlind Azemi</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/inter.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/geist-mono.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/legal.css" />
+    <script>
+      // Resolve the language before first paint so the correct one is rendered
+      // immediately — mirrors the logic in src/i18n/LanguageProvider.tsx.
+      ;(function () {
+        var KEY = 'portfolio-locale'
+        var root = document.documentElement
+        var locale = null
+
+        try {
+          var stored = localStorage.getItem(KEY)
+          if (stored === 'en' || stored === 'de') locale = stored
+        } catch (error) {}
+
+        if (!locale) {
+          var languages =
+            navigator.languages && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language]
+          locale = languages.some(function (language) {
+            return language.toLowerCase().indexOf('de') === 0
+          })
+            ? 'de'
+            : 'en'
+        }
+
+        root.lang = locale
+        root.setAttribute('data-locale', locale)
+        var title = root.getAttribute('data-title-' + locale)
+        if (title) document.title = title
+      })()
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="top">
+        <a class="brand" href="/">
+          <img
+            class="brand-logo"
+            src="/logo.svg"
+            alt="Fatlind Azemi"
+            width="899"
+            height="131"
+          />
+        </a>
+        <div class="top-actions">
+          <div class="lang-switch" role="group" aria-label="Sprache / Language">
+            <button type="button" data-lang-btn="en">EN</button>
+            <button type="button" data-lang-btn="de">DE</button>
+          </div>
+          <a class="back" href="/" data-lang-block="de">&larr; Zur Startseite</a>
+          <a class="back" href="/" data-lang-block="en">&larr; Back to home</a>
+        </div>
+      </header>
+
+      <main>
+        <div data-lang-block="de">
+          <p class="eyebrow">Rechtliches</p>
+          <h1>Impressum</h1>
+          <p class="lead">Angaben gemäß § 5 DDG (vormals § 5 TMG)</p>
+
+          <section>
+            <h2>Anbieter</h2>
+            <p>
+              Fatlind Azemi<br />
+              Altenhagener Straße 127<br />
+              33719 Bielefeld<br />
+              Deutschland
+            </p>
+          </section>
+
+          <section>
+            <h2>Kontakt</h2>
+            <p>
+              E-Mail:
+              <a href="mailto:fatlindazemi@gmail.com">fatlindazemi@gmail.com</a>
+            </p>
+          </section>
+
+          <section>
+            <h2>Haftung für Inhalte</h2>
+            <p>
+              Als Diensteanbieter bin ich gemäß § 7 Abs. 1 DDG für eigene
+              Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
+              verantwortlich. Nach §§ 8 bis 10 DDG bin ich als Diensteanbieter
+              jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+              Informationen zu überwachen oder nach Umständen zu forschen, die
+              auf eine rechtswidrige Tätigkeit hinweisen.
+            </p>
+          </section>
+
+          <section>
+            <h2>Haftung für Links</h2>
+            <p>
+              Dieses Angebot enthält Links zu externen Websites Dritter, auf
+              deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese
+              fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+              verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber
+              der Seiten verantwortlich. Die verlinkten Seiten wurden zum
+              Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+              Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht
+              erkennbar.
+            </p>
+          </section>
+
+          <section>
+            <h2>Urheberrecht</h2>
+            <p>
+              Die durch den Seitenbetreiber erstellten Inhalte und Werke auf
+              diesen Seiten unterliegen dem deutschen Urheberrecht. Die
+              Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
+              Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
+              schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+            </p>
+          </section>
+        </div>
+
+        <div data-lang-block="en">
+          <p class="eyebrow">Legal</p>
+          <h1>Imprint</h1>
+          <p class="lead">Information pursuant to § 5 DDG (formerly § 5 TMG)</p>
+
+          <section>
+            <h2>Provider</h2>
+            <p>
+              Fatlind Azemi<br />
+              Altenhagener Straße 127<br />
+              33719 Bielefeld<br />
+              Germany
+            </p>
+          </section>
+
+          <section>
+            <h2>Contact</h2>
+            <p>
+              Email:
+              <a href="mailto:fatlindazemi@gmail.com">fatlindazemi@gmail.com</a>
+            </p>
+          </section>
+
+          <section>
+            <h2>Liability for content</h2>
+            <p>
+              As a service provider I am responsible for my own content on these
+              pages under general law (Art. 7 (1) DDG). Under Art. 8 to 10 DDG,
+              however, I am not obliged as a service provider to monitor
+              transmitted or stored third-party information or to investigate
+              circumstances that indicate unlawful activity.
+            </p>
+          </section>
+
+          <section>
+            <h2>Liability for links</h2>
+            <p>
+              This site contains links to external third-party websites whose
+              content I have no influence over. I therefore cannot accept any
+              liability for that third-party content. The respective provider or
+              operator of the linked pages is always responsible for their
+              content. The linked pages were checked for possible legal
+              violations at the time of linking. Unlawful content was not
+              identifiable at the time of linking.
+            </p>
+          </section>
+
+          <section>
+            <h2>Copyright</h2>
+            <p>
+              The content and works created by the site operator on these pages
+              are subject to German copyright law. Reproduction, editing,
+              distribution and any form of exploitation outside the limits of
+              copyright require the written consent of the respective author or
+              creator.
+            </p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="bottom">
+        <span>© <span id="year">2026</span> Fatlind Azemi</span>
+        <nav>
+          <a href="/impressum.html" aria-current="page" data-lang-block="de">
+            Impressum
+          </a>
+          <a href="/datenschutz.html" data-lang-block="de">Datenschutz</a>
+          <a href="/impressum.html" aria-current="page" data-lang-block="en">
+            Imprint
+          </a>
+          <a href="/datenschutz.html" data-lang-block="en">Privacy</a>
+        </nav>
+      </footer>
+    </div>
+    <script>
+      ;(function () {
+        var KEY = 'portfolio-locale'
+        var root = document.documentElement
+
+        function apply(locale, persist) {
+          root.lang = locale
+          root.setAttribute('data-locale', locale)
+
+          var title = root.getAttribute('data-title-' + locale)
+          if (title) document.title = title
+
+          var buttons = document.querySelectorAll('[data-lang-btn]')
+          Array.prototype.forEach.call(buttons, function (button) {
+            button.setAttribute(
+              'aria-pressed',
+              String(button.getAttribute('data-lang-btn') === locale),
+            )
+          })
+
+          if (persist) {
+            try {
+              localStorage.setItem(KEY, locale)
+            } catch (error) {}
+          }
+        }
+
+        apply(root.getAttribute('data-locale') || 'de', false)
+
+        Array.prototype.forEach.call(
+          document.querySelectorAll('[data-lang-btn]'),
+          function (button) {
+            button.addEventListener('click', function () {
+              apply(button.getAttribute('data-lang-btn'), true)
+            })
+          },
+        )
+      })()
+    </script>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear()
+    </script>
+  </body>
+</html>
