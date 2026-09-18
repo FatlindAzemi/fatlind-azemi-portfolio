@@ -16,7 +16,7 @@ export const uiEn: UiStrings = {
     language: 'Language',
   },
   mail: {
-    subject: 'Contact via fatlindazemi.de',
+    subject: 'Contact via fatlind-azemi.de',
     body: "Hi Fatlind,\n\nI came across your portfolio and would love to talk.\n\n",
   },
   hero: {

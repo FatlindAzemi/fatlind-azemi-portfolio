@@ -16,7 +16,7 @@ export const uiDe: UiStrings = {
     language: 'Sprache',
   },
   mail: {
-    subject: 'Kontakt über fatlindazemi.de',
+    subject: 'Kontakt über fatlind-azemi.de',
     body: 'Hallo Fatlind,\n\nich habe dein Portfolio gesehen und würde gerne sprechen.\n\n',
   },
   hero: {
