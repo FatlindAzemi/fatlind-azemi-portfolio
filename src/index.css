@@ -88,6 +88,12 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Keep native smooth-scroll targets clear of the fixed header */
+  section[id],
+  footer[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
   h1,
   h2,
   h3,

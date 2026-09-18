@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useCipherText } from '../../hooks/useCipherText'
-import { useLenis } from '../LenisProvider'
 import { useI18n } from '../../i18n/LanguageProvider'
 import { ArrowDown, socialIconMap } from '../ui/Icons'
 import { buildMailto } from '../../utils/contact'
@@ -27,14 +26,11 @@ export default function Hero() {
   // over by the time it scrolls into view. Start it when it is actually seen.
   const nameInView = useInView(nameRef, { once: true })
   const name = useCipherText(data.name, { duration: 1100, active: nameInView })
-  const lenis = useLenis()
 
   const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
 
   const goTo = (id: string) => {
-    const target = `#${id}`
-    if (lenis) lenis.scrollTo(target, { offset: -72, duration: 1.4 })
-    else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(id)?.scrollIntoView()
   }
 
   return (
