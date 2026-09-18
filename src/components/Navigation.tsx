@@ -2,14 +2,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import LanguageSwitch from './ui/LanguageSwitch'
 import { MailIcon } from './ui/Icons'
-import { useLenis } from './LenisProvider'
 import { useI18n } from '../i18n/LanguageProvider'
 import { buildMailto } from '../utils/contact'
 
 const spyIds = ['hero', 'expertise', 'projects', 'contact'] as const
 
 export default function Navigation() {
-  const lenis = useLenis()
   const { t, data } = useI18n()
   const [active, setActive] = useState<string>('hero')
   const [condensed, setCondensed] = useState(false)
@@ -20,17 +18,9 @@ export default function Navigation() {
     { id: 'contact', label: t.nav.contact },
   ]
 
-  const goTo = useCallback(
-    (id: string) => {
-      const target = `#${id}`
-      if (lenis) {
-        lenis.scrollTo(target, { offset: -72, duration: 1.4 })
-      } else {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-      }
-    },
-    [lenis],
-  )
+  const goTo = useCallback((id: string) => {
+    document.getElementById(id)?.scrollIntoView()
+  }, [])
 
   useEffect(() => {
     let frame = 0

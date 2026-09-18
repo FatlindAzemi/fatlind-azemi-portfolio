@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion'
 import MagneticWrapper from '../ui/MagneticWrapper'
 import { useInkDrop } from '../../hooks/useInkDrop'
-import { useLenis } from '../LenisProvider'
 import { useI18n } from '../../i18n/LanguageProvider'
 import { socialIconMap, ArrowUpRight } from '../ui/Icons'
 import { buildMailto } from '../../utils/contact'
 
 export default function Footer() {
-  const lenis = useLenis()
   const { t, data } = useI18n()
   const { trigger, InkDropOverlay } = useInkDrop()
 
@@ -93,11 +91,7 @@ export default function Footer() {
             </a>
             <button
               type="button"
-              onClick={() =>
-                lenis
-                  ? lenis.scrollTo('#hero', { duration: 1.6 })
-                  : window.scrollTo({ top: 0, behavior: 'smooth' })
-              }
+              onClick={() => window.scrollTo({ top: 0 })}
               className="cursor-pointer font-mono transition-colors hover:text-[var(--text)]"
             >
               {t.footer.backToTop}
