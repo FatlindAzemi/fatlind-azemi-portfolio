@@ -1,11 +1,10 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useCipherText } from '../../hooks/useCipherText'
+import { useReveal } from '../../hooks/useReveal'
 import { useI18n } from '../../i18n/LanguageProvider'
 import { ArrowDown, socialIconMap } from '../ui/Icons'
 import { buildMailto } from '../../utils/contact'
-
-const ease = [0.22, 1, 0.36, 1] as const
 
 const panelVerticalFade =
   'linear-gradient(to bottom, transparent 0%, #000 9%, #000 80%, transparent 100%)'
@@ -26,6 +25,7 @@ export default function Hero() {
   // over by the time it scrolls into view. Start it when it is actually seen.
   const nameInView = useInView(nameRef, { once: true })
   const name = useCipherText(data.name, { duration: 1100, active: nameInView })
+  const { reducedMotion, initial, transition } = useReveal()
 
   const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
 
@@ -41,9 +41,9 @@ export default function Hero() {
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute right-0 top-1/2 hidden w-[50%] -translate-y-1/2 lg:block"
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.4, ease }}
+        transition={transition}
         style={{
           maskImage: panelVerticalFade,
           WebkitMaskImage: panelVerticalFade,
@@ -64,18 +64,18 @@ export default function Hero() {
         <div className="lg:max-w-[44%]">
           <motion.p
             className="eyebrow"
-            initial={{ opacity: 0, y: 16 }}
+            initial={initial}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease }}
+            transition={transition}
           >
             {data.title}
           </motion.p>
 
           <motion.div
             className="mx-[calc(var(--gutter)*-1)] mt-7 lg:hidden"
-            initial={{ opacity: 0, y: 20 }}
+            initial={initial}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.12, ease }}
+            transition={{ ...transition, delay: 0.06 }}
             style={{
               maskImage: portraitVerticalFade,
               WebkitMaskImage: portraitVerticalFade,
@@ -86,7 +86,7 @@ export default function Hero() {
               alt={data.name}
               width={1024}
               height={1024}
-              decoding="async"
+              fetchPriority="high"
               className="mx-auto aspect-square w-full max-w-[26rem] object-cover object-top"
               style={{
                 maskImage: portraitHorizontalFade,
@@ -105,27 +105,27 @@ export default function Hero() {
 
           <motion.p
             className="lead mt-6 lg:mt-7"
-            initial={{ opacity: 0, y: 18 }}
+            initial={initial}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease }}
+            transition={{ ...transition, delay: 0.12 }}
           >
             {data.subtitle}
           </motion.p>
 
           <motion.p
             className="mt-3.5 max-w-xl text-[0.82rem] leading-[1.65] text-[var(--text-3)] lg:mt-4 lg:text-[0.95rem] lg:leading-relaxed"
-            initial={{ opacity: 0, y: 18 }}
+            initial={initial}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.28, ease }}
+            transition={{ ...transition, delay: 0.18 }}
           >
             {data.bio[0]}
           </motion.p>
 
           <motion.div
             className="mt-8 flex flex-wrap items-center gap-1.5 sm:gap-3 lg:mt-10"
-            initial={{ opacity: 0, y: 18 }}
+            initial={initial}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.36, ease }}
+            transition={{ ...transition, delay: 0.24 }}
           >
             <a
               href={buildMailto(data.email, t.mail)}
@@ -171,17 +171,17 @@ export default function Hero() {
             onClick={() => goTo('expertise')}
             aria-label={t.hero.scrollToExpertise}
             className="pointer-events-auto flex cursor-pointer items-center gap-3 text-[var(--text-3)] transition-colors hover:text-[var(--text-2)]"
-            initial={{ opacity: 0 }}
+            initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
+            transition={{ ...transition, delay: 0.5 }}
           >
             <motion.span
-              animate={{ y: [0, 5, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1.8,
-                ease: 'easeInOut',
-              }}
+              animate={reducedMotion ? { y: 0 } : { y: [0, 5, 0] }}
+              transition={
+                reducedMotion
+                  ? { duration: 0 }
+                  : { repeat: Infinity, duration: 1.8, ease: 'easeInOut' }
+              }
               className="flex"
             >
               <ArrowDown width={16} height={16} />

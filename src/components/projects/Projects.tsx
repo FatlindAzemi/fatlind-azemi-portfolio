@@ -9,6 +9,7 @@ import {
 import { useI18n } from '../../i18n/LanguageProvider'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useReveal } from '../../hooks/useReveal'
 import DataViz from './DataViz'
 import SectionHeader from '../ui/SectionHeader'
 import type { Project } from '../../types'
@@ -140,18 +141,15 @@ function StackedCard({
 }) {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-10%' })
+  const { initial, transition } = useReveal()
 
   return (
     <motion.article
       ref={ref}
       className={CARD_LAYOUT}
-      initial={{ opacity: 0, y: 28 }}
+      initial={initial}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.7,
-        delay: index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      transition={{ ...transition, delay: index * 0.06 }}
     >
       <CardBody project={project} trigger={inView} />
     </motion.article>

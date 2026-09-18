@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, type ReactNode } from 'react'
+import { useReveal } from '../../hooks/useReveal'
 
 interface SectionHeaderProps {
   eyebrow: string
@@ -19,11 +20,12 @@ export default function SectionHeader({
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-15%' })
   const rail = asideLayout === 'rail'
+  const { initial, transition } = useReveal()
 
   const reveal = (delay: number) => ({
-    initial: { opacity: 0, y: 22 },
+    initial,
     animate: inView ? { opacity: 1, y: 0 } : {},
-    transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { ...transition, delay },
   })
 
   return (
