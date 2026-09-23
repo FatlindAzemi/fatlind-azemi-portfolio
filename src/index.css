@@ -32,7 +32,7 @@
 
   --text: #f4f5f7;
   --text-2: #a2a6ae;
-  --text-3: #7d818a;
+  --text-3: #858992;
 
   --accent: #4f86ff;
   --accent-soft: rgba(79, 134, 255, 0.14);
@@ -51,9 +51,9 @@
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --shell-inset: max(
     var(--gutter),
-    calc((100vw - var(--container)) / 2 + var(--gutter))
+    calc((var(--vw, 100vw) - var(--container)) / 2 + var(--gutter))
   );
-  --card-w: calc(100vw - 2 * var(--shell-inset) - 2rem);
+  --card-w: calc(var(--vw, 100vw) - 2 * var(--shell-inset) - 2rem);
   --section-y: clamp(4.5rem, 8.5vw, 7.5rem);
 
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset,

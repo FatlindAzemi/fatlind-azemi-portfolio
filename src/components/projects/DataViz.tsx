@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useI18n } from '../../i18n/LanguageProvider'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import type { DataVizKind } from '../../types'
 
 const TRIGGER_DELAY = 400
@@ -18,6 +19,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 function Forecast({ trigger }: { trigger: boolean }) {
   const { t } = useI18n()
+  const reduce = useReducedMotion()
   const history = [
     [34, 150],
     [70, 136],
@@ -88,8 +90,8 @@ function Forecast({ trigger }: { trigger: boolean }) {
       <motion.path
         d={cone}
         fill="var(--accent)"
-        initial={{ opacity: 0 }}
-        animate={trigger ? { opacity: 0.12 } : {}}
+        initial={{ opacity: reduce ? 0.12 : 0 }}
+        animate={reduce ? {} : trigger ? { opacity: 0.12 } : {}}
         transition={{ duration: 0.9, delay: 1.1 }}
       />
 
@@ -100,8 +102,8 @@ function Forecast({ trigger }: { trigger: boolean }) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={trigger ? { pathLength: 1 } : {}}
+        initial={{ pathLength: reduce ? 1 : 0 }}
+        animate={reduce ? {} : trigger ? { pathLength: 1 } : {}}
         transition={{ duration: 1.1, ease }}
       />
 
@@ -112,8 +114,8 @@ function Forecast({ trigger }: { trigger: boolean }) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeDasharray="5 4"
-        initial={{ pathLength: 0 }}
-        animate={trigger ? { pathLength: 1 } : {}}
+        initial={{ pathLength: reduce ? 1 : 0 }}
+        animate={reduce ? {} : trigger ? { pathLength: 1 } : {}}
         transition={{ duration: 0.9, delay: 0.9, ease }}
       />
 
@@ -126,8 +128,8 @@ function Forecast({ trigger }: { trigger: boolean }) {
           fill="var(--bg)"
           stroke="var(--text-2)"
           strokeWidth="1.5"
-          initial={{ opacity: 0 }}
-          animate={trigger ? { opacity: 1 } : {}}
+          initial={{ opacity: reduce ? 1 : 0 }}
+          animate={reduce ? {} : trigger ? { opacity: 1 } : {}}
           transition={{ duration: 0.25, delay: 0.1 + i * 0.1 }}
         />
       ))}
@@ -144,6 +146,7 @@ function Forecast({ trigger }: { trigger: boolean }) {
 
 function Trends({ trigger }: { trigger: boolean }) {
   const { t } = useI18n()
+  const reduce = useReducedMotion()
   const series = [
     {
       values: [0.18, 0.22, 0.19, 0.3, 0.28, 0.42, 0.55, 0.76, 0.62, 0.48, 0.4, 0.34],
@@ -204,8 +207,8 @@ function Trends({ trigger }: { trigger: boolean }) {
             strokeOpacity={line.accent ? 1 : 0.4}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            animate={trigger ? { pathLength: 1 } : {}}
+            initial={{ pathLength: reduce ? 1 : 0 }}
+            animate={reduce ? {} : trigger ? { pathLength: 1 } : {}}
             transition={{ duration: 1.3, delay: s * 0.14, ease }}
           />
         )
@@ -216,8 +219,8 @@ function Trends({ trigger }: { trigger: boolean }) {
         cy={yFor(0.76)}
         r="4"
         fill="var(--accent)"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={trigger ? { scale: 1, opacity: 1 } : {}}
+        initial={reduce ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+        animate={reduce ? {} : trigger ? { scale: 1, opacity: 1 } : {}}
         transition={{ duration: 0.3, delay: 1.3 }}
       />
       <motion.circle
@@ -227,8 +230,10 @@ function Trends({ trigger }: { trigger: boolean }) {
         fill="none"
         stroke="var(--accent)"
         strokeWidth="1"
-        initial={{ scale: 0.4, opacity: 0 }}
-        animate={trigger ? { scale: 1, opacity: 0.35 } : {}}
+        initial={
+          reduce ? { scale: 1, opacity: 0.35 } : { scale: 0.4, opacity: 0 }
+        }
+        animate={reduce ? {} : trigger ? { scale: 1, opacity: 0.35 } : {}}
         transition={{ duration: 0.4, delay: 1.4 }}
       />
 
@@ -238,8 +243,8 @@ function Trends({ trigger }: { trigger: boolean }) {
         textAnchor="end"
         fill="var(--accent)"
         style={LABEL}
-        initial={{ opacity: 0 }}
-        animate={trigger ? { opacity: 1 } : {}}
+        initial={{ opacity: reduce ? 1 : 0 }}
+        animate={reduce ? {} : trigger ? { opacity: 1 } : {}}
         transition={{ duration: 0.4, delay: 1.5 }}
       >
         {t.viz.burstDetected}
@@ -250,6 +255,7 @@ function Trends({ trigger }: { trigger: boolean }) {
 
 function Billing({ trigger }: { trigger: boolean }) {
   const { t } = useI18n()
+  const reduce = useReducedMotion()
   const months = [
     { paid: 52, pending: 14, overdue: 6 },
     { paid: 66, pending: 12, overdue: 8 },
@@ -312,8 +318,14 @@ function Billing({ trigger }: { trigger: boolean }) {
                   rx="3"
                   fill="var(--accent)"
                   fillOpacity={segment.opacity}
-                  initial={{ height: 0, y: BASELINE }}
-                  animate={trigger ? { height: segment.value, y } : {}}
+                  initial={
+                    reduce
+                      ? { height: segment.value, y }
+                      : { height: 0, y: BASELINE }
+                  }
+                  animate={
+                    reduce ? {} : trigger ? { height: segment.value, y } : {}
+                  }
                   transition={{
                     duration: 0.5,
                     delay: 0.15 + i * 0.07 + s * 0.08,
@@ -340,6 +352,7 @@ function Billing({ trigger }: { trigger: boolean }) {
 
 function Migration({ trigger }: { trigger: boolean }) {
   const { t } = useI18n()
+  const reduce = useReducedMotion()
   const cols = 12
   const rows = 5
   const squareW = 18
@@ -400,8 +413,8 @@ function Migration({ trigger }: { trigger: boolean }) {
               fill="none"
               stroke="var(--border-2)"
               strokeWidth="1"
-              initial={{ opacity: 0 }}
-              animate={trigger ? { opacity: 1 } : {}}
+              initial={{ opacity: reduce ? 1 : 0 }}
+              animate={reduce ? {} : trigger ? { opacity: 1 } : {}}
               transition={{ duration: 0.4, delay }}
             />
           )
@@ -417,8 +430,10 @@ function Migration({ trigger }: { trigger: boolean }) {
               height={squareH}
               rx="3"
               fill="var(--accent)"
-              initial={{ opacity: 0 }}
-              animate={trigger ? { opacity: [0.25, 0.75, 0.25] } : {}}
+              initial={{ opacity: reduce ? 0.35 : 0 }}
+              animate={
+                reduce ? {} : trigger ? { opacity: [0.25, 0.75, 0.25] } : {}
+              }
               transition={{
                 duration: 1.8,
                 delay: delay + 0.6,
@@ -438,8 +453,8 @@ function Migration({ trigger }: { trigger: boolean }) {
             height={squareH}
             rx="3"
             fill="var(--accent)"
-            initial={{ opacity: 0 }}
-            animate={trigger ? { opacity: 0.55 } : {}}
+            initial={{ opacity: reduce ? 0.55 : 0 }}
+            animate={reduce ? {} : trigger ? { opacity: 0.55 } : {}}
             transition={{ duration: 0.4, delay }}
           />
         )
@@ -460,7 +475,7 @@ function Migration({ trigger }: { trigger: boolean }) {
               stroke={item.border ? 'var(--border-2)' : 'none'}
               strokeWidth="1"
             />
-            <text x={x + 24} y={176} fill="var(--text-3)" style={LABEL}>
+            <text x={x + 24} y="176" fill="var(--text-3)" style={LABEL}>
               {item.label}
             </text>
           </g>
@@ -472,6 +487,7 @@ function Migration({ trigger }: { trigger: boolean }) {
 
 function Platform({ trigger }: { trigger: boolean }) {
   const { t } = useI18n()
+  const reduce = useReducedMotion()
   const layers = [
     { label: t.viz.layers[0], dots: 5, highlight: true },
     { label: t.viz.layers[1], dots: 3, highlight: false },
@@ -507,8 +523,8 @@ function Platform({ trigger }: { trigger: boolean }) {
         return (
           <motion.g
             key={layer.label}
-            initial={{ opacity: 0, y: 8 }}
-            animate={trigger ? { opacity: 1, y: 0 } : {}}
+            initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            animate={reduce ? {} : trigger ? { opacity: 1, y: 0 } : {}}
             transition={{
               duration: 0.5,
               delay: (layers.length - 1 - i) * 0.09,

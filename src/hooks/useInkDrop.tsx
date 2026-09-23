@@ -38,11 +38,11 @@ export function useInkDrop() {
       {inkState.isActive && (
         <motion.div
           key="ink-drop"
-          initial={{ scale: 0, opacity: 1 }}
-          animate={{ scale: 50, opacity: 1 }}
+          initial={{ scale: 0, opacity: 0.3 }}
+          animate={{ scale: 12, opacity: 0 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: 0.6,
+            duration: 0.5,
             ease: [0.4, 0, 0.2, 1],
           }}
           onAnimationComplete={() => {

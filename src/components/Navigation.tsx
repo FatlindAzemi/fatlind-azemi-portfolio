@@ -65,7 +65,7 @@ export default function Navigation() {
           : 'border-b border-transparent'
       }`}
     >
-      <div className="shell flex h-16 items-center justify-between gap-2 md:h-[4.5rem] md:gap-4">
+      <div className="shell relative flex h-16 items-center justify-between gap-2 md:h-[4.5rem] md:gap-4">
         <button
           type="button"
           onClick={() => goTo('hero')}
@@ -83,7 +83,7 @@ export default function Navigation() {
 
         <nav
           aria-label={t.nav.sections}
-          className="hidden items-center gap-1 md:flex"
+          className="absolute inset-y-0 left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
         >
           {links.map(({ id, label }) => (
             <button
@@ -115,10 +115,10 @@ export default function Navigation() {
           <a
             href={buildMailto(data.email, t.mail)}
             aria-label={t.nav.getInTouch}
-            className="btn btn-ghost h-10 min-h-0 w-10 shrink-0 px-0 sm:w-auto sm:px-4 sm:text-sm"
+            className="btn btn-ghost h-10 min-h-0 w-10 shrink-0 px-0 lg:w-auto lg:px-4 lg:text-sm"
           >
-            <span className="hidden sm:inline">{t.nav.getInTouch}</span>
-            <MailIcon className="sm:hidden" width={17} height={17} />
+            <span className="hidden lg:inline">{t.nav.getInTouch}</span>
+            <MailIcon className="lg:hidden" width={17} height={17} />
           </a>
         </div>
       </div>

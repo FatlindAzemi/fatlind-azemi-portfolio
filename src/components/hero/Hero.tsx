@@ -61,7 +61,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="shell relative z-10 w-full py-16 sm:py-24">
-        <div className="lg:max-w-[44%]">
+        <div className="lg:max-w-[52%]">
           <motion.p
             className="eyebrow"
             initial={initial}
@@ -131,14 +131,16 @@ export default function Hero() {
               href={buildMailto(data.email, t.mail)}
               className="btn btn-primary h-10 min-h-0 px-3 text-[0.875rem] sm:h-[2.9rem] sm:min-h-[2.9rem] sm:px-[1.35rem] sm:text-[0.9rem]"
             >
-              {t.hero.getInTouch}
+              <span className="sm:hidden">{t.hero.getInTouchShort}</span>
+              <span className="hidden sm:inline">{t.hero.getInTouch}</span>
             </a>
             <button
               type="button"
               onClick={() => goTo('projects')}
               className="btn btn-ghost h-10 min-h-0 cursor-pointer px-3 text-[0.875rem] sm:h-[2.9rem] sm:min-h-[2.9rem] sm:px-[1.35rem] sm:text-[0.9rem]"
             >
-              {t.hero.viewProjects}
+              <span className="sm:hidden">{t.hero.viewProjectsShort}</span>
+              <span className="hidden sm:inline">{t.hero.viewProjects}</span>
             </button>
 
             {profileLinks.length > 0 && (
