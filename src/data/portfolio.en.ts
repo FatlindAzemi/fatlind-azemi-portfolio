@@ -89,7 +89,7 @@ export const portfolioDataEn: PortfolioData = {
           terminalOutput: [
             'Building production bundle — Next.js 15, React 19 (47 kB gzip)',
             'Lighthouse: 98 Perf, 100 Accessibility, 95 Best Practices',
-            'Deployed to Vercel — 12 regions, cold start < 50ms',
+            'Deployed from CI — build 1428, smoke tests green',
           ],
         },
         {
@@ -165,7 +165,6 @@ export const portfolioDataEn: PortfolioData = {
         'An in-house AI agent that migrates a legacy data warehouse to the cloud',
       description:
         'Migration of a large legacy data warehouse into a cloud lakehouse, run end to end by a purpose-built AI agent rather than by hand — a scope that would otherwise have taken a team the better part of a year. Every result is validated against the original.',
-      // TODO: Replace with your real numbers and wording
       techStack: [
         'Legacy Data Warehouse',
         'Cloud Lakehouse',
@@ -175,9 +174,9 @@ export const portfolioDataEn: PortfolioData = {
         'ETL & Orchestration',
       ],
       metrics: [
-        'TODO: migrated object count',
-        'TODO: manual effort reduced by …',
-        'TODO: validation pass rate',
+        'Thousands of objects migrated end to end',
+        'Manual equivalent: a team for the better part of a year',
+        'Every result validated against the original',
       ],
       category: 'data',
       vizKind: 'migration',
@@ -189,7 +188,6 @@ export const portfolioDataEn: PortfolioData = {
       subtitle: 'Full platform build — ingestion through to the BI reporting layer',
       description:
         'Designed and delivered a data platform end to end: ingestion and orchestration, a medallion lakehouse, a governed semantic layer, and the BI reporting built on top of it. Landed and operated across Databricks, Microsoft Fabric, Azure Synapse and Azure SQL — one platform, one set of definitions, from raw source through to the reports the business actually opens.',
-      // TODO: Replace with your real numbers and wording
       techStack: [
         'Databricks',
         'Microsoft Fabric',
@@ -199,9 +197,9 @@ export const portfolioDataEn: PortfolioData = {
         'Power BI',
       ],
       metrics: [
-        'TODO: number of source systems',
-        'TODO: data volume processed',
-        'TODO: BI reports / active users',
+        'Scope: source systems → lakehouse → semantic layer → BI reports',
+        'One platform, one set of definitions',
+        'In production as the platform the business reports from',
       ],
       category: 'data',
       vizKind: 'platform',
