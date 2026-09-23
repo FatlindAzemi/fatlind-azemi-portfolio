@@ -12,6 +12,7 @@ export const uiEn: UiStrings = {
     contact: 'Contact',
     getInTouch: 'Get in touch',
     backToTop: 'Back to top',
+    skipToContent: 'Skip to content',
     sections: 'Section navigation',
     language: 'Language',
   },
@@ -21,9 +22,15 @@ export const uiEn: UiStrings = {
   },
   hero: {
     getInTouch: 'Get in touch',
+    getInTouchShort: 'Contact',
     viewProjects: 'View projects',
+    viewProjectsShort: 'Projects',
     scroll: 'Scroll',
     scrollToExpertise: 'Scroll to expertise',
+  },
+  profile: {
+    eyebrow: 'Profile',
+    title: 'Between data engineering and product',
   },
   expertise: {
     eyebrow: 'Capabilities',

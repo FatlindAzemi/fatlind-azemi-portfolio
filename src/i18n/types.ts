@@ -9,6 +9,7 @@ export interface UiStrings {
     contact: string
     getInTouch: string
     backToTop: string
+    skipToContent: string
     sections: string
     language: string
   }
@@ -18,9 +19,15 @@ export interface UiStrings {
   }
   hero: {
     getInTouch: string
+    getInTouchShort: string
     viewProjects: string
+    viewProjectsShort: string
     scroll: string
     scrollToExpertise: string
+  }
+  profile: {
+    eyebrow: string
+    title: string
   }
   expertise: {
     eyebrow: string

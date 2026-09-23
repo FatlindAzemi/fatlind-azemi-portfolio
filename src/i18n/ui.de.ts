@@ -12,6 +12,7 @@ export const uiDe: UiStrings = {
     contact: 'Kontakt',
     getInTouch: 'Kontakt aufnehmen',
     backToTop: 'Nach oben',
+    skipToContent: 'Zum Inhalt springen',
     sections: 'Bereichsnavigation',
     language: 'Sprache',
   },
@@ -21,9 +22,15 @@ export const uiDe: UiStrings = {
   },
   hero: {
     getInTouch: 'Kontakt aufnehmen',
+    getInTouchShort: 'Kontakt',
     viewProjects: 'Projekte ansehen',
+    viewProjectsShort: 'Projekte',
     scroll: 'Scrollen',
     scrollToExpertise: 'Zur Expertise scrollen',
+  },
+  profile: {
+    eyebrow: 'Profil',
+    title: 'Zwischen Data Engineering und Produkt',
   },
   expertise: {
     eyebrow: 'Kompetenzen',
