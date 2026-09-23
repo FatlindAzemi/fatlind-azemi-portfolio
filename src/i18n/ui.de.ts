@@ -28,10 +28,6 @@ export const uiDe: UiStrings = {
     scroll: 'Scrollen',
     scrollToExpertise: 'Zur Expertise scrollen',
   },
-  profile: {
-    eyebrow: 'Profil',
-    title: 'Zwischen Data Engineering und Produkt',
-  },
   expertise: {
     eyebrow: 'Kompetenzen',
     title: 'Der Stack, mit dem ich baue',

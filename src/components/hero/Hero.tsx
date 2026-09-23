@@ -10,7 +10,7 @@ const panelVerticalFade =
   'linear-gradient(to bottom, transparent 0%, #000 9%, #000 80%, transparent 100%)'
 
 const panelHorizontalFade =
-  'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 7%, rgba(0, 0, 0, 0.92) 16%, #000 32%)'
+  'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 18%, rgba(0, 0, 0, 0.95) 30%, #000 42%)'
 
 const portraitVerticalFade =
   'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 4%, #000 17%, #000 70%, rgba(0, 0, 0, 0.5) 87%, transparent 100%)'
@@ -40,7 +40,7 @@ export default function Hero() {
     >
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute right-0 top-1/2 hidden w-[50%] -translate-y-1/2 lg:block"
+        className="pointer-events-none absolute right-0 top-1/2 hidden w-[44%] -translate-y-1/2 lg:block"
         initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={transition}

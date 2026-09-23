@@ -25,10 +25,6 @@ export interface UiStrings {
     scroll: string
     scrollToExpertise: string
   }
-  profile: {
-    eyebrow: string
-    title: string
-  }
   expertise: {
     eyebrow: string
     title: string

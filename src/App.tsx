@@ -4,7 +4,6 @@ import Footer from './components/footer/Footer'
 import Hero from './components/hero/Hero'
 import Navigation from './components/Navigation'
 import ParallaxBackground from './components/ParallaxBackground'
-import Profile from './components/profile/Profile'
 import Projects from './components/projects/Projects'
 import { useI18n } from './i18n/LanguageProvider'
 
@@ -34,7 +33,6 @@ export default function App() {
       <Navigation />
       <main id="main">
         <Hero />
-        <Profile />
         <Expertise />
         <Projects />
         <Footer />
