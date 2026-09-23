@@ -28,10 +28,6 @@ export const uiEn: UiStrings = {
     scroll: 'Scroll',
     scrollToExpertise: 'Scroll to expertise',
   },
-  profile: {
-    eyebrow: 'Profile',
-    title: 'Between data engineering and product',
-  },
   expertise: {
     eyebrow: 'Capabilities',
     title: 'The stack I build with',

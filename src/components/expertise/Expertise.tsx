@@ -206,6 +206,8 @@ function CategoryCard({
 
 export default function Expertise() {
   const { t, data } = useI18n()
+  const { initial, transition } = useReveal()
+  const intro = data.bio.slice(1)
 
   return (
     <section
@@ -226,6 +228,27 @@ export default function Expertise() {
           }
           asideLayout="rail"
         />
+
+        {intro.length > 0 && (
+          <motion.div
+            className="mb-10 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:mb-12"
+            initial={initial}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-12%' }}
+            transition={transition}
+          >
+            {intro.map((paragraph) => (
+              <div
+                key={paragraph.slice(0, 32)}
+                className="bg-[var(--surface)] p-6 md:p-7"
+              >
+                <p className="text-sm leading-relaxed text-[var(--text-2)]">
+                  {paragraph}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        )}
 
         <div className="grid gap-6 lg:grid-cols-2">
           {data.expertise.map((category, i) => (
