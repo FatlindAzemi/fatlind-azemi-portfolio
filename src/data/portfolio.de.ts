@@ -51,9 +51,9 @@ const projectText: Record<string, ProjectText> = {
     description:
       'Migration eines großen Legacy-Data-Warehouse in ein Cloud-Lakehouse — durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Manuell würde der Umfang ein Team den Großteil eines Jahres kosten. Jedes Ergebnis wird gegen das Original validiert.',
     metrics: [
-      'TODO: Anzahl migrierter Objekte',
-      'TODO: manueller Aufwand reduziert um …',
-      'TODO: Validierungs-Erfolgsquote',
+      'Tausende Objekte Ende-zu-Ende migriert',
+      'Manuell entspräche das einem Team den Großteil eines Jahres',
+      'Jedes Ergebnis gegen das Original validiert',
     ],
     vizCaption: 'Status der Objektmigration',
   },
@@ -63,9 +63,9 @@ const projectText: Record<string, ProjectText> = {
     description:
       'End-to-End konzipiert und umgesetzt: Ingestion und Orchestrierung, ein Medallion-Lakehouse, eine governante semantische Schicht und das darauf aufbauende BI-Reporting. Im Betrieb über Databricks, Microsoft Fabric, Azure Synapse und Azure SQL — eine Plattform, ein Satz Definitionen, von der Rohdatenquelle bis zu den Reports, die das Business tatsächlich öffnet.',
     metrics: [
-      'TODO: Anzahl Quellsysteme',
-      'TODO: verarbeitetes Datenvolumen',
-      'TODO: BI-Reports / aktive Nutzer',
+      'Umfang: Quellsysteme → Lakehouse → Semantik → BI-Reports',
+      'Eine Plattform, ein Satz Definitionen',
+      'Im Produktivbetrieb als Grundlage des Business-Reportings',
     ],
     vizCaption: 'Plattform-Schichten',
   },
