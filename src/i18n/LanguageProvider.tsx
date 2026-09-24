@@ -69,7 +69,7 @@ export default function LanguageProvider({
     try {
       window.localStorage.setItem(LOCALE_STORAGE_KEY, next)
     } catch {
-      // storage unavailable (private mode) — the choice still applies to this session
+      // storage unavailable (private mode); the choice still applies to this session
     }
   }, [])
 

@@ -2,7 +2,7 @@ import type { UiStrings } from './types'
 
 export const uiEn: UiStrings = {
   meta: {
-    title: 'Fatlind Azemi — Software & Data Engineer',
+    title: 'Fatlind Azemi · Software & Data Engineer',
     description:
       'Portfolio of Fatlind Azemi, Software & Data Engineer specializing in enterprise data infrastructure and modern application development.',
   },
@@ -32,14 +32,14 @@ export const uiEn: UiStrings = {
     eyebrow: 'Capabilities',
     title: 'The stack I build with',
     description:
-      'Two disciplines that usually sit in separate teams. I work across both — the pipelines that make data trustworthy, and the products that make it useful.',
+      'Two disciplines that usually sit in separate teams. I work across both: the pipelines that make data trustworthy, and the products that make it useful.',
     certified: 'Certified',
   },
   projects: {
     eyebrow: 'Selected work',
     title: 'Projects',
     description:
-      'Data engineering is the bulk of what I do — ingestion, lakehouse layers, governance, and the reporting on top. Four of the builds below are data platforms; the last one is a product I took from zero to production.',
+      'Data engineering is the bulk of what I do: ingestion, lakehouse layers, governance, and the reporting on top. Four of the builds below are data platforms; the last one is a product I took from zero to production.',
     dataEngineering: 'Data Engineering',
     productDevelopment: 'Product Development',
   },
@@ -49,7 +49,6 @@ export const uiEn: UiStrings = {
     lead: 'Open to conversations about data platforms, product engineering, or anything that sits between the two.',
     imprint: 'Imprint',
     privacy: 'Privacy',
-    builtWith: 'Built with React, Vite & Tailwind CSS',
     backToTop: 'Back to top ↑',
   },
   viz: {

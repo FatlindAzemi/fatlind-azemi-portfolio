@@ -64,7 +64,7 @@ function SkillButton({
     <button
       type="button"
       onPointerMove={(event) => {
-        // Only real mouse movement previews a skill — mouseenter would also
+        // Only real mouse movement previews a skill; mouseenter would also
         // fire on a scroll, and touch drags emit pointermove too.
         if (event.pointerType === 'mouse') onHover()
       }}

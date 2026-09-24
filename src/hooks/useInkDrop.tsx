@@ -8,7 +8,7 @@ interface InkDropState {
 }
 
 export function useInkDrop() {
-  // Lazy initializer — runs once, survives re-renders, safe for SSR
+  // Lazy initializer. Runs once, survives re-renders, safe for SSR
   const [reducedMotion] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -46,7 +46,7 @@ export function useInkDrop() {
             ease: [0.4, 0, 0.2, 1],
           }}
           onAnimationComplete={() => {
-            // Dismiss the overlay so the full-screen bubble fades out — mailto
+            // Dismiss the overlay so the full-screen bubble fades out: mailto
             // never unloads the page, so otherwise it would stay stuck.
             setInkState((state) => ({ ...state, isActive: false }));
           }}

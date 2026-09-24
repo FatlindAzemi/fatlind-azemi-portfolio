@@ -77,7 +77,7 @@ export default function Footer() {
 
         <div className="mt-20 flex flex-col justify-between gap-4 border-t border-[var(--border)] pt-8 text-xs text-[var(--text-3)] sm:flex-row sm:items-center">
           <p className="font-mono">
-            © {new Date().getFullYear()} {data.name} · {t.footer.builtWith}
+            © {new Date().getFullYear()} {data.name}
           </p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono">
