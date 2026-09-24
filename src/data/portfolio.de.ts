@@ -41,15 +41,15 @@ const categoryText: Record<string, CategoryText> = {
   },
 }
 
-// Keyed by project id — terminal commands, tech stack and visualisations are
+// Keyed by project id: terminal commands, tech stack and visualisations are
 // language-independent and stay sourced from the English base data.
 const projectText: Record<string, ProjectText> = {
   'ai-driven-migration': {
     title: 'KI-gestützte Cloud-Migration',
     subtitle:
-      'Ein hauseigener KI-Agent, der ein Legacy-Data-Warehouse in die Cloud migriert',
+      'Ein eigens gebauter KI-Agent, der ein Legacy-Data-Warehouse in die Cloud migriert',
     description:
-      'Migration eines großen Legacy-Data-Warehouse in ein Cloud-Lakehouse — durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Manuell würde der Umfang ein Team den Großteil eines Jahres kosten. Jedes Ergebnis wird gegen das Original validiert.',
+      'Migration eines großen Legacy-Data-Warehouse in ein Cloud-Lakehouse, durchgeführt von einem eigens dafür gebauten KI-Agenten statt per Hand. Manuell würde der Umfang ein Team den Großteil eines Jahres kosten. Jedes Ergebnis wird gegen das Original validiert.',
     metrics: [
       'Tausende Objekte Ende-zu-Ende migriert',
       'Manuell entspräche das einem Team den Großteil eines Jahres',
@@ -59,38 +59,38 @@ const projectText: Record<string, ProjectText> = {
   },
   'enterprise-data-platform': {
     title: 'Enterprise-Datenplattform',
-    subtitle: 'Vollständiger Plattformaufbau — von der Ingestion bis zur BI-Reporting-Ebene',
+    subtitle: 'Vollständiger Plattformaufbau von der Ingestion bis zur BI-Reporting-Ebene',
     description:
-      'End-to-End konzipiert und umgesetzt: Ingestion und Orchestrierung, ein Medallion-Lakehouse, eine governante semantische Schicht und das darauf aufbauende BI-Reporting. Im Betrieb über Databricks, Microsoft Fabric, Azure Synapse und Azure SQL — eine Plattform, ein Satz Definitionen, von der Rohdatenquelle bis zu den Reports, die das Business tatsächlich öffnet.',
+      'End-to-End konzipiert und umgesetzt: Ingestion und Orchestrierung, ein Medallion-Lakehouse, eine governante semantische Schicht und das BI-Reporting darüber. Zuerst auf Azure Synapse aufgebaut und mit der Fabric-Reife auf Microsoft Fabric und Databricks überführt. Beide Generationen liefen während der Migration parallel, damit dem Business das Reporting nicht wegbricht. Eine Plattform, ein Satz Definitionen, von der Rohdatenquelle bis zu den Reports, die das Business tatsächlich öffnet.',
     metrics: [
       'Umfang: Quellsysteme → Lakehouse → Semantik → BI-Reports',
-      'Eine Plattform, ein Satz Definitionen',
-      'Im Produktivbetrieb als Grundlage des Business-Reportings',
+      'Plattform-Migration parallel zum laufenden Reporting umgesetzt',
+      'Eine Plattform, ein Satz Definitionen: im Produktivbetrieb die Reporting-Grundlage',
     ],
     vizCaption: 'Plattform-Schichten',
   },
   'forecast-engine': {
     title: 'Enterprise-Forecast-Engine',
-    subtitle: 'Bedarfsprognose über 200+ Produktkategorien im Petabyte-Maßstab',
+    subtitle: 'Bedarfsprognose über mehrere hundert Produktkategorien im Petabyte-Maßstab',
     description:
-      'Verteilte Forecasting-Plattform, die Milliarden historischer Datensätze verarbeitet, um die Nachfrage über 200+ Produktkategorien vorherzusagen. Gebaut auf Databricks mit PySpark und MLflow — 40 % weniger Lagerüberhang bei gleichzeitig besserer Regalverfügbarkeit in einem globalen Handelsnetz.',
+      'Verteilte Forecasting-Plattform, die Milliarden historischer Datensätze verarbeitet, um die Nachfrage über mehrere hundert Produktkategorien vorherzusagen. Gebaut auf Databricks mit PySpark und MLflow. Ergebnis: rund ein Drittel weniger Lagerüberhang bei gleichzeitig besserer Regalverfügbarkeit im Handel.',
     metrics: [
-      '40 % weniger Lagerüberhang',
-      '12 Mio.+ prognostizierte SKU-Tage/Monat',
-      '99,3 % Modell-Verfügbarkeit (SLA)',
+      'Rund ein Drittel weniger Lagerüberhang',
+      'Millionen prognostizierte SKU-Tage pro Monat',
+      'Über 99 % Modell-Verfügbarkeit (SLA)',
     ],
     vizCaption: 'Prognose vs. tatsächliche Nachfrage',
   },
   'media-trend-api': {
     title: 'Media-Trend-Analyse-API',
     subtitle:
-      'Serverless-NLP-Pipeline mit 2 Mio.+ Artikeln täglich zur Trenderkennung',
+      'Serverless-NLP-Pipeline mit Millionen Artikeln pro Tag zur Trenderkennung',
     description:
-      'Serverless-API, die täglich Millionen Artikel und Social-Media-Posts einliest, verarbeitet und indexiert. NLP-Pipelines auf GCP Dataflow extrahieren Entitäten, klassifizieren Sentiment und erkennen aufkommende Trends — ausgeliefert über einen GraphQL-Endpunkt mit niedriger Latenz.',
+      'Serverless-API, die täglich Millionen Artikel und Social-Media-Posts einliest, verarbeitet und indexiert. NLP-Pipelines auf GCP Dataflow extrahieren Entitäten, klassifizieren Sentiment und erkennen aufkommende Trends. Ausgeliefert wird das über einen GraphQL-Endpunkt mit niedriger Latenz.',
     metrics: [
-      '2,1 Mio. indexierte Artikel täglich',
-      'Trenderkennung < 90 Sekunden Latenz',
-      '94 % F1 bei der Sentiment-Klassifikation',
+      'Millionen indexierte Artikel pro Tag',
+      'Trenderkennung unter 90 Sekunden',
+      'Über 90 % F1 bei der Sentiment-Klassifikation',
     ],
     vizCaption: 'Themenvolumen mit Ausschlag-Erkennung',
   },
@@ -98,11 +98,11 @@ const projectText: Record<string, ProjectText> = {
     title: 'SaaS-Plattform für Versorgungsabrechnung',
     subtitle: 'Versorgungsabrechnung und Verbrauchsanalyse für Mehrfamilienimmobilien',
     description:
-      'Full-Stack-SaaS-Plattform für Versorgungsabrechnung, Mieterrechnungen und Verbrauchsanalyse bei Mehrfamilienimmobilien. Gebaut mit React, Hono und PostgreSQL — verarbeitet 50.000+ Rechnungen pro Monat mit automatisiertem Zahlungsabgleich und Echtzeit-Dashboards.',
+      'Full-Stack-SaaS-Plattform für Versorgungsabrechnung, Mieterrechnungen und Verbrauchsanalyse bei Mehrfamilienimmobilien. Gebaut mit React, Hono und PostgreSQL. Die Plattform verarbeitet zehntausende Rechnungen pro Monat mit automatisiertem Zahlungsabgleich und Echtzeit-Dashboards.',
     metrics: [
-      '12.000 aktive Nutzer pro Monat',
-      '99,9 % Plattform-Verfügbarkeit',
-      '50.000+ verarbeitete Rechnungen/Monat',
+      'Aktive Nutzerbasis im fünfstelligen Bereich pro Monat',
+      'Über 99 % Plattform-Verfügbarkeit',
+      'Zehntausende verarbeitete Rechnungen pro Monat',
     ],
     vizCaption: 'Rechnungen nach Zahlungsstatus',
   },
@@ -132,8 +132,8 @@ export const portfolioDataDe: PortfolioData = {
   title: 'Software- & Data-Engineer',
   subtitle: 'Skalierbare Dateninfrastruktur und moderne digitale Produkte.',
   bio: [
-    'Ich baue Datenpipelines und verteilte Systeme — von Lakehouse-Architekturen auf Azure und GCP bis zu produktiven ML-Pipelines auf Databricks. Im Frontend arbeite ich mit React und Flutter, um Interfaces zu bauen, die Menschen tatsächlich gern benutzen. Mich treibt an, Daten nutzbar zu machen — nicht nur verfügbar.',
-    'Über die Jahre habe ich ETL-Pipelines entworfen, die täglich Terabytes bewegen, Echtzeit-Forecast-Dashboards für den Enterprise-Handel gebaut und Full-Stack-SaaS-Apps von null bis in die Produktion gebracht. Ich bewege mich gern in der unordentlichen Mitte — dort, wo Data Engineering auf Produktentwicklung trifft und beide Seiten nicht ganz dieselbe Sprache sprechen.',
+    'Ich baue Datenpipelines und verteilte Systeme: von Lakehouse-Architekturen auf Azure und GCP bis zu produktiven ML-Pipelines auf Databricks. Im Frontend arbeite ich mit React und Flutter, um Interfaces zu bauen, die Menschen tatsächlich gern benutzen. Mich treibt an, Daten nutzbar zu machen, nicht nur verfügbar.',
+    'Über die Jahre habe ich ETL-Pipelines entworfen, die täglich Terabytes bewegen, Echtzeit-Forecast-Dashboards im Handel gebaut und Full-Stack-SaaS-Apps von null bis in die Produktion gebracht. Ich bewege mich gern in der unordentlichen Mitte: dort, wo Data Engineering auf Produktentwicklung trifft und beide Seiten nicht ganz dieselbe Sprache sprechen.',
     'Neben der Arbeit beschäftige ich mich mit KI-Agent-Workflows, trage zu Open-Source-Projekten bei und verfeinere ständig, wie ich beobachtbare und wartbare Systeme baue. Gute Dokumentation, saubere CI/CD und Dinge besser zu hinterlassen, als ich sie vorgefunden habe, sind mir wichtig.',
   ],
   expertise: [

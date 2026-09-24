@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 interface CipherOptions {
   duration?: number
   charset?: string
-  /** Holds the scramble until this flips true — e.g. once the text scrolls into view. */
+  /** Holds the scramble until this flips true, e.g. once the text scrolls into view. */
   active?: boolean
 }
 

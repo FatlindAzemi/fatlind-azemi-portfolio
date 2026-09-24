@@ -44,7 +44,6 @@ export interface UiStrings {
     lead: string
     imprint: string
     privacy: string
-    builtWith: string
     backToTop: string
   }
   viz: {
