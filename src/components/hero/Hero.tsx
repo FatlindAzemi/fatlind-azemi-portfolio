@@ -52,7 +52,7 @@ export default function Hero() {
         <img
           src={data.portrait}
           alt=""
-          className="h-[80vh] max-h-[46rem] min-h-[26rem] w-full object-cover object-top"
+          className="aspect-square max-h-[100svh] w-full object-cover object-center"
           style={{
             maskImage: panelHorizontalFade,
             WebkitMaskImage: panelHorizontalFade,
