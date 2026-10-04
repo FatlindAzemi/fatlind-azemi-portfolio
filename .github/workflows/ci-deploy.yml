@@ -1,0 +1,141 @@
+name: CI & Deploy
+
+# Flow (matches the approval rule: nothing reaches production without a review):
+#   pull_request -> build + full QA suite must pass (gate before merge)
+#   push to main -> same job, then the tested build artifact is deployed
+# Merging the PR *is* the approval. Add required reviewers to the `production`
+# environment (Settings -> Environments) if you want a second, explicit gate.
+#
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   VPS_HOST      - host of this VPS (default used by the other repos: 178.254.34.169)
+#   VPS_USER      - SSH user (captain)
+#   VPS_SSH_KEY   - private key that is authorized as `github-actions-deploy`
+#
+# Deploy is atomic: the new build is uploaded next to the live directory and
+# then swapped in, keeping the previous one as dist.bak.<stamp> for rollback.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Must match devDependencies "@playwright/test" in package.json.
+  PROD_APP_DIR: /home/captain/sites/fatlind-azemi-portfolio
+
+jobs:
+  test:
+    name: Build & QA (desktop + mobile)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build (prerender de + en)
+        run: bun run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run QA suite (desktop + mobile, chromium + webkit)
+        run: npx playwright test
+
+      - name: Upload QA artifacts (screenshots, report)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-artifacts
+          path: |
+            test-results/screens
+            test-results/html
+            test-results/results.json
+          retention-days: 14
+
+      - name: Upload tested build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 3
+
+  deploy:
+    name: Deploy to production
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download the tested build
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Prepare SSH
+        env:
+          DEPLOY_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_KEY:-}" ] || [ -z "${VPS_HOST:-}" ]; then
+            echo "::error::VPS_SSH_KEY / VPS_HOST are not configured for this repository."
+            exit 1
+          fi
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/id_deploy"
+          chmod 600 "$HOME/.ssh/id_deploy"
+          ssh-keyscan -H "$VPS_HOST" >> "$HOME/.ssh/known_hosts" 2>/dev/null
+
+      - name: Upload build to the server (staged, not live yet)
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          STAMP="$(date +%Y%m%d-%H%M%S)"
+          echo "RELEASE_STAMP=$STAMP" >> "$GITHUB_ENV"
+          rsync -az --delete \
+            -e "ssh -i $HOME/.ssh/id_deploy -o StrictHostKeyChecking=yes" \
+            dist/ "$VPS_USER@$VPS_HOST:${{ env.PROD_APP_DIR }}/.dist.new-$STAMP/"
+
+      - name: Swap into production (atomic, with rollback copy)
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/id_deploy" -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" bash -s <<EOF
+          set -euo pipefail
+          APP="${{ env.PROD_APP_DIR }}"
+          STAMP="$RELEASE_STAMP"
+          NEW="\$APP/.dist.new-\$STAMP"
+          [ -d "\$NEW" ] || { echo "staged release \$NEW missing"; exit 1; }
+          if [ -e "\$APP/dist" ]; then rm -rf "\$APP/dist.bak.\$STAMP"; mv "\$APP/dist" "\$APP/dist.bak.\$STAMP"; fi
+          mv "\$NEW" "\$APP/dist"
+          # keep the last 3 rollback copies
+          ls -1dt "\$APP"/dist.bak.* 2>/dev/null | tail -n +4 | xargs -r rm -rf
+          echo "deployed \$STAMP -> \$APP/dist"
+          ls -1 "\$APP/dist" | head
+          EOF
+
+      - name: Post-deploy check (live site answers 200)
+        run: |
+          set -euo pipefail
+          for url in https://fatlind-azemi.de/ https://fatlind-azemi.de/en/; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' -m 20 "$url")"
+            echo "$url -> $code"
+            [ "$code" = "200" ] || { echo "::error::$url returned $code"; exit 1; }
+          done
