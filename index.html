@@ -1,56 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0b0d" />
-    <script>
-      // Resolve the language before first paint so German visitors never see an
-      // English flash. Mirrors the logic in src/i18n/LanguageProvider.tsx.
-      ;(function () {
-        try {
-          var stored = localStorage.getItem('portfolio-locale')
-          if (stored === 'en' || stored === 'de') {
-            document.documentElement.lang = stored
-            return
-          }
-        } catch (error) {}
-        var languages =
-          navigator.languages && navigator.languages.length
-            ? navigator.languages
-            : [navigator.language]
-        document.documentElement.lang = languages.some(function (language) {
-          return language.toLowerCase().indexOf('de') === 0
-        })
-          ? 'de'
-          : 'en'
-      })()
-    </script>
-    <title>Fatlind Azemi — Software &amp; Data Engineer</title>
-    <meta name="description" content="Portfolio of Fatlind Azemi, Software &amp; Data Engineer specializing in enterprise data infrastructure and modern application development." />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'"
+    />
+    <title>Fatlind Azemi — Software- &amp; Data-Engineer</title>
+    <meta name="description" content="Portfolio von Fatlind Azemi, Software- und Data-Engineer mit Fokus auf Enterprise-Dateninfrastruktur und moderne Anwendungsentwicklung." />
 
     <!-- Open Graph -->
     <!-- Canonical domain — keep in sync with sitemap.xml and robots.txt -->
-    <meta property="og:title" content="Fatlind Azemi — Software &amp; Data Engineer" />
-    <meta property="og:description" content="Portfolio of Fatlind Azemi, Software &amp; Data Engineer specializing in enterprise data infrastructure and modern application development." />
+    <meta property="og:title" content="Fatlind Azemi — Software- &amp; Data-Engineer" />
+    <meta property="og:description" content="Portfolio von Fatlind Azemi, Software- und Data-Engineer mit Fokus auf Enterprise-Dateninfrastruktur und moderne Anwendungsentwicklung." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fatlind-azemi.de" />
+    <meta property="og:url" content="https://fatlind-azemi.de/" />
     <meta property="og:site_name" content="Fatlind Azemi" />
-    <meta property="og:locale" content="en" />
-    <meta property="og:locale:alternate" content="de_DE" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:image" content="https://fatlind-azemi.de/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Fatlind Azemi — Software &amp; Data Engineer" />
+    <meta property="og:image:alt" content="Fatlind Azemi — Software- &amp; Data-Engineer" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Fatlind Azemi — Software &amp; Data Engineer" />
-    <meta name="twitter:description" content="Portfolio of Fatlind Azemi, Software &amp; Data Engineer specializing in enterprise data infrastructure and modern application development." />
+    <meta name="twitter:title" content="Fatlind Azemi — Software- &amp; Data-Engineer" />
+    <meta name="twitter:description" content="Portfolio von Fatlind Azemi, Software- und Data-Engineer mit Fokus auf Enterprise-Dateninfrastruktur und moderne Anwendungsentwicklung." />
     <meta name="twitter:image" content="https://fatlind-azemi.de/og-image.jpg" />
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://fatlind-azemi.de" />
+    <link rel="canonical" href="https://fatlind-azemi.de/" />
 
     <!-- Robots -->
     <meta name="robots" content="index, follow" />
