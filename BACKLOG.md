@@ -25,8 +25,11 @@ Legende: P1 = großer Hebel, P2 = wichtig, P3 = Feinschliff.
 - [ ] **B6** Sitemap `lastmod` dynamisch setzen.
 - [ ] **B8** LCP erneut messen.
 
-**Noch nicht verifiziert:** Hydration im echten Browser (hier kein laufender Chromium);
-B1/B2 sind bislang per HTTP/Build geprüft, nicht visuell.
+**QA-Suite (2026-10-04):** Playwright, 4 Engines (Desktop/Mobile × Chromium/WebKit),
+72 Tests — **alle grün**. Deckt Smoke, Prerender/No-JS, Hydration, SEO, axe-Accessibility,
+Layout (Overflow + 24px-Ziele), Links und Screenshots ab. Lauf: `~/work/bin/qa.sh
+fatlind-azemi-portfolio`. Screenshots in `test-results/screens/`, Report in
+`test-results/html/index.html`. Dadurch sind B1/B2 nun auch **visuell** geprüft (Desktop + Mobile).
 
 ---
 
@@ -90,7 +93,23 @@ Fonts + Portrait sind schon preloadet; nach B1 erneut messen (Ziel LCP < 2 s mob
 
 ---
 
+## Neue Funde aus dem QA-Durchlauf (2026-10-04)
+
+### B9 — Navigation als `<button>` statt `<a href="#…">`
+**Problem:** Die Navigationspunkte (Expertise / Projekte / Kontakt) sind Buttons mit
+`scrollIntoView`. Für Screenreader, Tastatur, „Link kopieren" und Crawler sind es keine Links.
+**Ziel:** `<a href="#expertise">` etc. (native Sprungziele), Progressiv-Enhancement für sanftes Scrollen.
+
+### B10 — Auf Mobile fehlt die Navigation
+**Problem:** Im Mobile-Viewport zeigt der Header nur Sprachtoggle + Mail-Button; es gibt kein
+Menü und keine Sprungpunkte.
+**Ziel:** Menü/Drawer oder zumindest sichtbare Sprunglinks, damit Mobile-Nutzer navigieren können.
+
+---
+
 ## Offene Fragen an den Nutzer
-- B3: Portfolio-Rolle (CV vs. Firmen-Vertrauensseite)?
-- B4: Welche Zahlen sind freigegeben?
-- B5: nginx-Header-Änderung erlaubt (einmalig, betrifft Produktionsserver)?
+- ~~B3~~ entschieden: **reines CV**, keine Querverweise zu anderen Projekten.
+- ~~B4~~ entschieden: Kennzahlen **anonymisiert/als Größenordnung** belassen.
+- ~~B5~~ freigegeben und umgesetzt (CSP als Meta-Tag).
+- Offen: **B9/B10** (Navigation als Links, Mobile-Menü) — soll ich das umsetzen?
+- Offen: **B6** (Sitemap `lastmod`) und **B8** (LCP-Messung).
