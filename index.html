@@ -8,6 +8,16 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'"
     />
+    <!-- Content is animated in with JavaScript. Without JS (or when a crawler
+         does not run it) the prerendered markup sits at opacity:0; force it to
+         its final state so nobody sees a blank page. -->
+    <noscript>
+      <style>
+        #root [style*="opacity:0"] { opacity: 1 !important; }
+        #root [style*="transform:translateY"] { transform: none !important; }
+      </style>
+    </noscript>
+
     <title>Fatlind Azemi — Software- &amp; Data-Engineer</title>
     <meta name="description" content="Portfolio von Fatlind Azemi, Software- und Data-Engineer mit Fokus auf Enterprise-Dateninfrastruktur und moderne Anwendungsentwicklung." />
 

@@ -60,9 +60,11 @@ ohne firmen- oder produktbezogene Querverweise.
 ## P2 — Vertrauen & Technik
 
 ### B4 — Metriken prüfen (NDA!) und konkretisieren
-**Problem:** „Tausende Objekte", „rund ein Drittel", „über 99 %" — vage und potenziell
-Arbeitgeber-/Kundendaten. Veröffentlichung vorher freigeben lassen.
-**Ziel:** Entweder echte, freigegebene Zahlen oder neutralere Formulierung.
+**Entscheidung (2026-10-04):** Kennzahlen sind nur **ungefähr** wahr und sollen **so
+anonymisiert wie möglich** bleiben. Also **nicht** konkreter machen — im Gegenteil: sicherstellen,
+dass sie als Größenordnung lesbar sind („rund", „über", „Tausende" sind ok) und dass **keine
+Kunden-/Arbeitgeber-identifizierenden Details** enthalten sind (keine Namen, Orte, Systeme, die
+auf einen Auftraggeber schließen lassen). Keine präzisen Zahlenclaims, die angreifbar wären.
 
 ### B5 — Content-Security-Policy ergänzen
 **Freigabe (2026-10-04):** erlaubt.
