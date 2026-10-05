@@ -30,3 +30,7 @@ client-errors.log
 
 # --- editor / OS noise ---
 .DS_Store
+
+# --- internal notes (kept in ~/work, never published) ---
+BACKLOG.md
+DEPLOY.md
