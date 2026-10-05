@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Canonical domain -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://fatlind-azemi.de/</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://fatlind-azemi.de/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fatlind-azemi.de/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fatlind-azemi.de/" />
+  </url>
+  <url>
+    <loc>https://fatlind-azemi.de/en/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://fatlind-azemi.de/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fatlind-azemi.de/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fatlind-azemi.de/" />
   </url>
   <url>
     <loc>https://fatlind-azemi.de/impressum.html</loc>
