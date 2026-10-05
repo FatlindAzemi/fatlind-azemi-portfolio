@@ -1,10 +1,17 @@
 import { useI18n } from '../../i18n/LanguageProvider'
 import type { Locale } from '../../types'
 
-const LOCALES: Locale[] = ['en', 'de']
+const LOCALES: Locale[] = ['de', 'en']
+
+// One URL per language (see the prerender step): German is the canonical root,
+// English lives under /en/. Links keep the switch crawlable and shareable.
+const PATHS: Record<Locale, string> = {
+  de: '/',
+  en: '/en/',
+}
 
 export default function LanguageSwitch() {
-  const { locale, setLocale, t } = useI18n()
+  const { locale, t } = useI18n()
 
   return (
     <div
@@ -15,19 +22,19 @@ export default function LanguageSwitch() {
       {LOCALES.map((code) => {
         const active = locale === code
         return (
-          <button
+          <a
             key={code}
-            type="button"
-            onClick={() => setLocale(code)}
-            aria-pressed={active}
-            className={`h-full cursor-pointer rounded-full px-2 font-mono text-[0.64rem] tracking-[0.06em] uppercase transition-colors sm:px-2.5 sm:text-[0.68rem] ${
+            href={PATHS[code]}
+            hrefLang={code}
+            aria-current={active ? 'page' : undefined}
+            className={`flex h-full items-center rounded-full px-2 font-mono text-[0.64rem] tracking-[0.06em] uppercase transition-colors sm:px-2.5 sm:text-[0.68rem] ${
               active
                 ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
                 : 'text-[var(--text-3)] hover:text-[var(--text-2)]'
             }`}
           >
             {code}
-          </button>
+          </a>
         )
       })}
     </div>

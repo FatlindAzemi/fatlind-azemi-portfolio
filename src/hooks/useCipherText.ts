@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 
 interface CipherOptions {
   duration?: number
@@ -8,6 +8,11 @@ interface CipherOptions {
 }
 
 const DEFAULT_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*'
+
+// On the server there is no layout phase (and React warns about useLayoutEffect
+// during SSR), so fall back to useEffect there.
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 function getRandomChar(charset: string): string {
   return charset[Math.floor(Math.random() * charset.length)]
@@ -24,15 +29,14 @@ export function useCipherText(targetText: string, options?: CipherOptions): stri
     active = true,
   } = options ?? {}
 
-  // Start scrambled so the resolved text never flashes for a frame before the
-  // effect takes over.
-  const [displayText, setDisplayText] = useState<string>(() =>
-    buildScrambledText(targetText.length, charset),
-  )
+  // Start RESOLVED so the prerendered HTML contains the real name (crawlable)
+  // and the first client render matches it (hydration). The scramble starts in
+  // a layout effect below — before paint — so the resolved text never flashes.
+  const [displayText, setDisplayText] = useState<string>(targetText)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const startTimeRef = useRef<number>(0)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!active) return
 
     const len = targetText.length

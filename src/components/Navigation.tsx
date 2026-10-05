@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import LanguageSwitch from './ui/LanguageSwitch'
 import { MailIcon } from './ui/Icons'
@@ -19,10 +19,6 @@ export default function Navigation() {
     { id: 'projects', label: t.nav.projects },
     { id: 'contact', label: t.nav.contact },
   ]
-
-  const goTo = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView()
-  }, [])
 
   useEffect(() => {
     let frame = 0
@@ -66,9 +62,8 @@ export default function Navigation() {
       }`}
     >
       <div className="shell relative flex h-16 items-center justify-between gap-2 md:h-[4.5rem] md:gap-4">
-        <button
-          type="button"
-          onClick={() => goTo('hero')}
+        <a
+          href="#hero"
           className="group flex shrink-0 cursor-pointer items-center"
           aria-label={t.nav.backToTop}
         >
@@ -79,17 +74,16 @@ export default function Navigation() {
             height={131}
             className="h-5 w-auto opacity-90 transition-opacity group-hover:opacity-100 sm:h-[1.55rem] lg:h-[1.75rem]"
           />
-        </button>
+        </a>
 
         <nav
           aria-label={t.nav.sections}
           className="absolute inset-y-0 left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
         >
           {links.map(({ id, label }) => (
-            <button
+            <a
               key={id}
-              type="button"
-              onClick={() => goTo(id)}
+              href={`#${id}`}
               aria-current={active === id ? 'true' : undefined}
               className={`relative cursor-pointer rounded-full px-3.5 py-2 text-sm transition-colors ${
                 active === id
@@ -105,7 +99,7 @@ export default function Navigation() {
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}
-            </button>
+            </a>
           ))}
         </nav>
 
