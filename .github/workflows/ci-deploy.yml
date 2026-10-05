@@ -7,9 +7,13 @@ name: CI & Deploy
 # environment (Settings -> Environments) if you want a second, explicit gate.
 #
 # Required repository secrets (Settings -> Secrets and variables -> Actions):
-#   VPS_HOST      - host of this VPS (default used by the other repos: VPS_HOST)
-#   VPS_USER      - SSH user (captain)
-#   VPS_SSH_KEY   - private key that is authorized as `github-actions-deploy`
+#   VPS_HOST      - host of the target VPS
+#   VPS_USER      - SSH user on that host
+#   VPS_SSH_KEY   - private key authorized for deploys (e.g. as `github-actions-deploy`)
+#   VPS_APP_DIR   - absolute path of the nginx-served app directory on the server
+#
+# All four are secrets so that a public repository reveals nothing about the
+# server (host, user, layout).
 #
 # Deploy is atomic: the new build is uploaded next to the live directory and
 # then swapped in, keeping the previous one as dist.bak.<stamp> for rollback.
@@ -24,10 +28,6 @@ on:
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
-
-env:
-  # Must match devDependencies "@playwright/test" in package.json.
-  PROD_APP_DIR: /home/USER/sites/fatlind-azemi-portfolio
 
 jobs:
   test:
@@ -76,6 +76,10 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
+    env:
+      # Kept out of the repository on purpose: the deploy path lives in a secret
+      # so a public repo reveals nothing about the server layout.
+      VPS_APP_DIR: ${{ secrets.VPS_APP_DIR }}
     steps:
       - name: Download the tested build
         uses: actions/download-artifact@v8
@@ -89,8 +93,8 @@ jobs:
           VPS_HOST: ${{ secrets.VPS_HOST }}
         run: |
           set -euo pipefail
-          if [ -z "${DEPLOY_KEY:-}" ] || [ -z "${VPS_HOST:-}" ]; then
-            echo "::error::VPS_SSH_KEY / VPS_HOST are not configured for this repository."
+          if [ -z "${DEPLOY_KEY:-}" ] || [ -z "${VPS_HOST:-}" ] || [ -z "${VPS_APP_DIR:-}" ]; then
+            echo "::error::VPS_SSH_KEY / VPS_HOST / VPS_APP_DIR are not configured for this repository."
             exit 1
           fi
           install -d -m 700 "$HOME/.ssh"
@@ -108,7 +112,7 @@ jobs:
           echo "RELEASE_STAMP=$STAMP" >> "$GITHUB_ENV"
           rsync -az --delete \
             -e "ssh -i $HOME/.ssh/id_deploy -o StrictHostKeyChecking=yes" \
-            dist/ "$VPS_USER@$VPS_HOST:${{ env.PROD_APP_DIR }}/.dist.new-$STAMP/"
+            dist/ "$VPS_USER@$VPS_HOST:${{ env.VPS_APP_DIR }}/.dist.new-$STAMP/"
 
       - name: Swap into production (atomic, with rollback copy)
         env:
@@ -119,7 +123,7 @@ jobs:
           ssh -i "$HOME/.ssh/id_deploy" -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" bash -s <<EOF
           set -euo pipefail
-          APP="${{ env.PROD_APP_DIR }}"
+          APP="${{ env.VPS_APP_DIR }}"
           STAMP="$RELEASE_STAMP"
           NEW="\$APP/.dist.new-\$STAMP"
           [ -d "\$NEW" ] || { echo "staged release \$NEW missing"; exit 1; }
