@@ -35,7 +35,7 @@ export default function Footer() {
         >
           <p className="eyebrow mb-6">{t.footer.eyebrow}</p>
 
-          <h2 className="display max-w-4xl text-[clamp(2rem,5vw,4.5rem)]">
+          <h2 className="display max-w-4xl text-[clamp(2rem,5vw,4.5rem)] pb-[0.2em] -mb-[0.2em]">
             {t.footer.heading}
           </h2>
 

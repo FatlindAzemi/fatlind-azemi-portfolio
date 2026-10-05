@@ -9,6 +9,11 @@ interface CipherOptions {
 
 const DEFAULT_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*'
 
+// How long each character takes to lock in once the scramble phase is over.
+// This dominates the perceived length of the effect (13 chars = 13 steps), so
+// it has to move together with `duration`.
+const RESOLVE_MS_PER_CHAR = 50
+
 // On the server there is no layout phase (and React warns about useLayoutEffect
 // during SSR), so fall back to useEffect there.
 const useIsomorphicLayoutEffect =
@@ -58,7 +63,10 @@ export function useCipherText(targetText: string, options?: CipherOptions): stri
       }
 
       const resolveElapsed = elapsed - duration
-      const resolvedCount = Math.min(Math.floor(resolveElapsed / 100) + 1, len)
+      const resolvedCount = Math.min(
+        Math.floor(resolveElapsed / RESOLVE_MS_PER_CHAR) + 1,
+        len,
+      )
 
       let result = ''
       for (let i = 0; i < len; i++) {

@@ -171,6 +171,10 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    /* background-clip: text paints only inside the box, so a descender (g, j, y)
+       on the last line falls outside the paint area and vanishes. Headings using
+       this class need padding-bottom for the descender and an equal negative
+       margin so the rhythm below stays the same. */
   }
 
   .no-scrollbar {
