@@ -21,7 +21,7 @@ export const uiDe: UiStrings = {
     body: 'Hallo Fatlind,\n\nich habe dein Portfolio gesehen und würde mich gern austauschen.\n\n',
   },
   hero: {
-    getInTouch: 'Schreib mir',
+    getInTouch: 'Kontakt',
     getInTouchShort: 'Kontakt',
     viewProjects: 'Projekte ansehen',
     viewProjectsShort: 'Projekte',
@@ -45,8 +45,8 @@ export const uiDe: UiStrings = {
   },
   footer: {
     eyebrow: 'Kontakt',
-    heading: 'Lass uns etwas bauen, das im Betrieb überzeugt.',
-    lead: 'Offen für Gespräche über Datenplattformen, Produktentwicklung oder alles dazwischen.',
+    heading: 'Fragen zu Datenplattformen oder Produktentwicklung?',
+    lead: 'Per E-Mail oder LinkedIn — beides erreicht mich direkt.',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     backToTop: 'Nach oben ↑',

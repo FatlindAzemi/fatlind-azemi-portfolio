@@ -25,7 +25,7 @@ export default function Hero() {
   // over by the time it scrolls into view. Start it when it is actually seen.
   const nameInView = useInView(nameRef, { once: true })
   // Snappier scramble: the effect should read as a quick shimmer, not a wait.
-  const name = useCipherText(data.name, { duration: 600, active: nameInView })
+  const name = useCipherText(data.name, { duration: 300, active: nameInView })
   const { reducedMotion, initial, transition } = useReveal()
 
   const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
