@@ -3,8 +3,12 @@ import { defineConfig, devices } from '@playwright/test'
 // The suite runs inside the official Playwright image (see ~/work/bin/qa.sh).
 // A dependency-free static server (scripts/static-server.mjs) serves the build
 // from inside that container, so no host networking is involved.
+//
+// QA_BASE_URL points the same suite at an already-running deployment (staging or
+// production) instead of the local build — used to verify a deploy end-to-end.
 const PORT = Number(process.env.QA_PORT ?? 4180)
-const BASE_URL = `http://127.0.0.1:${PORT}`
+const EXTERNAL_BASE_URL = process.env.QA_BASE_URL
+const BASE_URL = EXTERNAL_BASE_URL ?? `http://127.0.0.1:${PORT}`
 
 export default defineConfig({
   testDir: './tests',
@@ -25,14 +29,16 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'off',
   },
-  webServer: {
-    command: `node scripts/static-server.mjs dist ${PORT}`,
-    url: BASE_URL,
-    reuseExistingServer: true,
-    timeout: 60_000,
-    stdout: 'ignore',
-    stderr: 'pipe',
-  },
+  webServer: EXTERNAL_BASE_URL
+    ? undefined
+    : {
+        command: `node scripts/static-server.mjs dist ${PORT}`,
+        url: BASE_URL,
+        reuseExistingServer: true,
+        timeout: 60_000,
+        stdout: 'ignore',
+        stderr: 'pipe',
+      },
   projects: [
     {
       name: 'desktop-chromium',
