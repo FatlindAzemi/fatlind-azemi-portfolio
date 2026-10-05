@@ -24,7 +24,8 @@ export default function Hero() {
   // On mobile the name sits low in the hero, so the scramble would already be
   // over by the time it scrolls into view. Start it when it is actually seen.
   const nameInView = useInView(nameRef, { once: true })
-  const name = useCipherText(data.name, { duration: 1100, active: nameInView })
+  // Snappier scramble: the effect should read as a quick shimmer, not a wait.
+  const name = useCipherText(data.name, { duration: 600, active: nameInView })
   const { reducedMotion, initial, transition } = useReveal()
 
   const profileLinks = data.socialLinks.filter((link) => link.icon !== 'mail')
