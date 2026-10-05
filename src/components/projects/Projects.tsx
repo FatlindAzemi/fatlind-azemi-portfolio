@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useMotionValueEvent,
-  useScroll,
-} from 'framer-motion'
+import { motion, useInView, useMotionValue } from 'framer-motion'
 import { useI18n } from '../../i18n/LanguageProvider'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
@@ -168,22 +162,36 @@ export default function Projects() {
   const [travel, setTravel] = useState(0)
   const [activeIndex, setActiveIndex] = useState(0)
 
-  const { scrollYProgress } = useScroll({
-    target: pinRef,
-    offset: ['start start', 'end end'],
-  })
-
   const x = useMotionValue(0)
 
-  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    if (pinned) x.set(-progress * travel)
-    const index = Math.round(progress * (projects.length - 1))
-    setActiveIndex(Math.min(projects.length - 1, Math.max(0, index)))
-  })
-
+  // Drive the horizontal track from the pin container's own position instead of
+  // framer's useScroll: on the first render `pinned` is still false, so the pin
+  // element does not exist yet — a `target` ref would then measure the document
+  // and never re-target, leaving the track already scrolled away (first card off
+  // screen) by the time the section actually pins.
   useEffect(() => {
-    x.set(-scrollYProgress.get() * travel)
-  }, [travel, x, scrollYProgress])
+    const el = pinRef.current
+    if (!pinned || !el) return
+
+    const update = () => {
+      const total = el.offsetHeight - window.innerHeight
+      const progress =
+        total > 0
+          ? Math.min(1, Math.max(0, -el.getBoundingClientRect().top / total))
+          : 0
+      x.set(-progress * travel)
+      const index = Math.round(progress * (projects.length - 1))
+      setActiveIndex(Math.min(projects.length - 1, Math.max(0, index)))
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [pinned, travel, x, projects.length])
 
   useEffect(() => {
     if (!pinned) {
