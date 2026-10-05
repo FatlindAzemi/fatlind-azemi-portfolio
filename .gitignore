@@ -1,5 +1,9 @@
 node_modules
 dist
+.ssr
+test-results
+playwright-report
+core.*
 .commandcode
 .sisyphus
 .playwright-mcp

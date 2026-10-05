@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
+  // Always start `false` so the prerendered (server) markup and the first
+  // client render agree — otherwise hydration mismatches on every desktop
+  // viewport. The effect syncs the real value right after mount.
+  const [matches, setMatches] = useState(false)
 
   useEffect(() => {
     const mql = window.matchMedia(query)

@@ -28,7 +28,7 @@ export function readStoredLocale(): Locale | null {
 export function detectLocale(): Locale {
   const stored = readStoredLocale()
   if (stored) return stored
-  if (typeof navigator === 'undefined') return 'en'
+  if (typeof navigator === 'undefined') return 'de'
 
   const languages =
     navigator.languages && navigator.languages.length > 0
@@ -38,6 +38,11 @@ export function detectLocale(): Locale {
   return languages.some((language) => language.toLowerCase().startsWith('de'))
     ? 'de'
     : 'en'
+}
+
+/** Locale for a URL path: `/en…` is English, everything else is German. */
+export function localeFromPath(pathname: string): Locale {
+  return pathname === '/en' || pathname.startsWith('/en/') ? 'en' : 'de'
 }
 
 interface I18nValue {
@@ -59,10 +64,17 @@ export function useI18n(): I18nValue {
 
 export default function LanguageProvider({
   children,
+  initialLocale,
 }: {
   children: ReactNode
+  initialLocale?: Locale
 }) {
-  const [locale, setLocaleState] = useState<Locale>(detectLocale)
+  // The prerender and the client hydration must agree, so the locale is pinned
+  // by the URL (`initialLocale`). Only when nothing is pinned (e.g. a build
+  // without prerender) do we fall back to storage/browser detection.
+  const [locale, setLocaleState] = useState<Locale>(
+    () => initialLocale ?? detectLocale(),
+  )
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next)
