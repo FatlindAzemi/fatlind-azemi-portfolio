@@ -19,6 +19,9 @@ Legende: P1 = großer Hebel, P2 = wichtig, P3 = Feinschliff.
       `style-src 'unsafe-inline'` wegen Framer-Motion-Inline-Styles). Der frühere
       Inline-Sprach-Script ist entfernt → `script-src 'self'` ohne `unsafe-inline`.
 - [x] **B7** `og:locale` jetzt `de_DE` / Alternativ `en_US` (erledigt mit B2).
+- [x] **B9** Navigation sind jetzt echte `<a href="#expertise|#projects|#contact">` (Logo →
+      `#hero`). Deep-Links funktionieren, ohne JS funktioniert der Sprung, Semantik stimmt.
+      Tests: `tests/navigation.spec.ts` (u. a. Deep-Link, Hash, No-JS).
 - [ ] **B3** reines CV — im Code kein Handlungsbedarf; Prüfen, dass nirgends etwas
       verlinkt ist (aktuell korrekt).
 - [ ] **B4** Zahlen — offen (Freigabe/Konkretisierung durch Nutzer).
@@ -100,10 +103,11 @@ Fonts + Portrait sind schon preloadet; nach B1 erneut messen (Ziel LCP < 2 s mob
 `scrollIntoView`. Für Screenreader, Tastatur, „Link kopieren" und Crawler sind es keine Links.
 **Ziel:** `<a href="#expertise">` etc. (native Sprungziele), Progressiv-Enhancement für sanftes Scrollen.
 
-### B10 — Auf Mobile fehlt die Navigation
-**Problem:** Im Mobile-Viewport zeigt der Header nur Sprachtoggle + Mail-Button; es gibt kein
-Menü und keine Sprungpunkte.
-**Ziel:** Menü/Drawer oder zumindest sichtbare Sprunglinks, damit Mobile-Nutzer navigieren können.
+### B10 — Auf Mobile fehlt die Navigation — **VERWORFEN**
+**Entscheidung (2026-10-05):** nicht umsetzen. Das Portfolio ist ein **One-Pager**; auf dem
+Handy ist Scrollen das normale Muster. Ein Menü-Button + Drawer (inkl. Fokus-Falle, `Esc`,
+`aria-expanded`) wäre für „zu Abschnitt 2 springen" Over-Engineering. B9 (echte Links) bleibt,
+weil es Deep-Links und Semantik bringt — der Rest ist bewusst nicht nötig.
 
 ---
 
@@ -111,5 +115,6 @@ Menü und keine Sprungpunkte.
 - ~~B3~~ entschieden: **reines CV**, keine Querverweise zu anderen Projekten.
 - ~~B4~~ entschieden: Kennzahlen **anonymisiert/als Größenordnung** belassen.
 - ~~B5~~ freigegeben und umgesetzt (CSP als Meta-Tag).
-- Offen: **B9/B10** (Navigation als Links, Mobile-Menü) — soll ich das umsetzen?
+- ~~B9~~ umgesetzt (Navigation als echte Links; `tests/navigation.spec.ts`).
+- **B10 verworfen** (One-Pager — Menü wäre Over-Engineering).
 - Offen: **B6** (Sitemap `lastmod`) und **B8** (LCP-Messung).
