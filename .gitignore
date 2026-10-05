@@ -1,12 +1,32 @@
+# --- dependencies / build output ---
 node_modules
 dist
 .ssr
+*.tsbuildinfo
+
+# --- test artifacts ---
 test-results
 playwright-report
-core.*
+
+# --- secrets & local environment ---
+.env
+.env.*
+!.env.example
+
+# --- deployment leftovers / tooling state ---
+.vercel
 .commandcode
 .sisyphus
 .playwright-mcp
+
+# --- agent session dumps (transcripts, logs, file blobs — never commit) ---
+session_*/
+session_*.zip
+
+# --- crash dumps & logs ---
+core.*
 *.log
+client-errors.log
+
+# --- editor / OS noise ---
 .DS_Store
-*.tsbuildinfo
