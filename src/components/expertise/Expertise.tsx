@@ -23,7 +23,7 @@ function Certifications({
             key={cert.name}
             className="flex max-w-[11rem] flex-col items-center gap-4 text-center"
           >
-            <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] p-3 lg:h-[7.5rem] lg:w-[7.5rem] lg:p-3.5">
+            <span className="flex h-24 w-24 shrink-0 items-center justify-center p-3 lg:h-[7.5rem] lg:w-[7.5rem] lg:p-3.5">
               <img
                 src={cert.image}
                 alt=""
