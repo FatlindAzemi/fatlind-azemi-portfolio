@@ -45,8 +45,8 @@ export const uiEn: UiStrings = {
   },
   footer: {
     eyebrow: 'Contact',
-    heading: "Let's build something worth shipping.",
-    lead: 'Open to conversations about data platforms, product engineering, or anything that sits between the two.',
+    heading: 'Questions about data platforms or product development?',
+    lead: 'Email or LinkedIn — both reach me directly.',
     imprint: 'Legal notice',
     privacy: 'Privacy policy',
     backToTop: 'Back to top ↑',
