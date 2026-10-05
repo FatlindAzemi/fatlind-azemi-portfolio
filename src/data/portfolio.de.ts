@@ -130,7 +130,7 @@ function translateProject(project: Project): Project {
 export const portfolioDataDe: PortfolioData = {
   ...portfolioDataEn,
   title: 'Software- & Data-Engineer',
-  subtitle: 'Skalierbare Dateninfrastruktur und moderne digitale Produkte.',
+  subtitle: 'Ich baue skalierbare Dateninfrastruktur und moderne digitale Produkte.',
   bio: [
     'Ich baue Datenpipelines und verteilte Systeme: von Lakehouse-Architekturen auf Azure und GCP bis zu produktiven ML-Pipelines auf Databricks. Im Frontend arbeite ich mit React und Flutter, um Interfaces zu bauen, die Menschen tatsächlich gern benutzen. Mich treibt an, Daten nutzbar zu machen, nicht nur verfügbar.',
     'Über die Jahre habe ich ETL-Pipelines entworfen, die täglich Terabytes bewegen, Echtzeit-Forecast-Dashboards im Handel gebaut und Full-Stack-SaaS-Apps von null bis in die Produktion gebracht. Ich bewege mich gern in der unordentlichen Mitte: dort, wo Data Engineering auf Produktentwicklung trifft und beide Seiten nicht ganz dieselbe Sprache sprechen.',
