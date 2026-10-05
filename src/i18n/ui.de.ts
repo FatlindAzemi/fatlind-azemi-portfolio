@@ -7,10 +7,10 @@ export const uiDe: UiStrings = {
       'Portfolio von Fatlind Azemi, Software- und Data-Engineer mit Fokus auf Enterprise-Dateninfrastruktur und moderne Anwendungsentwicklung.',
   },
   nav: {
-    expertise: 'Expertise',
+    expertise: 'Kompetenzen',
     projects: 'Projekte',
     contact: 'Kontakt',
-    getInTouch: 'Kontakt aufnehmen',
+    getInTouch: 'Kontakt',
     backToTop: 'Nach oben',
     skipToContent: 'Zum Inhalt springen',
     sections: 'Bereichsnavigation',
@@ -18,15 +18,15 @@ export const uiDe: UiStrings = {
   },
   mail: {
     subject: 'Kontakt über fatlind-azemi.de',
-    body: 'Hallo Fatlind,\n\nich habe dein Portfolio gesehen und würde gerne sprechen.\n\n',
+    body: 'Hallo Fatlind,\n\nich habe dein Portfolio gesehen und würde mich gern austauschen.\n\n',
   },
   hero: {
-    getInTouch: 'Kontakt aufnehmen',
+    getInTouch: 'Schreib mir',
     getInTouchShort: 'Kontakt',
     viewProjects: 'Projekte ansehen',
     viewProjectsShort: 'Projekte',
     scroll: 'Scrollen',
-    scrollToExpertise: 'Zur Expertise scrollen',
+    scrollToExpertise: 'Zu den Kompetenzen scrollen',
   },
   expertise: {
     eyebrow: 'Kompetenzen',
@@ -45,7 +45,7 @@ export const uiDe: UiStrings = {
   },
   footer: {
     eyebrow: 'Kontakt',
-    heading: 'Bauen wir etwas, das sich zu liefern lohnt.',
+    heading: 'Lass uns etwas bauen, das im Betrieb überzeugt.',
     lead: 'Offen für Gespräche über Datenplattformen, Produktentwicklung oder alles dazwischen.',
     imprint: 'Impressum',
     privacy: 'Datenschutz',

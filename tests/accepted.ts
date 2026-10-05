@@ -21,7 +21,7 @@ export const ACCEPTED_SMALL_TARGETS: { name: string; why: string }[] = [
     why: 'Footer legal text link; inline text target, WCAG 2.5.8 inline exception.',
   },
   {
-    name: 'Imprint',
+    name: 'Legal notice',
     why: 'Footer legal text link (EN); inline text target, WCAG 2.5.8 inline exception.',
   },
   {
@@ -29,7 +29,7 @@ export const ACCEPTED_SMALL_TARGETS: { name: string; why: string }[] = [
     why: 'Footer legal text link; inline text target, WCAG 2.5.8 inline exception.',
   },
   {
-    name: 'Privacy',
+    name: 'Privacy policy',
     why: 'Footer legal text link (EN); inline text target, WCAG 2.5.8 inline exception.',
   },
   {

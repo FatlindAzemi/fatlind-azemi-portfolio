@@ -47,8 +47,8 @@ export const uiEn: UiStrings = {
     eyebrow: 'Contact',
     heading: "Let's build something worth shipping.",
     lead: 'Open to conversations about data platforms, product engineering, or anything that sits between the two.',
-    imprint: 'Imprint',
-    privacy: 'Privacy',
+    imprint: 'Legal notice',
+    privacy: 'Privacy policy',
     backToTop: 'Back to top ↑',
   },
   viz: {
