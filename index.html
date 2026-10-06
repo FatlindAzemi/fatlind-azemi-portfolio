@@ -6,8 +6,18 @@
     <meta name="theme-color" content="#0b0b0d" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'"
+      content="default-src 'self'; script-src 'self' https://stats.fatlind-azemi.de; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://stats.fatlind-azemi.de; base-uri 'self'; form-action 'self'"
     />
+    <!-- Besucherstatistik (Umami): ohne Cookies, ohne Sitzungsaufzeichnung.
+         data-domains begrenzt die Zählung auf die echte Domain, damit lokale
+         Läufe und Testdurchläufe die Zahlen nicht verfälschen. -->
+    <link rel="preconnect" href="https://stats.fatlind-azemi.de" />
+    <script
+      defer
+      src="https://stats.fatlind-azemi.de/script.js"
+      data-website-id="a8c08388-c006-4a57-ac18-a62f7be8d440"
+      data-domains="fatlind-azemi.de"
+    ></script>
     <!-- Content is animated in with JavaScript. Without JS (or when a crawler
          does not run it) the prerendered markup sits at opacity:0; force it to
          its final state so nobody sees a blank page. -->
